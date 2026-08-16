@@ -1,26 +1,354 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-pen: var(--pen);
+  --color-pen-soft: var(--pen-soft);
+  --color-marker: var(--marker);
+  --color-marker-ink: var(--marker-ink);
+  --color-line: var(--line);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-caution: var(--caution);
+  --color-inverse: var(--inverse);
+  --color-inverse-ink: var(--inverse-ink);
+
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-instrument), sans-serif;
+  --font-mono: var(--font-ibm-plex), ui-monospace, SFMono-Regular, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  color-scheme: light;
+
+  --paper: #f6f5f1;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --ink: #1f232c;
+  --ink-soft: #4a505c;
+  --ink-faint: #666b77;
+  --pen: #2a4bd7;
+  --pen-soft: color-mix(in srgb, var(--pen) 14%, transparent);
+  --marker: #ffe05c;
+  --marker-ink: #1f232c;
+  --line: #e6e3da;
+  --danger: #dc2626;
+  --danger-soft: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  --warning: #d97706;
+  --warning-soft: color-mix(in srgb, var(--warning) 22%, var(--surface));
+  --caution: #f97316;
+  --inverse: #1f232c;
+  --inverse-ink: #f6f5f1;
+
+  --shadow-card: 0 1px 2px rgba(31, 35, 44, 0.05),
+    0 24px 60px -32px rgba(31, 35, 44, 0.35);
+  --shadow-pop: 0 12px 40px -12px rgba(31, 35, 44, 0.25);
+  --shadow-fab: 0 8px 24px -8px rgba(31, 35, 44, 0.5);
+
+  --cat-cyan-bg: color-mix(in srgb, var(--color-cyan-500) 22%, var(--paper));
+  --cat-cyan: color-mix(in srgb, var(--color-cyan-600) 60%, var(--ink));
+  --cat-emerald-bg: color-mix(in srgb, var(--color-emerald-500) 22%, var(--paper));
+  --cat-emerald: color-mix(in srgb, var(--color-emerald-600) 60%, var(--ink));
+  --cat-rose-bg: color-mix(in srgb, var(--color-rose-500) 20%, var(--paper));
+  --cat-rose: color-mix(in srgb, var(--color-rose-600) 62%, var(--ink));
+  --cat-amber-bg: color-mix(in srgb, var(--color-amber-500) 24%, var(--paper));
+  --cat-amber: color-mix(in srgb, var(--color-amber-600) 62%, var(--ink));
+}
+
+/* Night paper — the app's manual theme and the landing page's system theme.
+   Dark values below are mirrored in the prefers-color-scheme block. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper: #14161c;
+  --surface: #1a1d24;
+  --surface-strong: #20242d;
+  --ink: #eceef1;
+  --ink-soft: #a6acb8;
+  --ink-faint: #747b89;
+  --pen: #8fa3f5;
+  --pen-soft: color-mix(in srgb, var(--pen) 16%, transparent);
+  --marker: #ffe05c;
+  --marker-ink: #1f232c;
+  --line: #262a33;
+  --danger: #f87171;
+  --danger-soft: color-mix(in srgb, var(--danger) 14%, var(--surface));
+  --warning: #fbbf24;
+  --warning-soft: color-mix(in srgb, var(--warning) 20%, var(--surface));
+  --caution: #fb923c;
+  --inverse: #262b35;
+  --inverse-ink: #f2f3f6;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 24px 60px -32px rgba(0, 0, 0, 0.65);
+  --shadow-pop: 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+  --shadow-fab: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Landing and other pages without a data-theme attribute follow the system.
+     Same values as [data-theme="dark"] above — keep in sync. */
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --paper: #14161c;
+    --surface: #1a1d24;
+    --surface-strong: #20242d;
+    --ink: #eceef1;
+    --ink-soft: #a6acb8;
+    --ink-faint: #747b89;
+    --pen: #8fa3f5;
+    --pen-soft: color-mix(in srgb, var(--pen) 16%, transparent);
+    --marker: #ffe05c;
+    --marker-ink: #1f232c;
+    --line: #262a33;
+    --danger: #f87171;
+    --danger-soft: color-mix(in srgb, var(--danger) 14%, var(--surface));
+    --warning: #fbbf24;
+    --warning-soft: color-mix(in srgb, var(--warning) 20%, var(--surface));
+    --caution: #fb923c;
+    --inverse: #262b35;
+    --inverse-ink: #f2f3f6;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35),
+      0 24px 60px -32px rgba(0, 0, 0, 0.65);
+    --shadow-pop: 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+    --shadow-fab: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-marker);
+  color: var(--color-marker-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-pen);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    color-mix(in srgb, var(--color-ink) 6%, transparent) 31px,
+    color-mix(in srgb, var(--color-ink) 6%, transparent) 32px
+  );
+  mask-image: linear-gradient(to bottom, black 0%, transparent 96%);
+}
+
+.reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-prep {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal-prep.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes tick-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tick-in {
+  animation: tick-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mock-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tick-draw {
+  from {
+    stroke-dashoffset: 26;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes swash-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mock-tick path {
+  stroke-dasharray: 26;
+  stroke-dashoffset: 0;
+}
+
+.mock-strike {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.mock-toast {
+  opacity: 0;
+}
+
+.mock-active .mock-row {
+  animation: mock-row-in 0.5s ease-out both;
+  animation-delay: calc(var(--i) * 55ms);
+}
+
+.mock-active .mock-tick path {
+  animation: tick-draw 0.5s cubic-bezier(0.65, 0, 0.35, 1) 0.65s both;
+}
+
+.mock-active .mock-strike {
+  animation: swash-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.mock-active .mock-toast {
+  animation: toast-in 0.4s ease 1s both;
+}
+
+.task-strike {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.task-tick {
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
+}
+
+.task-row.is-completed .task-strike {
+  transform: scaleX(1);
+}
+
+.task-row.is-completed .task-tick {
+  stroke-dashoffset: 0;
+}
+
+.task-row.just-completed .task-strike {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.task-row.just-completed .task-tick {
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes panel-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-panel-in {
+  animation: panel-slide-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.animate-sheet-up {
+  animation: sheet-up 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.16s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mock-row,
+  .mock-tick path,
+  .mock-strike {
+    opacity: 1;
+    transform: none;
+  }
 }
