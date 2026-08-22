@@ -8,17 +8,31 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import type {
+  AddTaskInput,
   Category,
+  CategoryColor,
+  CategoryIcon,
   Filters,
   Label,
   LabelTone,
   SortKey,
+  Subtask,
   Task,
 } from "./types";
-import { createSeedTasks, seedCategories, seedLabels } from "./seed";
+import {
+  GUEST_TASK_LIMIT,
+  getGuestTasksServerSnapshot,
+  getGuestTasksSnapshot,
+  loadGuestCategories,
+  saveGuestCategories,
+  setGuestTasks,
+  subscribeGuestTasks,
+} from "./guest-storage";
+import { seedLabels } from "./seed";
 
 type Toast = {
   id: number;
@@ -37,7 +51,8 @@ type TasksContextValue = {
   sort: SortKey;
   toast: Toast | null;
   addTaskInputRef: React.RefObject<HTMLInputElement | null>;
-  addTask: (title: string, date?: string | null) => string;
+  addTask: (input: AddTaskInput) => string;
+  taskLimit: number;
   toggleTask: (id: string) => void;
   updateTask: (id: string, patch: Partial<Task>) => void;
   deleteTask: (id: string) => void;
@@ -48,8 +63,11 @@ type TasksContextValue = {
   toggleSubtask: (taskId: string, subtaskId: string) => void;
   deleteSubtask: (taskId: string, subtaskId: string) => void;
   addLabel: (name: string, tone: LabelTone) => string;
+  deleteLabel: (id: string) => void;
   assignLabel: (taskId: string, labelId: string) => void;
   unassignLabel: (taskId: string, labelId: string) => void;
+  addCategory: (name: string, icon: CategoryIcon, color: CategoryColor) => string;
+  deleteCategory: (id: string) => void;
   setSelectedTaskId: (id: string | null) => void;
   setSearchQuery: (query: string) => void;
   setSearchOpen: (open: boolean) => void;
@@ -79,9 +97,15 @@ function nextId(): string {
 }
 
 export function TasksProvider({ children }: { children: ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>(() => createSeedTasks());
+  const tasks = useSyncExternalStore(
+    subscribeGuestTasks,
+    getGuestTasksSnapshot,
+    getGuestTasksServerSnapshot,
+  );
   const [labels, setLabels] = useState<Label[]>(seedLabels);
-  const [categories] = useState<Category[]>(seedCategories);
+  const [categories, setCategories] = useState<Category[]>(
+    () => loadGuestCategories() ?? [],
+  );
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -105,35 +129,46 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
   const dismissToast = useCallback(() => setToast(null), []);
 
-  const addTask = useCallback((title: string, date?: string | null) => {
+  const addTask = useCallback((input: AddTaskInput) => {
+    if (tasks.length >= GUEST_TASK_LIMIT) return "";
     const id = nextId();
     const now = new Date().toISOString();
-    const due = date ?? null;
-    setTasks((current) => [
+    const due = input.dueAt ?? null;
+    const dateOnly = due ? due.slice(0, 10) : null;
+    const subtasks: Subtask[] = (input.subtasks ?? [])
+      .map((subtitle) => subtitle.trim())
+      .filter((subtitle) => subtitle.length > 0)
+      .map((subtitle, index) => ({
+        id: nextId(),
+        title: subtitle,
+        completed: false,
+        position: index + 1,
+      }));
+    setGuestTasks((current) => [
       ...current,
       {
         id,
-        title: title.trim(),
-        description: "",
+        title: input.title.trim(),
+        description: (input.description ?? "").trim(),
         status: "todo",
-        priority: "none",
+        priority: input.priority ?? "none",
         dueAt: due,
         completedAt: null,
         position: nextPosition(current),
         createdAt: now,
         updatedAt: now,
-        labelIds: [],
-        subtasks: [],
-        categoryId: null,
-        startDate: due,
-        endDate: due,
+        labelIds: input.labelIds ?? [],
+        subtasks,
+        categoryId: input.categoryId ?? null,
+        startDate: dateOnly,
+        endDate: dateOnly,
       },
     ]);
     return id;
-  }, []);
+  }, [tasks]);
 
   const updateTask = useCallback((id: string, patch: Partial<Task>) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) =>
         task.id === id
           ? { ...task, ...patch, updatedAt: new Date().toISOString() }
@@ -143,7 +178,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleTask = useCallback((id: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) => {
         if (task.id !== id) return task;
         const completed = task.status === "completed";
@@ -160,10 +195,10 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   const deleteTask = useCallback(
     (id: string) => {
       const removed = tasks.find((task) => task.id === id);
-      setTasks((current) => current.filter((task) => task.id !== id));
+      setGuestTasks((current) => current.filter((task) => task.id !== id));
       if (removed) {
         showToast("Task deleted", () => {
-          setTasks((current) => [...current, removed]);
+          setGuestTasks((current) => [...current, removed]);
         });
       }
       setSelectedTaskId((selected) => (selected === id ? null : selected));
@@ -173,6 +208,10 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
   const duplicateTask = useCallback(
     (id: string) => {
+      if (tasks.length >= GUEST_TASK_LIMIT) {
+        showToast(`You've reached the ${GUEST_TASK_LIMIT}-task guest limit.`);
+        return;
+      }
       const source = tasks.find((task) => task.id === id);
       if (!source) return;
       const now = new Date().toISOString();
@@ -190,14 +229,14 @@ export function TasksProvider({ children }: { children: ReactNode }) {
           id: nextId(),
         })),
       };
-      setTasks((current) => [...current, copy]);
+      setGuestTasks((current) => [...current, copy]);
       showToast("Task duplicated");
     },
     [tasks, showToast],
   );
 
   const archiveTask = useCallback((id: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) =>
         task.id === id
           ? {
@@ -209,7 +248,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       ),
     );
     showToast("Task archived", () => {
-      setTasks((current) =>
+      setGuestTasks((current) =>
         current.map((task) =>
           task.id === id
             ? { ...task, status: "todo", updatedAt: new Date().toISOString() }
@@ -221,7 +260,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   }, [showToast]);
 
   const restoreTask = useCallback((id: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) =>
         task.id === id
           ? {
@@ -235,7 +274,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addSubtask = useCallback((taskId: string, title: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) => {
         if (task.id !== taskId) return task;
         const position =
@@ -261,7 +300,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleSubtask = useCallback((taskId: string, subtaskId: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) =>
         task.id === taskId
           ? {
@@ -279,7 +318,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const deleteSubtask = useCallback((taskId: string, subtaskId: string) => {
-    setTasks((current) =>
+    setGuestTasks((current) =>
       current.map((task) =>
         task.id === taskId
           ? {
@@ -303,6 +342,62 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     return id;
   }, []);
 
+  const deleteLabel = useCallback(
+    (id: string) => {
+      const removed = labels.find((label) => label.id === id);
+      if (!removed) return;
+      const affectedTaskIds = new Set(
+        tasks
+          .filter((task) => task.labelIds.includes(id))
+          .map((task) => task.id),
+      );
+      setLabels((current) => current.filter((label) => label.id !== id));
+      setGuestTasks((current) =>
+        current.map((task) =>
+          task.labelIds.includes(id)
+            ? {
+                ...task,
+                labelIds: task.labelIds.filter((labelId) => labelId !== id),
+                updatedAt: new Date().toISOString(),
+              }
+            : task,
+        ),
+      );
+      setFilters((current) =>
+        current.labelIds.includes(id)
+          ? {
+              ...current,
+              labelIds: current.labelIds.filter((labelId) => labelId !== id),
+            }
+          : current,
+      );
+      showToast("Label deleted", () => {
+        setLabels((current) =>
+          current.some((label) => label.id === id)
+            ? current
+            : [...current, removed],
+        );
+        setGuestTasks((current) =>
+          current.map((task) =>
+            affectedTaskIds.has(task.id)
+              ? {
+                  ...task,
+                  labelIds: [...task.labelIds, id],
+                  updatedAt: new Date().toISOString(),
+                }
+              : task,
+          ),
+        );
+        setFilters((current) =>
+          current.labelIds.includes(id)
+            ? current
+            : { ...current, labelIds: [...current.labelIds, id] },
+        );
+      });
+    },
+    [labels, tasks, showToast],
+  );
+
   const assignLabel = useCallback((taskId: string, labelId: string) => {
     updateTask(taskId, {
       labelIds: [
@@ -323,6 +418,62 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     [tasks, updateTask],
   );
 
+  const addCategory = useCallback(
+    (name: string, icon: CategoryIcon, color: CategoryColor) => {
+      const category: Category = {
+        id: nextId(),
+        name: name.trim(),
+        icon,
+        color,
+      };
+      setCategories((current) => {
+        const next = [...current, category];
+        saveGuestCategories(next);
+        return next;
+      });
+      return category.id;
+    },
+    [],
+  );
+
+  const deleteCategory = useCallback(
+    (id: string) => {
+      const removed = categories.find((category) => category.id === id);
+      if (!removed) return;
+      const affectedTaskIds = new Set(
+        tasks.filter((task) => task.categoryId === id).map((task) => task.id),
+      );
+      setCategories((current) => {
+        const next = current.filter((category) => category.id !== id);
+        saveGuestCategories(next);
+        return next;
+      });
+      setGuestTasks((current) =>
+        current.map((task) =>
+          task.categoryId === id
+            ? { ...task, categoryId: null, updatedAt: new Date().toISOString() }
+            : task,
+        ),
+      );
+      showToast("Category deleted", () => {
+        setCategories((current) => {
+          if (current.some((category) => category.id === id)) return current;
+          const next = [...current, removed];
+          saveGuestCategories(next);
+          return next;
+        });
+        setGuestTasks((current) =>
+          current.map((task) =>
+            affectedTaskIds.has(task.id)
+              ? { ...task, categoryId: id, updatedAt: new Date().toISOString() }
+              : task,
+          ),
+        );
+      });
+    },
+    [categories, tasks, showToast],
+  );
+
   const value = useMemo<TasksContextValue>(
     () => ({
       tasks,
@@ -336,6 +487,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       toast,
       addTaskInputRef,
       addTask,
+      taskLimit: GUEST_TASK_LIMIT,
       toggleTask,
       updateTask,
       deleteTask,
@@ -346,8 +498,11 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       toggleSubtask,
       deleteSubtask,
       addLabel,
+      deleteLabel,
       assignLabel,
       unassignLabel,
+      addCategory,
+      deleteCategory,
       setSelectedTaskId,
       setSearchQuery,
       setSearchOpen,
@@ -377,8 +532,16 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       toggleSubtask,
       deleteSubtask,
       addLabel,
+      deleteLabel,
       assignLabel,
       unassignLabel,
+      addCategory,
+      deleteCategory,
+      setSelectedTaskId,
+      setSearchQuery,
+      setSearchOpen,
+      setFilters,
+      setSort,
       showToast,
       dismissToast,
     ],

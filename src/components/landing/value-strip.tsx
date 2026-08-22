@@ -18,18 +18,20 @@ const facts = [
 
 export function ValueStrip() {
   return (
-    <section aria-label="Key facts" className="border-y border-line/80 bg-surface/60">
-      <div className={`${container} grid gap-7 py-9 sm:grid-cols-3 sm:gap-8`}>
+    <section aria-label="Key facts" className="border-y border-line bg-surface">
+      <div className={`${container} grid gap-6 py-8 sm:grid-cols-3 sm:gap-8 lg:py-9`}>
         {facts.map((fact) => (
           <div key={fact.title} className="flex items-start gap-3">
-            <Check
-              aria-hidden="true"
-              className="mt-0.5 h-4 w-4 shrink-0 text-pen"
-              strokeWidth={3}
-            />
+            <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-line bg-paper">
+              <Check
+                aria-hidden="true"
+                className="h-3 w-3 text-ink"
+                strokeWidth={2.5}
+              />
+            </span>
             <div>
-              <p className="text-sm font-semibold">{fact.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-ink-soft">{fact.detail}</p>
+              <p className="text-[13px] font-semibold tracking-[-0.01em]">{fact.title}</p>
+              <p className="mt-1 text-[13px] leading-[1.5] text-ink-soft">{fact.detail}</p>
             </div>
           </div>
         ))}

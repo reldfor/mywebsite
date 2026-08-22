@@ -2,9 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RowMenu } from "@/components/app/menus";
+import {
+  CategoryIconComponent,
+  categoryColorClasses,
+} from "@/components/app/task-colors";
 import { useTasks } from "@/features/todos/tasks-provider";
-import type { Task } from "@/features/todos/types";
-import { formatDueShort, isDueToday, isOverdue } from "@/lib/date";
+import type { Priority, Task } from "@/features/todos/types";
+import { formatDueShort, isDueToday, isOverdue, timeOf } from "@/lib/date";
+
+const priorityDot: Record<Priority, string> = {
+  none: "",
+  low: "bg-ink/20",
+  medium: "bg-ink/40",
+  high: "bg-ink/70",
+  urgent: "bg-ink",
+};
 
 function TaskCheckbox({
   task,
@@ -25,14 +37,14 @@ function TaskCheckbox({
         completed ? `Reopen ${task.title}` : `Complete ${task.title}`
       }
       aria-pressed={completed}
-      className="-ml-1.5 grid h-8 w-8 shrink-0 place-items-center rounded-full transition-colors hover:bg-pen/10 focus-visible:bg-pen/10"
+      className="-ml-1 grid h-8 w-8 shrink-0 place-items-center rounded-full transition-colors hover:bg-ink/[0.04]"
     >
       <span
         aria-hidden="true"
-        className={`grid h-5 w-5 place-items-center rounded-full border-2 transition-colors duration-200 ${
+        className={`grid h-[18px] w-[18px] place-items-center rounded-full border transition-colors duration-150 ${
           completed
-            ? "border-pen bg-pen-soft"
-            : "border-line bg-surface group-hover:border-ink/50"
+            ? "border-ink bg-ink"
+            : "border-line bg-surface group-hover:border-ink/20"
         }`}
       >
         {completed ? (
@@ -40,11 +52,11 @@ function TaskCheckbox({
             <path
               d="M5 10.5l3.2 3.2L15 6.8"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="2.6"
+              stroke="white"
+              strokeWidth="2.4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="task-tick text-pen"
+              className="task-tick"
             />
           </svg>
         ) : null}
@@ -54,7 +66,7 @@ function TaskCheckbox({
 }
 
 export function TaskRow({ task }: { task: Task }) {
-  const { toggleTask, setSelectedTaskId, selectedTaskId } = useTasks();
+  const { toggleTask, setSelectedTaskId, selectedTaskId, categories } = useTasks();
   const [justCompleted, setJustCompleted] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -67,14 +79,13 @@ export function TaskRow({ task }: { task: Task }) {
   const completed = task.status === "completed";
   const selected = selectedTaskId === task.id;
   const doneCount = task.subtasks.filter((subtask) => subtask.completed).length;
-  const urgent = task.priority === "urgent";
-  const high = task.priority === "high";
+  const category = categories.find((cat) => cat.id === task.categoryId);
 
   function handleToggle() {
     if (!completed) {
       setJustCompleted(true);
       if (timerRef.current !== null) window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(() => setJustCompleted(false), 650);
+      timerRef.current = window.setTimeout(() => setJustCompleted(false), 600);
     }
     toggleTask(task.id);
   }
@@ -84,9 +95,9 @@ export function TaskRow({ task }: { task: Task }) {
     ? completed
       ? "text-ink-faint line-through"
       : isOverdue(due)
-        ? "font-medium text-danger"
+        ? "font-medium text-ink"
         : isDueToday(due)
-          ? "font-medium text-warning"
+          ? "font-medium text-ink"
           : "text-ink-faint"
     : "";
 
@@ -98,18 +109,16 @@ export function TaskRow({ task }: { task: Task }) {
     >
       <div
         onClick={() => setSelectedTaskId(task.id)}
-        className={`-mx-2 flex cursor-pointer items-center gap-1 rounded-xl px-2 py-2.5 transition-colors ${
-          selected ? "bg-surface" : "hover:bg-surface"
+        className={`-mx-2 flex cursor-pointer items-center gap-1 rounded-lg px-2 py-2 transition-colors ${
+          selected ? "bg-ink/[0.04]" : "hover:bg-ink/[0.03]"
         }`}
       >
         <TaskCheckbox task={task} onToggle={handleToggle} />
         <div className="flex min-w-0 flex-1 items-center gap-2">
-          {!completed && (urgent || high) ? (
+          {!completed && task.priority !== "none" ? (
             <span
               aria-hidden="true"
-              className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                urgent ? "bg-danger" : "bg-caution"
-              }`}
+              className={`h-1.5 w-1.5 shrink-0 rounded-full ${priorityDot[task.priority]}`}
             />
           ) : null}
           <button
@@ -117,11 +126,11 @@ export function TaskRow({ task }: { task: Task }) {
             onClick={() => setSelectedTaskId(task.id)}
             className="min-w-0 flex-1 rounded-md text-left outline-none"
           >
-            <p className="relative inline-block max-w-full truncate align-middle text-[15px] font-medium">
+            <p className="relative inline-block max-w-full truncate align-middle text-[13px] font-[450] leading-tight">
               {completed ? (
                 <span
                   aria-hidden="true"
-                  className="task-strike absolute inset-x-[-3px] top-1/2 h-[0.42em] -translate-y-1/2 rounded-[3px] bg-marker/90"
+                  className="task-strike absolute inset-x-[-2px] top-1/2 h-px -translate-y-1/2 bg-ink/15"
                 />
               ) : null}
               <span
@@ -134,14 +143,23 @@ export function TaskRow({ task }: { task: Task }) {
             </p>
           </button>
         </div>
+        {category ? (
+          <span
+            className={`hidden shrink-0 items-center gap-1 rounded-full border border-line bg-surface px-2 py-0.5 text-[11px] font-medium sm:inline-flex ${categoryColorClasses[category.color].pill}`}
+          >
+            <CategoryIconComponent icon={category.icon} className="h-3 w-3 text-ink-faint" />
+            {category.name}
+          </span>
+        ) : null}
         {task.subtasks.length > 0 ? (
-          <span className="shrink-0 font-mono text-[11px] text-ink-faint">
+          <span className="shrink-0 font-mono text-[11px] tabular-nums text-ink-faint">
             {doneCount}/{task.subtasks.length}
           </span>
         ) : null}
         {due ? (
-          <span className={`shrink-0 font-mono text-[11px] ${dueClasses}`}>
+          <span className={`shrink-0 font-mono text-[11px] tabular-nums ${dueClasses}`}>
             {formatDueShort(due)}
+            {timeOf(due) ? ` · ${timeOf(due)}` : ""}
           </span>
         ) : null}
         <RowMenu task={task} />

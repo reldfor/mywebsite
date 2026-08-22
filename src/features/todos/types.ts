@@ -40,6 +40,16 @@ export type Subtask = {
   position: number;
 };
 
+export type AddTaskInput = {
+  title: string;
+  dueAt?: string | null;
+  description?: string;
+  priority?: Priority;
+  labelIds?: string[];
+  subtasks?: string[];
+  categoryId?: string | null;
+};
+
 export type Task = {
   id: string;
   title: string;

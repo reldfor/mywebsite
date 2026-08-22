@@ -22,7 +22,7 @@ export function GuestAccount() {
   return (
     <section
       id="compare"
-      className="scroll-mt-20 border-t border-line/80 bg-surface/60 py-20 lg:py-28"
+      className="scroll-mt-20 border-t border-line bg-surface py-16 lg:py-24"
     >
       <div className={container}>
         <Reveal>
@@ -33,33 +33,35 @@ export function GuestAccount() {
           />
         </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-10 grid gap-4 lg:grid-cols-2 lg:gap-5">
           <Reveal className="h-full">
-            <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-8">
+            <article className="flex h-full flex-col rounded-xl border border-line bg-paper p-6 sm:p-7">
               <div className="flex items-center justify-between gap-3">
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-ink-faint">
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
                   Guest mode
                 </p>
-                <span className="rounded-full border border-line bg-paper px-2.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wide text-ink-soft">
+                <span className="rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-ink-soft">
                   No sign-up
                 </span>
               </div>
-              <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight">
+              <h3 className="mt-4 text-[20px] font-semibold tracking-[-0.02em]">
                 Start right now
               </h3>
-              <ul className="mt-6 flex flex-col gap-3.5">
+              <ul className="mt-5 flex flex-col gap-2.5">
                 {guestItems.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[15px]">
-                    <Check
-                      aria-hidden="true"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-pen"
-                      strokeWidth={3}
-                    />
+                  <li key={item} className="flex items-center gap-2.5 text-[13px]">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-line bg-surface">
+                      <Check
+                        aria-hidden="true"
+                        className="h-3 w-3 text-ink"
+                        strokeWidth={2.5}
+                      />
+                    </span>
                     <span className="text-ink-soft">{item}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 flex flex-col gap-3 pt-2">
+              <div className="mt-7 flex flex-col gap-3 pt-1">
                 <Button
                   href={authLinks.guestWorkspace}
                   variant="secondary"
@@ -68,48 +70,50 @@ export function GuestAccount() {
                 >
                   Start for free
                 </Button>
-                <p className="text-center font-mono text-xs text-ink-faint">
+                <p className="text-center text-xs text-ink-faint">
                   Sign up later — your guest tasks move with you.
                 </p>
               </div>
             </article>
           </Reveal>
 
-          <Reveal delay={90} className="h-full">
-            <article className="flex h-full flex-col rounded-2xl bg-ink p-8 text-paper shadow-[var(--shadow-card)]">
+          <Reveal delay={60} className="h-full">
+            <article className="flex h-full flex-col rounded-xl border border-ink bg-ink p-6 text-paper sm:p-7">
               <div className="flex items-center justify-between gap-3">
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-paper/60">
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-paper/60">
                   Free account
                 </p>
-                <span className="rounded-full bg-marker px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-marker-ink">
+                <span className="rounded-full bg-paper px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink">
                   Unlimited
                 </span>
               </div>
-              <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight">
+              <h3 className="mt-4 text-[20px] font-semibold tracking-[-0.02em]">
                 The full workspace
               </h3>
-              <ul className="mt-6 flex flex-col gap-3.5">
+              <ul className="mt-5 flex flex-col gap-2.5">
                 {accountItems.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[15px]">
-                    <Check
-                      aria-hidden="true"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-marker"
-                      strokeWidth={3}
-                    />
-                    <span className="text-paper/90">{item}</span>
+                  <li key={item} className="flex items-center gap-2.5 text-[13px]">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-paper">
+                      <Check
+                        aria-hidden="true"
+                        className="h-3 w-3 text-ink"
+                        strokeWidth={2.5}
+                      />
+                    </span>
+                    <span className="text-paper/80">{item}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 flex flex-col gap-3 pt-2">
+              <div className="mt-7 flex flex-col gap-3 pt-1">
                 <Button
                   href={authLinks.signUp}
-                  variant="marker"
+                  variant="on-ink"
                   size="lg"
                   className="w-full"
                 >
                   Create an account
                 </Button>
-                <p className="text-center font-mono text-xs text-paper/50">
+                <p className="text-center text-xs text-paper/50">
                   Free forever — no paid plans, no credit card.
                 </p>
               </div>

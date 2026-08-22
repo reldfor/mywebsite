@@ -56,7 +56,7 @@ export function Popover({
         <div
           role={role}
           aria-label={label}
-          className={`absolute top-full z-40 mt-2 origin-top rounded-2xl border border-line bg-surface shadow-[var(--shadow-pop)] animate-pop-in ${
+          className={`absolute top-full z-40 mt-2 origin-top rounded-xl border border-line bg-surface shadow-[var(--shadow-pop)] animate-pop-in ${
             align === "right" ? "right-0" : "left-0"
           } ${className}`}
         >

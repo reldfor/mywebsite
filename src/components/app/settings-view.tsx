@@ -54,23 +54,23 @@ const sections = [
 
 export default function SettingsPage() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
+    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
       <div>
-        <h1 className="font-display text-2xl font-extrabold tracking-tight">
+        <h1 className="text-[22px] font-semibold tracking-[-0.02em]">
           Settings
         </h1>
-        <p className="mt-1 font-mono text-[11px] text-ink-faint">
+        <p className="mt-1 font-mono text-[11px] tabular-nums text-ink-faint">
           Preview · connects when accounts arrive
         </p>
       </div>
 
-      <div className="mt-8 flex flex-col gap-8">
+      <div className="mt-8 flex flex-col gap-6">
         {sections.map((section) => (
           <section key={section.heading}>
-            <h2 className="px-3 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-ink-faint">
+            <h2 className="px-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
               {section.heading}
             </h2>
-            <ul className="mt-2 divide-y divide-line/60 rounded-2xl border border-line bg-surface">
+            <ul className="mt-2 divide-y divide-line/60 overflow-hidden rounded-xl border border-line bg-surface">
               {section.rows.map((row) => (
                 <li
                   key={row.label}
@@ -78,8 +78,8 @@ export default function SettingsPage() {
                 >
                   <div className="min-w-0">
                     <p
-                      className={`text-sm font-medium ${
-                        "danger" in row && row.danger ? "text-danger" : "text-ink"
+                      className={`text-[13px] font-medium ${
+                        "danger" in row && row.danger ? "text-ink" : "text-ink"
                       }`}
                     >
                       {row.label}
@@ -91,16 +91,16 @@ export default function SettingsPage() {
                   {"link" in row && row.link ? (
                     <Link
                       href={row.link}
-                      className="shrink-0 rounded-full border border-line bg-paper px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-surface-strong"
+                      className="shrink-0 rounded-full border border-line bg-paper px-3.5 py-1.5 text-xs font-medium text-ink transition-colors hover:border-ink/15"
                     >
                       {row.linkLabel}
                     </Link>
                   ) : "chip" in row && row.chip ? (
-                    <span className="shrink-0 rounded-full border border-line bg-paper px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                    <span className="shrink-0 rounded-full border border-line bg-paper px-3 py-1.5 font-mono text-[10px] tabular-nums uppercase tracking-wide text-ink-soft">
                       {row.chip}
                     </span>
                   ) : (
-                    <span className="shrink-0 rounded-full border border-dashed border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wide text-ink-faint">
+                    <span className="shrink-0 rounded-full border border-dashed border-line px-3 py-1.5 font-mono text-[10px] tabular-nums uppercase tracking-wide text-ink-faint">
                       Soon
                     </span>
                   )}

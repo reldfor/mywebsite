@@ -44,7 +44,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Tasks"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line/80 bg-paper/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-[8px] md:hidden"
     >
       <div className="grid grid-cols-6">
         {tabs.map((tab) => {
@@ -58,22 +58,22 @@ export function MobileNav() {
               href={tab.href}
               onClick={navigate}
               aria-current={active ? "page" : undefined}
-              className={`relative flex h-14 flex-col items-center justify-center gap-1 transition-colors ${
-                active ? "text-pen" : "text-ink-faint hover:text-ink"
+              className={`relative flex h-[56px] flex-col items-center justify-center gap-1 transition-colors ${
+                active ? "text-ink" : "text-ink-faint hover:text-ink"
               }`}
             >
               <span className="relative">
-                <tab.icon aria-hidden="true" className="h-5 w-5" />
+                <tab.icon aria-hidden="true" className={`h-[18px] w-[18px] ${active ? "stroke-[2.2]" : ""}`} />
                 {count > 0 ? (
                   <span
                     aria-hidden="true"
-                    className="absolute -right-1.5 -top-1 h-3.5 min-w-3.5 rounded-full bg-marker px-0.5 font-mono text-[8px] font-bold leading-3.5 text-marker-ink"
+                    className="absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-ink px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none text-paper"
                   >
                     {count}
                   </span>
                 ) : null}
               </span>
-              <span className="text-[10px] font-semibold">{tab.label}</span>
+              <span className={`text-[10px] ${active ? "font-semibold" : "font-medium"}`}>{tab.label}</span>
             </Link>
           );
         })}

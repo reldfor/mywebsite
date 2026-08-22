@@ -1,5 +1,3 @@
-import { Check } from "lucide-react";
-
 type SectionHeadingProps = {
   eyebrow: string;
   title: string;
@@ -14,19 +12,18 @@ export function SectionHeading({
   id,
 }: SectionHeadingProps) {
   return (
-    <div className="max-w-2xl">
-      <p className="flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.22em] text-pen">
-        <Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={3} />
+    <div className="max-w-[560px]">
+      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-ink-faint">
         {eyebrow}
       </p>
       <h2
         id={id}
-        className="mt-4 font-display text-3xl font-extrabold tracking-tight sm:text-4xl"
+        className="mt-3 text-[28px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[32px]"
       >
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+        <p className="mt-3 text-[16px] leading-[1.6] text-ink-soft">
           {description}
         </p>
       ) : null}

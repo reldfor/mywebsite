@@ -12,6 +12,7 @@ type AuthFieldProps = {
   hint?: string;
   placeholder?: string;
   autoComplete?: string;
+  inputMode?: "text" | "numeric" | "email" | "tel";
   disabled?: boolean;
   inputRef?: RefObject<HTMLInputElement | null>;
 };
@@ -26,6 +27,7 @@ export function AuthField({
   hint,
   placeholder,
   autoComplete,
+  inputMode,
   disabled,
   inputRef,
 }: AuthFieldProps) {
@@ -36,7 +38,7 @@ export function AuthField({
     <div>
       <label
         htmlFor={id}
-        className="block text-sm font-semibold text-ink"
+        className="block text-[13px] font-medium text-ink"
       >
         {label}
       </label>
@@ -48,19 +50,20 @@ export function AuthField({
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        inputMode={inputMode}
         disabled={disabled}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : hint ? hintId : undefined}
-        className={`mt-2 h-12 w-full rounded-xl border bg-surface px-4 text-base text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-pen disabled:cursor-not-allowed disabled:opacity-60 ${
-          error ? "border-danger" : "border-line"
+        className={`mt-1.5 h-10 w-full rounded-lg border bg-surface px-3 text-[13px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ink/20 disabled:cursor-not-allowed disabled:opacity-60 ${
+          error ? "border-ink" : "border-line"
         }`}
       />
       {error ? (
-        <p id={errorId} className="mt-2 text-sm text-danger">
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-ink">
           {error}
         </p>
       ) : hint ? (
-        <p id={hintId} className="mt-2 text-sm text-ink-faint">
+        <p id={hintId} className="mt-1.5 text-xs text-ink-faint">
           {hint}
         </p>
       ) : null}

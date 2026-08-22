@@ -25,7 +25,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="scroll-mt-20 border-t border-line/80 py-20 lg:py-28">
+    <section id="how" className="scroll-mt-20 border-t border-line py-16 lg:py-24">
       <div className={container}>
         <Reveal>
           <SectionHeading
@@ -34,17 +34,17 @@ export function HowItWorks() {
             description="Start exactly where you are. Tick only asks for an account when the limit genuinely matters — never before."
           />
         </Reveal>
-        <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+        <ol className="mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
           {steps.map((step, index) => (
-            <Reveal key={step.number} delay={index * 90}>
-              <li className="relative border-t-2 border-ink/10 pt-6">
-                <span className="font-mono text-sm font-medium text-pen">
-                  Step {step.number}
+            <Reveal key={step.number} delay={index * 60}>
+              <li className="border-t border-line pt-5">
+                <span className="font-mono text-xs tabular-nums tracking-wide text-ink-faint">
+                  {step.number}
                 </span>
-                <h3 className="mt-3 font-display text-xl font-bold tracking-tight">
+                <h3 className="mt-3 text-[16px] font-semibold tracking-[-0.01em]">
                   {step.title}
                 </h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-soft">
+                <p className="mt-2 text-[13px] leading-[1.6] text-ink-soft">
                   {step.detail}
                 </p>
               </li>

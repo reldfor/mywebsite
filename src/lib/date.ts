@@ -26,7 +26,7 @@ export function todayISO(): string {
 }
 
 export function parseISODate(value: string): Date {
-  const [y, m, d] = value.split("-").map(Number);
+  const [y, m, d] = value.slice(0, 10).split("-").map(Number);
   return new Date(y, m - 1, d);
 }
 
@@ -122,6 +122,12 @@ export function buildMonthDays(monthDate: Date): string[] {
 
 export function dayOfMonth(dateISO: string): number {
   return parseISODate(dateISO).getDate();
+}
+
+export function timeOf(value: string): string | null {
+  const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/.exec(value);
+  if (!match) return null;
+  return `${match[2]}:${match[3]}`;
 }
 
 export function weekdayOf(dateISO: string): string {

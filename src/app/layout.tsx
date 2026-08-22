@@ -1,21 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import { ClerkProvider } from "@/features/auth/clerk-provider";
 import "./globals.css";
 
-const archivo = Archivo({
-  variable: "--font-archivo",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
 });
 
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f5f1",
+  themeColor: "#fcfcfc",
 };
 
 const themeInitScript = `(function () {
@@ -44,7 +40,7 @@ const themeInitScript = `(function () {
         window.matchMedia("(prefers-color-scheme: dark)").matches);
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", dark ? "#14161c" : "#f6f5f1");
+    if (meta) meta.setAttribute("content", dark ? "#0a0a0a" : "#fcfcfc");
   } catch (e) {}
 })();`;
 
@@ -54,11 +50,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${archivo.variable} ${instrument.variable} ${ibmPlexMono.variable}`}
+      className={`${geist.variable} ${geistMono.variable}`}
     >
       <body>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        {children}
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+        <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
   );

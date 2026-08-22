@@ -8,11 +8,11 @@ import type { Priority, SortKey } from "@/features/todos/types";
 import { activeFilterCount } from "@/features/todos/selectors";
 
 const priorityDots: Record<Priority, string> = {
-  none: "bg-line",
-  low: "bg-slate-400",
-  medium: "bg-warning",
-  high: "bg-caution",
-  urgent: "bg-danger",
+  none: "bg-ink/15",
+  low: "bg-ink/25",
+  medium: "bg-ink/45",
+  high: "bg-ink/70",
+  urgent: "bg-ink",
 };
 
 const dueOptions = [
@@ -24,7 +24,7 @@ const dueOptions = [
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="px-1 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-ink-faint">
+    <p className="px-1 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
       {children}
     </p>
   );
@@ -46,8 +46,8 @@ function Chip({
       onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
         active
-          ? "border-pen bg-pen-soft text-pen"
-          : "border-line bg-surface text-ink-soft hover:border-ink/30 hover:text-ink"
+          ? "border-ink bg-ink text-paper"
+          : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
       }`}
     >
       {children}
@@ -97,16 +97,16 @@ export function FilterControl() {
           aria-haspopup="dialog"
           aria-expanded={open}
           onClick={toggle}
-          className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-sm font-medium transition-colors ${
+          className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-colors ${
             activeCount > 0
-              ? "border-pen bg-pen-soft text-pen"
-              : "border-line bg-surface text-ink-soft hover:border-ink/40 hover:text-ink"
+              ? "border-ink bg-ink text-paper"
+              : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
           }`}
         >
           <Filter aria-hidden="true" className="h-3.5 w-3.5" />
           Filter
           {activeCount > 0 ? (
-            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-pen px-1 font-mono text-[10px] font-semibold text-paper">
+            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-paper px-1 font-mono text-[10px] font-medium tabular-nums text-ink">
               {activeCount}
             </span>
           ) : null}
@@ -203,7 +203,7 @@ export function FilterControl() {
               onClick={() =>
                 setFilters({ statuses: [], priorities: [], due: "all", labelIds: [] })
               }
-              className="self-start text-xs font-semibold text-pen transition-colors hover:underline"
+              className="self-start text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink/40"
             >
               Clear all filters
             </button>
@@ -237,7 +237,7 @@ export function SortControl() {
           aria-haspopup="menu"
           aria-expanded={open}
           onClick={toggle}
-          className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-sm font-medium text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-[13px] font-medium text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
         >
           <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
           Sort
@@ -255,15 +255,15 @@ export function SortControl() {
                 setSort(option.value);
                 close();
               }}
-              className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
                 sort === option.value
-                  ? "text-pen"
-                  : "text-ink-soft hover:bg-ink/5 hover:text-ink"
+                  ? "bg-ink text-paper"
+                  : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
               }`}
             >
               {option.label}
               {sort === option.value ? (
-                <Check aria-hidden="true" className="h-4 w-4" strokeWidth={3} />
+                <Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
               ) : null}
             </button>
           ))}

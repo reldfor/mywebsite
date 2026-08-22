@@ -43,7 +43,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="hidden w-56 shrink-0 flex-col border-r border-line/80 bg-paper px-3 py-4 md:flex">
+    <aside className="hidden w-[220px] shrink-0 flex-col border-r border-line bg-paper px-3 py-4 md:flex lg:w-[240px]">
       <nav aria-label="Tasks" className="flex flex-col gap-0.5">
         {primaryNav.map((item) => {
           const active =
@@ -54,20 +54,20 @@ export function Sidebar() {
               href={item.href}
               onClick={navigate}
               aria-current={active ? "page" : undefined}
-              className={`flex h-10 items-center gap-2.5 rounded-xl px-3 text-sm font-medium transition-colors ${
+              className={`flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium transition-colors ${
                 active
                   ? "bg-ink text-paper"
-                  : "text-ink-soft hover:bg-ink/5 hover:text-ink"
+                  : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
               }`}
             >
               <item.icon
                 aria-hidden="true"
-                className={`h-4.5 w-4.5 shrink-0 ${active ? "text-paper" : "text-ink-faint"}`}
+                className={`h-4 w-4 shrink-0 ${active ? "text-paper" : "text-ink-faint"}`}
               />
               <span className="flex-1 truncate">{item.label}</span>
               {item.label === "Inbox" && counts.inbox > 0 ? (
                 <span
-                  className={`font-mono text-[10px] font-medium ${
+                  className={`font-mono text-[11px] tabular-nums font-medium ${
                     active ? "text-paper/60" : "text-ink-faint"
                   }`}
                 >
@@ -76,7 +76,7 @@ export function Sidebar() {
               ) : null}
               {item.label === "Today" && counts.today > 0 ? (
                 <span
-                  className={`font-mono text-[10px] font-medium ${
+                  className={`font-mono text-[11px] tabular-nums font-medium ${
                     active ? "text-paper/60" : "text-ink-faint"
                   }`}
                 >
@@ -88,21 +88,21 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-auto flex flex-col gap-3">
+      <div className="mt-auto flex flex-col gap-3 pb-1 pt-6">
         <nav aria-label="Account">
           <Link
             href="/app/settings"
             onClick={navigate}
             aria-current={pathname.startsWith("/app/settings") ? "page" : undefined}
-            className={`flex h-10 items-center gap-2.5 rounded-xl px-3 text-sm font-medium transition-colors ${
+            className={`flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium transition-colors ${
               pathname.startsWith("/app/settings")
                 ? "bg-ink text-paper"
-                : "text-ink-soft hover:bg-ink/5 hover:text-ink"
+                : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
             }`}
           >
             <Settings
               aria-hidden="true"
-              className={`h-4.5 w-4.5 shrink-0 ${
+              className={`h-4 w-4 shrink-0 ${
                 pathname.startsWith("/app/settings")
                   ? "text-paper"
                   : "text-ink-faint"
@@ -111,7 +111,7 @@ export function Sidebar() {
             Settings
           </Link>
         </nav>
-        <p className="px-3 font-mono text-[10px] leading-relaxed text-ink-faint">
+        <p className="px-2.5 font-mono text-[10px] leading-relaxed tabular-nums text-ink-faint">
           Guest workspace · up to 10 tasks
           <br />
           Sync connects in a later build

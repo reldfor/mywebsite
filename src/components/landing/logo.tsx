@@ -11,13 +11,11 @@ export function Logo({ href = "/" }: { href?: string }) {
     >
       <span
         aria-hidden="true"
-        className="grid h-8 w-8 place-items-center rounded-[10px] bg-marker"
+        className="grid h-[28px] w-[28px] place-items-center rounded-[8px] bg-ink text-paper"
       >
-        <Check className="h-4.5 w-4.5 text-marker-ink" strokeWidth={3.5} />
+        <Check className="h-4 w-4" strokeWidth={3} />
       </span>
-      <span className="font-display text-xl font-extrabold tracking-tight">
-        {appName}
-      </span>
+      <span className="text-[17px] font-semibold tracking-[-0.02em]">{appName}</span>
     </Link>
   );
 }

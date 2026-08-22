@@ -57,7 +57,7 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 py-20 lg:py-28">
+    <section id="features" className="scroll-mt-20 py-16 lg:py-24">
       <div className={container}>
         <Reveal>
           <SectionHeading
@@ -66,17 +66,17 @@ export function Features() {
             description="Every feature in Tick exists to move a task from 'somewhere in your head' to 'done'. Nothing here is decoration."
           />
         </Reveal>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
-            <Reveal key={feature.title} delay={(index % 4) * 70} className="h-full">
-              <article className="group h-full rounded-2xl border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-ink/25">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-pen-soft text-pen transition-colors duration-200 group-hover:bg-pen group-hover:text-paper">
-                  <feature.icon aria-hidden="true" className="h-5 w-5" />
+            <Reveal key={feature.title} delay={(index % 4) * 50} className="h-full">
+              <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-5">
+                <span className="grid h-8 w-8 place-items-center rounded-lg border border-line bg-paper text-ink-faint">
+                  <feature.icon aria-hidden="true" className="h-4 w-4" />
                 </span>
-                <h3 className="mt-5 font-display text-lg font-bold tracking-tight">
+                <h3 className="mt-4 text-[14px] font-semibold leading-tight tracking-[-0.01em]">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                <p className="mt-1.5 text-[13px] leading-[1.5] text-ink-soft">
                   {feature.detail}
                 </p>
               </article>

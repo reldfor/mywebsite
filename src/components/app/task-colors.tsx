@@ -1,28 +1,64 @@
 import { FlaskConical, ListTodo, Package, Palette, Terminal, Zap } from "lucide-react";
 import type { CategoryColor, CategoryIcon } from "@/features/todos/types";
 
+export const categoryColors: CategoryColor[] = [
+  "blue",
+  "cyan",
+  "green",
+  "pink",
+  "yellow",
+  "gray",
+];
+
+export const categoryIcons: CategoryIcon[] = [
+  "package",
+  "palette",
+  "terminal",
+  "zap",
+  "flask",
+  "list",
+];
+
 export const categoryColorClasses: Record<
   CategoryColor,
-  { pill: string; bar: string }
+  { pill: string; bar: string; tint: string; dot: string }
 > = {
-  blue: { pill: "bg-pen-soft text-pen", bar: "bg-pen-soft text-pen" },
+  blue: {
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.04]",
+    dot: "bg-ink",
+  },
   cyan: {
-    pill: "bg-[var(--cat-cyan-bg)] text-[var(--cat-cyan)]",
-    bar: "bg-[var(--cat-cyan-bg)] text-[var(--cat-cyan)]",
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.04]",
+    dot: "bg-ink/60",
   },
   green: {
-    pill: "bg-[var(--cat-emerald-bg)] text-[var(--cat-emerald)]",
-    bar: "bg-[var(--cat-emerald-bg)] text-[var(--cat-emerald)]",
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.04]",
+    dot: "bg-ink/50",
   },
   pink: {
-    pill: "bg-[var(--cat-rose-bg)] text-[var(--cat-rose)]",
-    bar: "bg-[var(--cat-rose-bg)] text-[var(--cat-rose)]",
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.04]",
+    dot: "bg-ink/40",
   },
   yellow: {
-    pill: "bg-[var(--cat-amber-bg)] text-[var(--cat-amber)]",
-    bar: "bg-[var(--cat-amber-bg)] text-[var(--cat-amber)]",
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.04]",
+    dot: "bg-ink/30",
   },
-  gray: { pill: "bg-ink/5 text-ink-soft", bar: "bg-ink/5 text-ink-soft" },
+  gray: {
+    pill: "bg-ink/[0.06] text-ink border border-line",
+    bar: "bg-ink/[0.06] text-ink border border-line",
+    tint: "bg-ink/[0.03]",
+    dot: "bg-ink/20",
+  },
 };
 
 const iconMap = {

@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useClerk, useUser } from "@clerk/react";
 import {
   Archive,
   Copy,
+  LogOut,
   MoreHorizontal,
   RotateCcw,
+  Settings,
   Trash2,
 } from "lucide-react";
 import type { ComponentType, ReactNode, SVGProps } from "react";
@@ -31,10 +36,10 @@ function MenuItem({ icon: Icon, label, danger, onClick, onClose }: MenuItemProps
         onClick();
         onClose();
       }}
-      className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+      className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
         danger
-          ? "text-danger hover:bg-danger-soft"
-          : "text-ink-soft hover:bg-ink/5 hover:text-ink"
+          ? "text-ink hover:bg-ink/[0.06]"
+          : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
       }`}
     >
       <Icon aria-hidden="true" className="h-4 w-4" />
@@ -46,9 +51,13 @@ function MenuItem({ icon: Icon, label, danger, onClick, onClose }: MenuItemProps
 export function TaskActionsMenu({
   task,
   trigger,
+  includeDelete = true,
+  onDelete,
 }: {
   task: Task;
   trigger: (props: { open: boolean; toggle: () => void }) => ReactNode;
+  includeDelete?: boolean;
+  onDelete?: () => void;
 }) {
   const { duplicateTask, archiveTask, restoreTask, deleteTask } = useTasks();
   const archived = task.status === "archived";
@@ -67,7 +76,15 @@ export function TaskActionsMenu({
           ) : (
             <MenuItem icon={Archive} label="Archive" onClick={() => archiveTask(task.id)} onClose={close} />
           )}
-          <MenuItem icon={Trash2} label="Delete" danger onClick={() => deleteTask(task.id)} onClose={close} />
+          {includeDelete ? (
+            <MenuItem
+              icon={Trash2}
+              label="Delete"
+              danger
+              onClick={() => (onDelete ? onDelete() : deleteTask(task.id))}
+              onClose={close}
+            />
+          ) : null}
         </div>
       )}
     </Popover>
@@ -78,6 +95,7 @@ export function RowMenu({ task }: { task: Task }) {
   return (
     <TaskActionsMenu
       task={task}
+      includeDelete={false}
       trigger={({ open, toggle }) => (
         <button
           type="button"
@@ -88,9 +106,9 @@ export function RowMenu({ task }: { task: Task }) {
             event.stopPropagation();
             toggle();
           }}
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-ink-faint transition-colors hover:bg-ink/5 hover:text-ink focus-visible:bg-ink/5 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+          className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink focus-visible:bg-ink/[0.04] md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
         >
-          <MoreHorizontal aria-hidden="true" className="h-4.5 w-4.5" />
+          <MoreHorizontal aria-hidden="true" className="h-4 w-4" />
         </button>
       )}
     />
@@ -98,6 +116,123 @@ export function RowMenu({ task }: { task: Task }) {
 }
 
 export function UserMenu() {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const clerk = useClerk();
+  const router = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+
+  if (!isLoaded) {
+    return (
+      <button
+        type="button"
+        aria-label="Account menu"
+        className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper"
+      >
+        <span aria-hidden="true" className="text-[13px] font-semibold">
+          G
+        </span>
+      </button>
+    );
+  }
+
+  if (isSignedIn && user) {
+    const displayName =
+      user.fullName?.trim() ||
+      user.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+      "Your account";
+    const email = user.primaryEmailAddress?.emailAddress ?? null;
+    const initials = (user.fullName ?? email ?? "T")
+      .split(/\s+/)
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+
+    async function handleSignOut() {
+      if (signingOut) return;
+      setSigningOut(true);
+      await clerk.signOut();
+      router.push("/");
+    }
+
+    return (
+      <Popover
+        align="right"
+        label="Account"
+        className="w-64"
+        trigger={({ open, toggle }) => (
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            aria-label="Account menu"
+            onClick={toggle}
+            className="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
+          >
+            {user.hasImage && user.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={user.imageUrl}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <span aria-hidden="true" className="text-xs font-semibold">
+                {initials}
+              </span>
+            )}
+          </button>
+        )}
+      >
+        {() => (
+          <div className="p-3">
+            <div className="flex items-center gap-3">
+              <div className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-ink text-xs font-semibold text-paper">
+                {user.hasImage && user.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.imageUrl}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span aria-hidden="true">{initials}</span>
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className="truncate text-[13px] font-semibold text-ink">{displayName}</p>
+                {email ? (
+                  <p className="truncate font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
+                    {email}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+            <div className="mt-3 flex flex-col gap-2 border-t border-line pt-3">
+              <Link
+                href="/app/settings"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-soft transition-colors hover:bg-ink/[0.04] hover:text-ink"
+              >
+                <Settings aria-hidden="true" className="h-4 w-4" />
+                Settings
+              </Link>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={handleSignOut}
+                disabled={signingOut}
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-ink/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <LogOut aria-hidden="true" className="h-4 w-4" />
+                {signingOut ? "Signing out…" : "Sign out"}
+              </button>
+            </div>
+          </div>
+        )}
+      </Popover>
+    );
+  }
+
   return (
     <Popover
       align="right"
@@ -110,9 +245,9 @@ export function UserMenu() {
           aria-expanded={open}
           aria-label="Account menu"
           onClick={toggle}
-          className="grid h-9 w-9 place-items-center rounded-full bg-ink text-paper transition-colors hover:bg-pen"
+          className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
         >
-          <span aria-hidden="true" className="font-display text-sm font-extrabold">
+          <span aria-hidden="true" className="text-xs font-semibold">
             G
           </span>
         </button>
@@ -120,27 +255,26 @@ export function UserMenu() {
     >
       {() => (
         <div className="p-3">
-          <p className="text-sm font-semibold text-ink">Guest workspace</p>
-          <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
-            Preview · no account yet
+          <p className="text-[13px] font-semibold text-ink">Guest workspace</p>
+          <p className="mt-0.5 font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
+            No account · 10 task limit
           </p>
           <div className="mt-3 flex flex-col gap-2">
             <Link
               href={authLinks.signIn}
-              className="inline-flex h-9 w-full items-center justify-center rounded-full border border-line bg-surface text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-surface-strong"
+              className="inline-flex h-8 w-full items-center justify-center rounded-full border border-line bg-surface text-[13px] font-medium text-ink transition-colors hover:border-ink/15"
             >
               Sign in
             </Link>
             <Link
               href={authLinks.signUp}
-              className="inline-flex h-9 w-full items-center justify-center rounded-full bg-ink text-sm font-semibold text-paper transition-colors hover:bg-pen"
+              className="inline-flex h-8 w-full items-center justify-center rounded-full bg-ink text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
             >
               Create an account
             </Link>
           </div>
-          <p className="mt-3 border-t border-line/80 pt-2.5 font-mono text-[10px] leading-relaxed text-ink-faint">
-            Guest tasks carry over when you sign up. Account sync connects in a
-            later build.
+          <p className="mt-3 border-t border-line pt-2.5 font-mono text-[10px] leading-relaxed tabular-nums text-ink-faint">
+            Guest tasks carry over when you sign up.
           </p>
         </div>
       )}

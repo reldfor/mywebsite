@@ -10,16 +10,16 @@ type ButtonProps = {
 };
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary: "bg-ink text-paper hover:bg-pen",
+  primary: "bg-ink text-paper hover:bg-ink/90",
   secondary:
-    "bg-surface text-ink border border-line hover:border-ink/40 hover:bg-surface-strong",
-  marker: "bg-marker text-marker-ink hover:brightness-95",
-  "on-ink": "bg-paper text-ink hover:bg-surface-strong",
+    "bg-surface text-ink border border-line hover:border-ink/20 hover:bg-paper",
+  marker: "bg-ink text-paper hover:bg-ink/90",
+  "on-ink": "bg-paper text-ink hover:bg-white",
 };
 
 const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
-  md: "h-10 px-5 text-sm",
-  lg: "h-12 px-7 text-base",
+  md: "h-9 px-4 text-[13px]",
+  lg: "h-10 px-5 text-[13px]",
 };
 
 export function Button({
@@ -32,7 +32,7 @@ export function Button({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors duration-200 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-full font-medium tracking-[-0.01em] transition-colors duration-150 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
       {children}
     </Link>

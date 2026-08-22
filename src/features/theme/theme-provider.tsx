@@ -10,8 +10,8 @@ import {
 
 const STORAGE_KEY = "tick.theme";
 const THEME_META = {
-  light: "#f6f5f1",
-  dark: "#14161c",
+  light: "#fcfcfc",
+  dark: "#0a0a0a",
 } as const;
 
 export type Theme = keyof typeof THEME_META;

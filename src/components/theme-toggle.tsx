@@ -12,12 +12,12 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggleTheme}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       title={dark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-ink/40 ${className}`}
+      className={`grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink ${className}`}
     >
       {dark ? (
-        <Sun aria-hidden="true" className="h-4.5 w-4.5 animate-pop-in" />
+        <Sun aria-hidden="true" className="h-4 w-4 animate-pop-in" />
       ) : (
-        <Moon aria-hidden="true" className="h-4.5 w-4.5 animate-pop-in" />
+        <Moon aria-hidden="true" className="h-4 w-4 animate-pop-in" />
       )}
     </button>
   );

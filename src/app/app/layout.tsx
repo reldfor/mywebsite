@@ -14,13 +14,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <TasksProvider>
-        <div className="flex h-dvh flex-col">
+        <div className="flex h-dvh flex-col bg-paper">
           <TopBar />
           <div className="flex min-h-0 flex-1 items-stretch">
             <Sidebar />
             <main
               id="main"
-              className="min-w-0 flex-1 overflow-y-auto pb-28 md:pb-10"
+              className="min-w-0 flex-1 overflow-y-auto pb-24 md:pb-6"
             >
               {children}
             </main>

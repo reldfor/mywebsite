@@ -8,9 +8,9 @@ export function ViewSwitch() {
   const calendar = pathname === "/app/calendar";
 
   const linkClasses = (active: boolean) =>
-    `rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+    `rounded-full px-3 py-1 text-xs font-medium transition-colors ${
       active
-        ? "bg-surface text-ink shadow-sm"
+        ? "bg-ink text-paper"
         : "text-ink-soft hover:text-ink"
     }`;
 
@@ -18,7 +18,7 @@ export function ViewSwitch() {
     <div
       role="group"
       aria-label="Schedule view"
-      className="inline-flex rounded-full bg-ink/5 p-0.5"
+      className="inline-flex rounded-full border border-line bg-surface p-0.5"
     >
       <Link
         href="/app/calendar"

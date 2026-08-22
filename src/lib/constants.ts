@@ -1,4 +1,4 @@
-export const container = "mx-auto w-full max-w-6xl px-5 sm:px-8";
+export const container = "mx-auto w-full max-w-[1120px] px-5 sm:px-8 lg:px-10";
 
 export const appName = "Tick";
 

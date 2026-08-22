@@ -26,7 +26,6 @@ import { isOverdue } from "@/lib/date";
 
 type Group = {
   label: string | null;
-  tone?: "red";
   tasks: Task[];
 };
 
@@ -41,7 +40,7 @@ const emptyCopy = {
   inbox: {
     icon: Inbox,
     title: "No tasks yet",
-    detail: "Create your first task to get started.",
+    detail: "Create your first task.",
   },
   today: {
     icon: Sun,
@@ -105,7 +104,7 @@ export function TaskList({ view }: { view: View }) {
       const rest = base.filter((task) => !(task.dueAt && isOverdue(task.dueAt)));
       const result: Group[] = [];
       if (overdue.length > 0)
-        result.push({ label: "Overdue", tone: "red", tasks: sortTasks(overdue, sort) });
+        result.push({ label: "Overdue", tasks: sortTasks(overdue, sort) });
       if (rest.length > 0) result.push({ label: null, tasks: sortTasks(rest, sort) });
       return result;
     }
@@ -130,42 +129,42 @@ export function TaskList({ view }: { view: View }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
+    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
       <div className="flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="font-display text-2xl font-extrabold tracking-tight">
+          <h1 className="text-[22px] font-semibold tracking-[-0.02em]">
             {searching ? "Search" : viewMeta[view].title}
           </h1>
-          <p className="mt-1 truncate font-mono text-[11px] text-ink-faint">
+          <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-ink-soft">
             {meta}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5">
           <SortControl />
           <FilterControl />
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-5">
         <AddTask />
       </div>
 
       {isEmpty ? (
-        <div className="mt-20 flex flex-col items-center text-center">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-pen-soft text-pen">
+        <div className="mt-16 flex flex-col items-center text-center">
+          <span className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-faint">
             <Search
               aria-hidden="true"
-              className={`h-5 w-5 ${searching ? "" : "hidden"}`}
+              className={`h-4 w-4 ${searching ? "" : "hidden"}`}
             />
             <empty.icon
               aria-hidden="true"
-              className={`h-5 w-5 ${searching ? "hidden" : ""}`}
+              className={`h-4 w-4 ${searching ? "hidden" : ""}`}
             />
           </span>
-          <h2 className="mt-4 font-display text-lg font-bold tracking-tight">
+          <h2 className="mt-3 text-[14px] font-semibold tracking-[-0.01em]">
             {searching ? "No matches" : filtersActive ? "Nothing matches" : empty.title}
           </h2>
-          <p className="mt-1 max-w-xs text-sm leading-relaxed text-ink-soft">
+          <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-ink-soft">
             {searching
               ? `Nothing matches “${searchQuery.trim()}”. Try different words.`
               : filtersActive
@@ -176,7 +175,7 @@ export function TaskList({ view }: { view: View }) {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="mt-5 inline-flex h-10 items-center rounded-full bg-ink px-5 text-sm font-semibold text-paper transition-colors hover:bg-pen"
+              className="mt-5 inline-flex h-9 items-center rounded-full bg-ink px-4 text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
             >
               Clear search
             </button>
@@ -186,7 +185,7 @@ export function TaskList({ view }: { view: View }) {
               onClick={() =>
                 setFilters({ statuses: [], priorities: [], due: "all", labelIds: [] })
               }
-              className="mt-5 text-sm font-semibold text-pen transition-colors hover:underline"
+              className="mt-5 text-[13px] font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink/40"
             >
               Clear all filters
             </button>
@@ -194,27 +193,25 @@ export function TaskList({ view }: { view: View }) {
             <button
               type="button"
               onClick={focusAdd}
-              className="mt-5 inline-flex h-10 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-paper transition-colors hover:bg-pen"
+              className="mt-5 inline-flex h-9 items-center gap-1.5 rounded-full bg-ink px-4 text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
             >
-              <Plus aria-hidden="true" className="h-4 w-4" strokeWidth={3} />
-              Add a task
+              <Plus aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
+              Create a task
             </button>
           )}
         </div>
       ) : (
-        <div className="mt-3">
+        <div className="mt-4">
           {groups.map((group, index) => (
-            <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-7" : ""}>
+            <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-6" : ""}>
               {group.label ? (
                 <p
-                  className={`px-3 font-mono text-[10px] font-medium uppercase tracking-[0.16em] ${
-                    group.tone === "red" ? "text-danger" : "text-ink-faint"
-                  }`}
+                  className="px-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint"
                 >
                   {group.label}
                 </p>
               ) : null}
-              <ul className={`divide-y divide-line/60 ${group.label ? "mt-1.5" : ""}`}>
+              <ul className={`divide-y divide-line/60 ${group.label ? "mt-1" : ""}`}>
                 {group.tasks.map((task) => (
                   <TaskRow key={task.id} task={task} />
                 ))}
