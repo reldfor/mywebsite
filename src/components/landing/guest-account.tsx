@@ -35,7 +35,7 @@ export function GuestAccount() {
 
         <div className="mt-10 grid gap-4 lg:grid-cols-2 lg:gap-5">
           <Reveal className="h-full">
-            <article className="flex h-full flex-col rounded-xl border border-line bg-paper p-6 sm:p-7">
+            <article className="flex h-full flex-col rounded-xl border border-line bg-paper p-6 shadow-[var(--shadow-card)] dark:shadow-none sm:p-7">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
                   Guest mode

@@ -12,7 +12,7 @@ export function Hero() {
       >
         <div className="lg:col-span-6">
           <p
-            className="animate-tick-in inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] text-ink-soft"
+            className="animate-tick-in inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] text-ink-soft shadow-[var(--shadow-interactive)] dark:shadow-none"
             style={{ animationDelay: "50ms" }}
           >
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ink/20" />

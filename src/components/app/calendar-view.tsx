@@ -114,14 +114,14 @@ export function CalendarView() {
         <ViewSwitch />
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="mt-5 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)] dark:shadow-none">
         <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
           <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={() => setViewDate((date) => addMonths(date, -1))}
               aria-label="Previous month"
-              className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+              className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />
             </button>
@@ -132,7 +132,7 @@ export function CalendarView() {
               type="button"
               onClick={() => setViewDate((date) => addMonths(date, 1))}
               aria-label="Next month"
-              className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+              className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
             >
               <ChevronRight aria-hidden="true" className="h-4 w-4" />
             </button>
@@ -141,7 +141,7 @@ export function CalendarView() {
             <button
               type="button"
               onClick={goToToday}
-              className="h-8 rounded-full border border-line bg-surface px-3 text-xs font-medium text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+              className="h-8 rounded-full border border-line bg-surface px-3 text-xs font-medium text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
             >
               Today
             </button>

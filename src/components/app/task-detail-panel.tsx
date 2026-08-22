@@ -48,7 +48,7 @@ const labelTones: LabelTone[] = ["pen", "marker", "gray"];
 const chipBase =
   "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors";
 const chipIdle =
-  "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink";
+  "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none";
 
 function SectionLabel({ children }: { children: string }) {
   return (
@@ -366,7 +366,7 @@ export function TaskDetailPanel() {
                   className={`${chipBase} border ${
                     task.priority === option.value
                       ? "border-ink bg-ink text-paper"
-                      : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
+                      : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
                   }`}
                 >
                   <span
@@ -387,7 +387,7 @@ export function TaskDetailPanel() {
                 aria-pressed={task.categoryId === null}
                 onClick={() => updateTask(task.id, { categoryId: null })}
                 className={`${chipBase} border ${
-                  task.categoryId === null ? "border-ink bg-ink text-paper" : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
+                  task.categoryId === null ? "border-ink bg-ink text-paper" : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
                 }`}
               >
                 None
@@ -443,7 +443,7 @@ export function TaskDetailPanel() {
                 <button
                   type="button"
                   onClick={() => setNewCategory(" ")}
-                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
                   aria-label="Add a category"
                 >
                   <Plus aria-hidden="true" className="h-3.5 w-3.5" />
@@ -469,7 +469,7 @@ export function TaskDetailPanel() {
                           : assignLabel(task.id, label.id)
                       }
                       className={`${chipBase} border ${
-                        assigned ? toneClasses[label.tone] : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
+                        assigned ? toneClasses[label.tone] : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
                       }`}
                     >
                       <Tag aria-hidden="true" className="h-3 w-3" />
@@ -502,7 +502,7 @@ export function TaskDetailPanel() {
                 <button
                   type="button"
                   onClick={() => setNewLabel(" ")}
-                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
                   aria-label="Add a label"
                 >
                   <Plus aria-hidden="true" className="h-3.5 w-3.5" />

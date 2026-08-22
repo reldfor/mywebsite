@@ -18,7 +18,7 @@ export function ViewSwitch() {
     <div
       role="group"
       aria-label="Schedule view"
-      className="inline-flex rounded-full border border-line bg-surface p-0.5"
+      className="inline-flex rounded-full border border-line bg-surface p-0.5 shadow-[var(--shadow-interactive)] dark:shadow-none"
     >
       <Link
         href="/app/calendar"

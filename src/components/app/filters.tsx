@@ -47,7 +47,7 @@ function Chip({
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
         active
           ? "border-ink bg-ink text-paper"
-          : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
+          : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
       }`}
     >
       {children}
@@ -100,7 +100,7 @@ export function FilterControl() {
           className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-colors ${
             activeCount > 0
               ? "border-ink bg-ink text-paper"
-              : "border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink"
+              : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
           }`}
         >
           <Filter aria-hidden="true" className="h-3.5 w-3.5" />
@@ -237,7 +237,7 @@ export function SortControl() {
           aria-haspopup="menu"
           aria-expanded={open}
           onClick={toggle}
-          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-[13px] font-medium text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-[13px] font-medium text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
         >
           <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
           Sort

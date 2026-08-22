@@ -35,7 +35,7 @@
 :root {
   color-scheme: light;
 
-  --paper: #fcfcfc;
+  --paper: #FAF9F6;
   --surface: #ffffff;
   --surface-strong: #f5f5f5;
   --ink: #0a0a0a;
@@ -61,9 +61,10 @@
   --composer-ink-soft: #a3a3a3;
   --composer-ink-faint: #737373;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.04);
-  --shadow-pop: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow-fab: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-fab: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-interactive: 0 1px 2px rgba(0, 0, 0, 0.06);
 
   --cat-cyan-bg: #f5f5f5;
   --cat-cyan: #525252;

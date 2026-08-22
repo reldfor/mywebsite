@@ -69,7 +69,7 @@ export function Features() {
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <Reveal key={feature.title} delay={(index % 4) * 50} className="h-full">
-              <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-5">
+              <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] dark:shadow-none">
                 <span className="grid h-8 w-8 place-items-center rounded-lg border border-line bg-paper text-ink-faint">
                   <feature.icon aria-hidden="true" className="h-4 w-4" />
                 </span>

@@ -33,10 +33,10 @@ const labelTones: LabelTone[] = ["pen", "marker", "gray"];
 const chipBase =
   "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors";
 const chipIdle =
-  "border border-line bg-surface text-ink-soft hover:border-ink/15 hover:text-ink";
+  "border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none";
 const chipActive = "border border-ink bg-ink text-paper";
 const iconChip =
-  "grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink";
+  "grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none";
 
 const labelActiveClasses: Record<LabelTone, string> = {
   pen: chipActive,
@@ -127,7 +127,7 @@ export function AddTask({ date }: { date?: string | null }) {
 
   if (tasks.length >= taskLimit) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-xl border border-line bg-surface px-5 py-6 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-xl border border-line bg-surface px-5 py-6 text-center shadow-[var(--shadow-card)] dark:shadow-none">
         <p className="text-[13px] font-medium text-ink">
           You&apos;ve reached the {taskLimit}-task guest limit.
         </p>

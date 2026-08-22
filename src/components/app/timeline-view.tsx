@@ -256,7 +256,7 @@ export function TimelineView() {
             type="button"
             onClick={() => setViewDate((date) => addMonths(date, -1))}
             aria-label="Previous month"
-            className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+            className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
           >
             <ChevronLeft aria-hidden="true" className="h-4 w-4" />
           </button>
@@ -267,7 +267,7 @@ export function TimelineView() {
             type="button"
             onClick={() => setViewDate((date) => addMonths(date, 1))}
             aria-label="Next month"
-            className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+            className="grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
           >
             <ChevronRight aria-hidden="true" className="h-4 w-4" />
           </button>
@@ -275,13 +275,13 @@ export function TimelineView() {
         <button
           type="button"
           onClick={() => setViewDate(startOfMonth(new Date()))}
-          className="h-8 rounded-full border border-line bg-surface px-3 text-xs font-medium text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+          className="h-8 rounded-full border border-line bg-surface px-3 text-xs font-medium text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
         >
           Today
         </button>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="mt-4 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)] dark:shadow-none">
         <div className="h-[60dvh] overflow-auto md:h-[64dvh]" ref={scrollRef}>
           <div
             className="relative min-h-full"

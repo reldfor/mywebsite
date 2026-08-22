@@ -12,7 +12,7 @@ type ButtonProps = {
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary: "bg-ink text-paper hover:bg-ink/90",
   secondary:
-    "bg-surface text-ink border border-line hover:border-ink/20 hover:bg-paper",
+    "bg-surface text-ink border border-line shadow-[var(--shadow-interactive)] hover:border-ink/20 hover:bg-paper dark:shadow-none",
   marker: "bg-ink text-paper hover:bg-ink/90",
   "on-ink": "bg-paper text-ink hover:bg-white",
 };

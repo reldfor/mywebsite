@@ -119,7 +119,7 @@ export function TopBar() {
               type="button"
               onClick={openSearch}
               aria-label="Open search"
-              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
             >
               <Search aria-hidden="true" className="h-4 w-4" />
             </button>
