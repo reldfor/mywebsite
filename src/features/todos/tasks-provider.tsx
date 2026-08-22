@@ -50,7 +50,7 @@ type TasksContextValue = {
   filters: Filters;
   sort: SortKey;
   toast: Toast | null;
-  addTaskInputRef: React.RefObject<HTMLInputElement | null>;
+  addTaskInputRef: React.RefObject<HTMLElement | null>;
   addTask: (input: AddTaskInput) => string;
   taskLimit: number;
   toggleTask: (id: string) => void;
@@ -113,7 +113,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   const [sort, setSort] = useState<SortKey>("manual");
   const [toast, setToast] = useState<Toast | null>(null);
   const toastTimer = useRef<number | null>(null);
-  const addTaskInputRef = useRef<HTMLInputElement | null>(null);
+  const addTaskInputRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     return () => {

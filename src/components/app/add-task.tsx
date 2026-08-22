@@ -215,34 +215,18 @@ export function AddTask({ date }: { date?: string | null }) {
 
   if (!expanded) {
     return (
-      <div className="flex items-center gap-2 rounded-full border border-line bg-surface px-4 transition-colors hover:border-ink/15 focus-within:border-ink/20">
-        <Plus
-          aria-hidden="true"
-          className="h-4 w-4 shrink-0 text-ink-faint"
-          strokeWidth={2.5}
-        />
-        <input
-          ref={addTaskInputRef}
-          type="text"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          onFocus={() => {
-            setDueDate(date ?? "");
-            setExpanded(true);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              setDueDate(date ?? "");
-              setExpanded(true);
-            }
-          }}
-          placeholder="What needs to be done?"
-          aria-label="Add a task"
-          maxLength={200}
-          className="h-11 min-w-0 flex-1 bg-transparent text-[13px] text-ink outline-none placeholder:text-ink-faint"
-        />
-      </div>
+      <button
+        type="button"
+        ref={addTaskInputRef as React.RefObject<HTMLButtonElement>}
+        onClick={() => {
+          setDueDate(date ?? "");
+          setExpanded(true);
+        }}
+        className="inline-flex items-center justify-center gap-1 rounded-lg border border-ink bg-ink px-3 py-1.5 text-[12px] font-medium text-paper transition-colors hover:bg-ink/90"
+      >
+        <Plus aria-hidden="true" className="h-3 w-3" strokeWidth={2.5} />
+        Create a task
+      </button>
     );
   }
 

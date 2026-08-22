@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { AddTask } from "@/components/app/add-task";
 import { ViewSwitch } from "@/components/app/view-switch";
 import { categoryColorClasses } from "@/components/app/task-colors";
 import { useTasks } from "@/features/todos/tasks-provider";
@@ -113,16 +112,6 @@ export function CalendarView() {
     <div className="mx-auto w-full max-w-[880px] px-4 py-6 sm:px-6 lg:px-8">
       <div className="flex justify-end">
         <ViewSwitch />
-      </div>
-
-      <div className="mt-4">
-        <AddTask date={selectedDate} />
-        {selectedDate ? (
-          <p className="mt-1.5 px-1 font-mono text-[11px] tabular-nums text-ink-faint">
-            Tasks you add will be dated {formatDueShort(selectedDate)} — click a
-            day to change it.
-          </p>
-        ) : null}
       </div>
 
       <div className="mt-5 overflow-hidden rounded-xl border border-line bg-surface">

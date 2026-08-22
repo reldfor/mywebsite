@@ -5,7 +5,6 @@ import {
   CalendarClock,
   CheckCheck,
   Inbox,
-  Plus,
   Search,
   Sun,
 } from "lucide-react";
@@ -60,15 +59,8 @@ const emptyCopy = {
 } as const;
 
 export function TaskList({ view }: { view: View }) {
-  const {
-    tasks,
-    searchQuery,
-    filters,
-    sort,
-    setSearchQuery,
-    setFilters,
-    addTaskInputRef,
-  } = useTasks();
+  const { tasks, searchQuery, filters, sort, setSearchQuery, setFilters } =
+    useTasks();
 
   const searching = searchQuery.trim().length > 0;
   const filtersActive = activeFilterCount(filters) > 0;
@@ -124,10 +116,6 @@ export function TaskList({ view }: { view: View }) {
 
   const empty = emptyCopy[view];
 
-  function focusAdd() {
-    addTaskInputRef.current?.focus();
-  }
-
   return (
     <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
       <div className="flex items-end justify-between gap-4">
@@ -143,10 +131,6 @@ export function TaskList({ view }: { view: View }) {
           <SortControl />
           <FilterControl />
         </div>
-      </div>
-
-      <div className="mt-5">
-        <AddTask />
       </div>
 
       {isEmpty ? (
@@ -190,35 +174,35 @@ export function TaskList({ view }: { view: View }) {
               Clear all filters
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={focusAdd}
-              className="mt-5 inline-flex h-9 items-center gap-1.5 rounded-full bg-ink px-4 text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
-            >
-              <Plus aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
-              Create a task
-            </button>
+            <div className="mt-5 flex justify-center">
+              <AddTask />
+            </div>
           )}
         </div>
       ) : (
-        <div className="mt-4">
-          {groups.map((group, index) => (
-            <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-6" : ""}>
-              {group.label ? (
-                <p
-                  className="px-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint"
-                >
-                  {group.label}
-                </p>
-              ) : null}
-              <ul className={`divide-y divide-line/60 ${group.label ? "mt-1" : ""}`}>
-                {group.tasks.map((task) => (
-                  <TaskRow key={task.id} task={task} />
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <>
+          <div className="mt-4">
+            {groups.map((group, index) => (
+              <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-6" : ""}>
+                {group.label ? (
+                  <p
+                    className="px-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint"
+                  >
+                    {group.label}
+                  </p>
+                ) : null}
+                <ul className={`divide-y divide-line/60 ${group.label ? "mt-1" : ""}`}>
+                  {group.tasks.map((task) => (
+                    <TaskRow key={task.id} task={task} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6">
+            <AddTask />
+          </div>
+        </>
       )}
     </div>
   );

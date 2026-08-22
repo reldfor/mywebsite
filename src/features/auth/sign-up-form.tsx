@@ -24,7 +24,7 @@ type Errors = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function SignUpForm() {
+export function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn?: () => void }) {
   const { signUp, errors: clerkErrors } = useSignUp();
   const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
@@ -327,12 +327,22 @@ export function SignUpForm() {
 
       <p className="mt-6 text-center text-sm text-ink-soft">
         Already have an account?{" "}
-        <Link
-          href={authLinks.signIn}
-          className="font-semibold text-ink transition-colors hover:underline"
-        >
-          Sign in
-        </Link>
+        {onSwitchToSignIn ? (
+          <button
+            type="button"
+            onClick={onSwitchToSignIn}
+            className="font-semibold text-ink transition-colors hover:underline"
+          >
+            Sign in
+          </button>
+        ) : (
+          <Link
+            href={authLinks.signIn}
+            className="font-semibold text-ink transition-colors hover:underline"
+          >
+            Sign in
+          </Link>
+        )}
       </p>
 
       <div id="clerk-captcha" />

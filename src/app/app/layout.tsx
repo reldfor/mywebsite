@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { MobileAddButton } from "@/components/app/mobile-add-button";
 import { MobileNav } from "@/components/app/mobile-nav";
 import { Sidebar } from "@/components/app/sidebar";
 import { TaskDetailPanel } from "@/components/app/task-detail-panel";
@@ -27,7 +26,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             <TaskDetailPanel />
           </div>
           <MobileNav />
-          <MobileAddButton />
           <Toast />
         </div>
       </TasksProvider>
