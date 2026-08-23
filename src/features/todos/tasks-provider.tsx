@@ -28,7 +28,9 @@ import {
   getGuestTasksServerSnapshot,
   getGuestTasksSnapshot,
   loadGuestCategories,
+  loadGuestLabels,
   saveGuestCategories,
+  saveGuestLabels,
   setGuestTasks,
   subscribeGuestTasks,
 } from "./guest-storage";
@@ -63,6 +65,7 @@ type TasksContextValue = {
   toggleSubtask: (taskId: string, subtaskId: string) => void;
   deleteSubtask: (taskId: string, subtaskId: string) => void;
   addLabel: (name: string, tone: LabelTone) => string;
+  updateLabel: (id: string, patch: Partial<Pick<Label, "name" | "tone">>) => void;
   deleteLabel: (id: string) => void;
   assignLabel: (taskId: string, labelId: string) => void;
   unassignLabel: (taskId: string, labelId: string) => void;
@@ -102,7 +105,9 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     getGuestTasksSnapshot,
     getGuestTasksServerSnapshot,
   );
-  const [labels, setLabels] = useState<Label[]>(seedLabels);
+  const [labels, setLabels] = useState<Label[]>(
+    () => loadGuestLabels() ?? seedLabels,
+  );
   const [categories, setCategories] = useState<Category[]>(
     () => loadGuestCategories() ?? [],
   );
@@ -335,12 +340,32 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
   const addLabel = useCallback((name: string, tone: LabelTone) => {
     const id = nextId();
-    setLabels((current) => [
-      ...current,
-      { id, name: name.trim(), tone },
-    ]);
+    setLabels((current) => {
+      const next = [...current, { id, name: name.trim(), tone }];
+      saveGuestLabels(next);
+      return next;
+    });
     return id;
   }, []);
+
+  const updateLabel = useCallback(
+    (id: string, patch: Partial<Pick<Label, "name" | "tone">>) => {
+      setLabels((current) => {
+        const next = current.map((label) =>
+          label.id === id
+            ? {
+                ...label,
+                name: patch.name !== undefined ? patch.name.trim() : label.name,
+                tone: patch.tone ?? label.tone,
+              }
+            : label,
+        );
+        saveGuestLabels(next);
+        return next;
+      });
+    },
+    [],
+  );
 
   const deleteLabel = useCallback(
     (id: string) => {
@@ -351,7 +376,11 @@ export function TasksProvider({ children }: { children: ReactNode }) {
           .filter((task) => task.labelIds.includes(id))
           .map((task) => task.id),
       );
-      setLabels((current) => current.filter((label) => label.id !== id));
+      setLabels((current) => {
+        const next = current.filter((label) => label.id !== id);
+        saveGuestLabels(next);
+        return next;
+      });
       setGuestTasks((current) =>
         current.map((task) =>
           task.labelIds.includes(id)
@@ -372,11 +401,12 @@ export function TasksProvider({ children }: { children: ReactNode }) {
           : current,
       );
       showToast("Label deleted", () => {
-        setLabels((current) =>
-          current.some((label) => label.id === id)
-            ? current
-            : [...current, removed],
-        );
+        setLabels((current) => {
+          if (current.some((label) => label.id === id)) return current;
+          const next = [...current, removed];
+          saveGuestLabels(next);
+          return next;
+        });
         setGuestTasks((current) =>
           current.map((task) =>
             affectedTaskIds.has(task.id)
@@ -498,6 +528,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       toggleSubtask,
       deleteSubtask,
       addLabel,
+      updateLabel,
       deleteLabel,
       assignLabel,
       unassignLabel,
@@ -532,6 +563,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       toggleSubtask,
       deleteSubtask,
       addLabel,
+      updateLabel,
       deleteLabel,
       assignLabel,
       unassignLabel,

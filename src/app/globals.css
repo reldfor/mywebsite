@@ -368,6 +368,46 @@ body::-webkit-scrollbar {
   animation: panel-slide-in 0.2s ease both;
 }
 
+.sidebar-shell {
+  transition: margin-left 300ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sidebar-shell.is-open {
+  margin-left: 0;
+}
+
+.sidebar-shell:not(.is-open) {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+@media (min-width: 768px) {
+  .sidebar-shell:not(.is-open) {
+    margin-left: -220px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-shell:not(.is-open) {
+    margin-left: -240px;
+  }
+}
+
+@keyframes sidebar-toggle-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-sidebar-toggle-in {
+  animation: sidebar-toggle-in 0.25s ease-in-out both;
+}
+
 @keyframes sheet-up {
   from {
     transform: translateY(12px);

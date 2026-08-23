@@ -123,17 +123,28 @@ export function TaskList({ view }: { view: View }) {
           <h1 className="text-[22px] font-semibold tracking-[-0.02em]">
             {searching ? "Search" : viewMeta[view].title}
           </h1>
-          <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-ink-soft">
-            {meta}
-          </p>
+          {view === "today" && !searching ? null : (
+            <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-ink-soft">
+              {meta}
+            </p>
+          )}
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
-          <SortControl />
+          {view !== "today" ? <SortControl /> : null}
           <FilterControl />
         </div>
       </div>
 
-      {isEmpty ? (
+      {isEmpty && view === "today" && !searching && !filtersActive ? (
+        <div className="mt-16 flex flex-col items-center text-center">
+          <h2 className="text-[14px] font-semibold tracking-[-0.01em]">
+            0 tasks remaining.
+          </h2>
+          <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
+            You&apos;re all caught up.
+          </p>
+        </div>
+      ) : isEmpty ? (
         <div className="mt-16 flex flex-col items-center text-center">
           <span className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-faint">
             <Search

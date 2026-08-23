@@ -105,6 +105,67 @@ export function startOfWeekMonday(date: Date): Date {
   return result;
 }
 
+export function startOfWeekSunday(date: Date): Date {
+  const result = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  result.setDate(result.getDate() - result.getDay());
+  return result;
+}
+
+export function addDays(date: Date, delta: number): Date {
+  const result = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  result.setDate(result.getDate() + delta);
+  return result;
+}
+
+export function buildWeekDays(anchor: Date): string[] {
+  const start = startOfWeekSunday(anchor);
+  const days: string[] = [];
+  for (let i = 0; i < 7; i++) {
+    const cursor = addDays(start, i);
+    days.push(toISODate(cursor));
+  }
+  return days;
+}
+
+export function weekLabel(weekDays: string[]): string {
+  if (weekDays.length === 0) return "";
+  const first = parseISODate(weekDays[0]);
+  const last = parseISODate(weekDays[weekDays.length - 1]);
+  if (
+    first.getFullYear() === last.getFullYear() &&
+    first.getMonth() === last.getMonth()
+  ) {
+    return `${months[first.getMonth()]} ${first.getDate()} – ${last.getDate()}, ${first.getFullYear()}`;
+  }
+  if (first.getFullYear() === last.getFullYear()) {
+    return `${months[first.getMonth()]} ${first.getDate()} – ${months[last.getMonth()]} ${last.getDate()}, ${first.getFullYear()}`;
+  }
+  return `${months[first.getMonth()]} ${first.getDate()}, ${first.getFullYear()} – ${months[last.getMonth()]} ${last.getDate()}, ${last.getFullYear()}`;
+}
+
+export function formatHour(hour: number): string {
+  if (hour === 0) return "12 AM";
+  if (hour < 12) return `${hour} AM`;
+  if (hour === 12) return "12 PM";
+  return `${hour - 12} PM`;
+}
+
+export function timezoneLabel(): string {
+  const offset = -new Date().getTimezoneOffset();
+  const sign = offset >= 0 ? "+" : "-";
+  const abs = Math.abs(offset);
+  const hours = String(Math.floor(abs / 60)).padStart(2, "0");
+  const minutes = abs % 60;
+  if (minutes === 0) return `GMT${sign}${String(Math.floor(abs / 60))}`;
+  return `GMT${sign}${hours}:${String(minutes).padStart(2, "0")}`;
+}
+
+export function minutesOf(value: string): number | null {
+  const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/.exec(value);
+  if (!match) return null;
+  return Number(match[2]) * 60 + Number(match[3]);
+}
+
 export function buildMonthDays(monthDate: Date): string[] {
   const cursor = startOfWeekMonday(startOfMonth(monthDate));
   const days: string[] = [];

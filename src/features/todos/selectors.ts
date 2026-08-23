@@ -139,3 +139,11 @@ export function countDueToday(tasks: Task[]): number {
       (isDueToday(task.dueAt) || isOverdue(task.dueAt)),
   ).length;
 }
+
+export function getTasksByLabel(tasks: Task[], labelId: string): Task[] {
+  return tasks.filter((task) => task.labelIds.includes(labelId));
+}
+
+export function countTasksByLabel(tasks: Task[], labelId: string): number {
+  return getTasksByLabel(tasks, labelId).length;
+}

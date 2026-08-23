@@ -2,6 +2,8 @@ import type {
   Category,
   CategoryColor,
   CategoryIcon,
+  Label,
+  LabelTone,
   Priority,
   Subtask,
   Task,
@@ -11,6 +13,8 @@ import type {
 export const GUEST_TASKS_KEY = "todo-app:guest-tasks";
 
 export const GUEST_CATEGORIES_KEY = "todo-app:guest-categories";
+
+export const GUEST_LABELS_KEY = "todo-app:guest-labels";
 
 export const GUEST_TASK_LIMIT = 10;
 
@@ -214,6 +218,49 @@ export function saveGuestCategories(
   if (!store) return;
   try {
     store.setItem(GUEST_CATEGORIES_KEY, JSON.stringify(categories));
+  } catch {
+    return;
+  }
+}
+
+const validLabelTones: LabelTone[] = ["pen", "marker", "gray"];
+
+function sanitizeLabel(value: unknown): Label | null {
+  if (typeof value !== "object" || value === null) return null;
+  const record = value as Record<string, unknown>;
+  if (!isString(record.id) || !isString(record.name)) return null;
+  const tone = validLabelTones.includes(record.tone as LabelTone)
+    ? (record.tone as LabelTone)
+    : "gray";
+  return { id: record.id, name: record.name.trim(), tone };
+}
+
+export function loadGuestLabels(
+  storage?: GuestTaskStorage | null,
+): Label[] | null {
+  const store = storage ?? browserStorage();
+  if (!store) return null;
+  try {
+    const raw = store.getItem(GUEST_LABELS_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    return parsed
+      .map(sanitizeLabel)
+      .filter((label): label is Label => label !== null);
+  } catch {
+    return null;
+  }
+}
+
+export function saveGuestLabels(
+  labels: Label[],
+  storage?: GuestTaskStorage | null,
+): void {
+  const store = storage ?? browserStorage();
+  if (!store) return;
+  try {
+    store.setItem(GUEST_LABELS_KEY, JSON.stringify(labels));
   } catch {
     return;
   }

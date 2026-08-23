@@ -15,9 +15,12 @@ import {
 } from "lucide-react";
 import type { ComponentType, ReactNode, SVGProps } from "react";
 import { Popover } from "@/components/app/popover";
+import {
+  AuthOverlay,
+  type AuthOverlayMode,
+} from "@/components/auth/auth-overlay";
 import { useTasks } from "@/features/todos/tasks-provider";
 import type { Task } from "@/features/todos/types";
-import { authLinks } from "@/lib/constants";
 
 type MenuItemProps = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
@@ -119,7 +122,15 @@ export function UserMenu() {
   const { isLoaded, isSignedIn, user } = useUser();
   const clerk = useClerk();
   const router = useRouter();
+  const { tasks, taskLimit } = useTasks();
   const [signingOut, setSigningOut] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthOverlayMode>("signIn");
+
+  function openAuth(mode: AuthOverlayMode) {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  }
 
   if (!isLoaded) {
     return (
@@ -137,11 +148,8 @@ export function UserMenu() {
 
   if (isSignedIn && user) {
     const displayName =
-      user.fullName?.trim() ||
-      user.primaryEmailAddress?.emailAddress?.split("@")[0] ||
-      "Your account";
-    const email = user.primaryEmailAddress?.emailAddress ?? null;
-    const initials = (user.fullName ?? email ?? "T")
+      user.primaryEmailAddress?.emailAddress?.split("@")[0] ?? "Your account";
+    const initials = displayName
       .split(/\s+/)
       .map((part) => part[0])
       .slice(0, 2)
@@ -186,8 +194,8 @@ export function UserMenu() {
       >
         {() => (
           <div className="p-3">
-            <div className="flex items-center gap-3">
-              <div className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-ink text-xs font-semibold text-paper">
+            <div className="flex flex-col items-center pt-1">
+              <div className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-ink text-sm font-semibold text-paper">
                 {user.hasImage && user.imageUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -199,14 +207,9 @@ export function UserMenu() {
                   <span aria-hidden="true">{initials}</span>
                 )}
               </div>
-              <div className="min-w-0">
-                <p className="truncate text-[13px] font-semibold text-ink">{displayName}</p>
-                {email ? (
-                  <p className="truncate font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
-                    {email}
-                  </p>
-                ) : null}
-              </div>
+              <p className="mt-2 max-w-full truncate text-[13px] font-semibold text-ink">
+                {displayName}
+              </p>
             </div>
             <div className="mt-3 flex flex-col gap-2 border-t border-line pt-3">
               <Link
@@ -234,50 +237,80 @@ export function UserMenu() {
   }
 
   return (
-    <Popover
-      align="right"
-      label="Account"
-      className="w-64"
-      trigger={({ open, toggle }) => (
-        <button
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded={open}
-          aria-label="Account menu"
-          onClick={toggle}
-          className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
-        >
-          <span aria-hidden="true" className="text-xs font-semibold">
-            G
-          </span>
-        </button>
-      )}
-    >
-      {() => (
-        <div className="p-3">
-          <p className="text-[13px] font-semibold text-ink">Guest workspace</p>
-          <p className="mt-0.5 font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
-            No account · 10 task limit
-          </p>
-          <div className="mt-3 flex flex-col gap-2">
-            <Link
-              href={authLinks.signIn}
-              className="inline-flex h-8 w-full items-center justify-center rounded-full border border-line bg-surface text-[13px] font-medium text-ink transition-colors hover:border-ink/15"
-            >
-              Sign in
-            </Link>
-            <Link
-              href={authLinks.signUp}
-              className="inline-flex h-8 w-full items-center justify-center rounded-full bg-ink text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
-            >
-              Create an account
-            </Link>
+    <>
+      <Popover
+        align="right"
+        label="Account"
+        className="w-64"
+        trigger={({ open, toggle }) => (
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            aria-label="Account menu"
+            onClick={toggle}
+            className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
+          >
+            <span aria-hidden="true" className="text-xs font-semibold">
+              G
+            </span>
+          </button>
+        )}
+      >
+        {(close) => {
+          const used = tasks.length;
+          const pct = Math.min(100, Math.round((used / taskLimit) * 100));
+          const nearLimit = used >= taskLimit - 2;
+
+          return (
+          <div className="p-3">
+            <div className="flex flex-col items-center pt-1">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-paper">
+                <span aria-hidden="true">G</span>
+              </div>
+              <p className="mt-2 text-[13px] font-semibold text-ink">Guest</p>
+              <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={taskLimit}
+                aria-valuenow={used}
+                aria-label={`${used} of ${taskLimit} guest tasks used`}
+                className="mt-2.5 w-full"
+              >
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-line">
+                  <div
+                    className={`h-full rounded-full transition-[width] duration-300 ${
+                      nearLimit ? "bg-warning" : "bg-ink"
+                    }`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <p className="mt-1.5 font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
+                  {used}/{taskLimit} tasks
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  close();
+                  openAuth("signIn");
+                }}
+                className="mt-3 inline-flex h-8 w-full items-center justify-center rounded-full bg-ink text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
+              >
+                Sign in
+              </button>
+            </div>
           </div>
-          <p className="mt-3 border-t border-line pt-2.5 font-mono text-[10px] leading-relaxed tabular-nums text-ink-faint">
-            Guest tasks carry over when you sign up.
-          </p>
-        </div>
-      )}
-    </Popover>
+        );
+        }}
+      </Popover>
+      {authOpen ? (
+        <AuthOverlay
+          mode={authMode}
+          onClose={() => setAuthOpen(false)}
+          onSwitch={setAuthMode}
+        />
+      ) : null}
+    </>
   );
 }

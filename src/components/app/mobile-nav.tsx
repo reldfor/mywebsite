@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  CalendarClock,
-  CalendarDays,
-  CheckCheck,
-  Inbox,
-  Sun,
-  Timeline,
-} from "lucide-react";
+import { CalendarClock, CheckCheck, Inbox, Sun } from "lucide-react";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { countDueToday, countOpenTasks } from "@/features/todos/selectors";
 import { useMemo } from "react";
@@ -17,8 +10,6 @@ import { useMemo } from "react";
 const tabs = [
   { href: "/app", label: "Inbox", icon: Inbox, exact: true },
   { href: "/app/today", label: "Today", icon: Sun },
-  { href: "/app/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/app/timeline", label: "Timeline", icon: Timeline },
   { href: "/app/upcoming", label: "Upcoming", icon: CalendarClock },
   { href: "/app/completed", label: "Completed", icon: CheckCheck },
 ];
@@ -46,7 +37,7 @@ export function MobileNav() {
       aria-label="Tasks"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-[8px] md:hidden"
     >
-      <div className="grid grid-cols-6">
+      <div className="grid grid-cols-4">
         {tabs.map((tab) => {
           const active =
             tab.exact === true ? pathname === tab.href : pathname.startsWith(tab.href);
