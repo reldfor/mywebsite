@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { MobileNav } from "@/components/app/mobile-nav";
 import { Sidebar } from "@/components/app/sidebar";
-import { TaskDetailPanel } from "@/components/app/task-detail-panel";
+import { TaskDetailPanel } from "@/components/app/task-detail/task-detail-panel";
 import { Toast } from "@/components/app/toast";
 import { TopBar } from "@/components/app/top-bar";
 import { TasksProvider } from "@/features/todos/tasks-provider";

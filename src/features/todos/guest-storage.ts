@@ -95,6 +95,16 @@ function browserStorage(): GuestTaskStorage | null {
   }
 }
 
+export function hasGuestTasksKey(storage?: GuestTaskStorage | null): boolean {
+  const store = storage ?? browserStorage();
+  if (!store) return false;
+  try {
+    return store.getItem(GUEST_TASKS_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 export function loadGuestTasks(
   storage?: GuestTaskStorage | null,
 ): Task[] {

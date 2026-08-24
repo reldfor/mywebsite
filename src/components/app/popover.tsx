@@ -31,6 +31,7 @@ export function Popover({
     }
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
+        event.stopPropagation();
         setOpen(false);
         rootRef.current
           ?.querySelector<HTMLButtonElement>("[aria-haspopup]")
@@ -38,10 +39,10 @@ export function Popover({
       }
     }
     document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
     return () => {
       document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown, true);
     };
   }, [open]);
 

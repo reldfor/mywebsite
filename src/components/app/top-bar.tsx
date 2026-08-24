@@ -24,13 +24,20 @@ export function TopBar({ sidebarOpen = true, onToggleSidebar }: TopBarProps) {
   useEffect(() => {
     if (!searchOpen) return;
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setSearchQuery("");
-        setSearchOpen(false);
+      if (event.key !== "Escape") return;
+      if (
+        document.querySelector(
+          '[role="menu"], [role="dialog"], [role="alertdialog"], [role="listbox"]',
+        )
+      ) {
+        return;
       }
+      event.stopPropagation();
+      setSearchQuery("");
+      setSearchOpen(false);
     }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
   }, [searchOpen, setSearchQuery, setSearchOpen]);
 
   function openSearch() {

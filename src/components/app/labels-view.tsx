@@ -53,6 +53,7 @@ function EditLabelDialog({
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
+        event.stopPropagation();
         if (toneOpen) {
           setToneOpen(false);
         } else {
@@ -60,8 +61,8 @@ function EditLabelDialog({
         }
       }
     }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
   }, [onCancel, toneOpen]);
 
   return (

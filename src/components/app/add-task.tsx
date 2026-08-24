@@ -114,10 +114,19 @@ export function AddTask({ date }: { date?: string | null }) {
   useEffect(() => {
     if (!expanded) return;
     function onKeyDown(event: globalThis.KeyboardEvent) {
-      if (event.key === "Escape") collapse();
+      if (event.key !== "Escape") return;
+      if (
+        document.querySelector(
+          '[role="menu"], [role="dialog"], [role="alertdialog"], [role="listbox"]',
+        )
+      ) {
+        return;
+      }
+      event.stopPropagation();
+      collapse();
     }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
   }, [expanded, collapse]);
 
   if (tasks.length >= taskLimit) {

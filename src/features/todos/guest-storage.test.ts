@@ -4,6 +4,7 @@ import {
   GUEST_LABELS_KEY,
   GUEST_TASKS_KEY,
   getGuestTasksServerSnapshot,
+  hasGuestTasksKey,
   loadGuestCategories,
   loadGuestLabels,
   loadGuestTasks,
@@ -135,6 +136,34 @@ describe("saveGuestTasks", () => {
     };
     expect(() => saveGuestTasks([makeTask()], throwing)).not.toThrow();
     expect(() => saveGuestTasks([makeTask()], null)).not.toThrow();
+  });
+});
+
+describe("hasGuestTasksKey", () => {
+  it("returns false when nothing is stored yet", () => {
+    expect(hasGuestTasksKey(createMockStorage())).toBe(false);
+  });
+
+  it("returns false when storage is unavailable", () => {
+    expect(hasGuestTasksKey(null)).toBe(false);
+  });
+
+  it("returns true when the key exists even with an empty list", () => {
+    expect(hasGuestTasksKey(createMockStorage([]))).toBe(true);
+  });
+
+  it("returns true when tasks are stored", () => {
+    expect(hasGuestTasksKey(createMockStorage([makeTask()]))).toBe(true);
+  });
+
+  it("returns false when storage access throws", () => {
+    const throwing: MockStorage = {
+      getItem: () => {
+        throw new Error("denied");
+      },
+      setItem: () => {},
+    };
+    expect(hasGuestTasksKey(throwing)).toBe(false);
   });
 });
 

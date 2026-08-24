@@ -240,29 +240,37 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     [tasks, showToast],
   );
 
-  const archiveTask = useCallback((id: string) => {
-    setGuestTasks((current) =>
-      current.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              status: "archived",
-              updatedAt: new Date().toISOString(),
-            }
-          : task,
-      ),
-    );
-    showToast("Task archived", () => {
+  const archiveTask = useCallback(
+    (id: string) => {
+      const previous = tasks.find((task) => task.id === id);
       setGuestTasks((current) =>
         current.map((task) =>
           task.id === id
-            ? { ...task, status: "todo", updatedAt: new Date().toISOString() }
+            ? {
+                ...task,
+                status: "archived",
+                updatedAt: new Date().toISOString(),
+              }
             : task,
         ),
       );
-    });
-    setSelectedTaskId((selected) => (selected === id ? null : selected));
-  }, [showToast]);
+      showToast("Task archived", () => {
+        setGuestTasks((current) =>
+          current.map((task) =>
+            task.id === id && previous
+              ? {
+                  ...task,
+                  status: previous.status,
+                  updatedAt: new Date().toISOString(),
+                }
+              : task,
+          ),
+        );
+      });
+      setSelectedTaskId((selected) => (selected === id ? null : selected));
+    },
+    [tasks, showToast],
+  );
 
   const restoreTask = useCallback((id: string) => {
     setGuestTasks((current) =>
@@ -271,6 +279,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
           ? {
               ...task,
               status: "todo",
+              completedAt: null,
               updatedAt: new Date().toISOString(),
             }
           : task,
