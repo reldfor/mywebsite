@@ -2,7 +2,19 @@ export type Priority = "none" | "low" | "medium" | "high" | "urgent";
 
 export type TaskStatus = "todo" | "in_progress" | "completed" | "archived";
 
-export type LabelTone = "pen" | "marker" | "gray";
+export type LabelTone =
+  | "gray"
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "teal"
+  | "cyan"
+  | "blue"
+  | "indigo"
+  | "purple"
+  | "pink"
+  | "brown";
 
 export type CategoryColor =
   | "blue"

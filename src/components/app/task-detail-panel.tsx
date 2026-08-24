@@ -9,7 +9,6 @@ import {
   MoreHorizontal,
   Plus,
   RotateCcw,
-  Tag,
   X,
 } from "lucide-react";
 import { TaskActionsMenu } from "@/components/app/menus";
@@ -20,10 +19,10 @@ import {
   categoryColors,
 } from "@/components/app/task-colors";
 import { useTasks } from "@/features/todos/tasks-provider";
+import { LABEL_COLORS, labelDotClasses } from "@/features/todos/label-colors";
 import type {
   Category,
   Label,
-  LabelTone,
   Priority,
   Subtask,
 } from "@/features/todos/types";
@@ -36,14 +35,6 @@ const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = 
   { value: "high", label: "High", dot: "bg-ink/70" },
   { value: "urgent", label: "Urgent", dot: "bg-ink" },
 ];
-
-const toneClasses: Record<LabelTone, string> = {
-  pen: "bg-ink text-paper border border-ink",
-  marker: "bg-ink text-paper border border-ink",
-  gray: "bg-ink text-paper border border-ink",
-};
-
-const labelTones: LabelTone[] = ["pen", "marker", "gray"];
 
 const chipBase =
   "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors";
@@ -132,7 +123,7 @@ export function TaskDetailPanel() {
     if (event.key !== "Enter") return;
     const name = newLabel.trim();
     if (!name) return;
-    const tone = labelTones[labels.length % labelTones.length];
+    const tone = LABEL_COLORS[labels.length % LABEL_COLORS.length];
     const id = addLabel(name, tone);
     assignLabel(taskId, id);
     setNewLabel("");
@@ -469,10 +460,15 @@ export function TaskDetailPanel() {
                           : assignLabel(task.id, label.id)
                       }
                       className={`${chipBase} border ${
-                        assigned ? toneClasses[label.tone] : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
+                        assigned
+                          ? "border-ink bg-ink text-paper"
+                          : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
                       }`}
                     >
-                      <Tag aria-hidden="true" className="h-3 w-3" />
+                      <span
+                        aria-hidden="true"
+                        className={`h-1.5 w-1.5 rounded-full ${labelDotClasses[label.tone]}`}
+                      />
                       {label.name}
                     </button>
                     <button

@@ -256,77 +256,6 @@ body::-webkit-scrollbar {
   animation: tick-in 0.6s ease both;
 }
 
-@keyframes mock-row-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes tick-draw {
-  from {
-    stroke-dashoffset: 26;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes swash-in {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mock-tick path {
-  stroke-dasharray: 26;
-  stroke-dashoffset: 0;
-}
-
-.mock-strike {
-  transform: scaleX(1);
-  transform-origin: left center;
-}
-
-.mock-toast {
-  opacity: 0;
-}
-
-.mock-active .mock-row {
-  animation: mock-row-in 0.4s ease-out both;
-  animation-delay: calc(var(--i) * 45ms);
-}
-
-.mock-active .mock-tick path {
-  animation: tick-draw 0.4s ease 0.55s both;
-}
-
-.mock-active .mock-strike {
-  animation: swash-in 0.3s ease 0.45s both;
-}
-
-.mock-active .mock-toast {
-  animation: toast-in 0.3s ease 0.9s both;
-}
-
 .task-strike {
   transform: scaleX(0);
   transform-origin: left center;
@@ -465,12 +394,5 @@ body::-webkit-scrollbar {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .mock-row,
-  .mock-tick path,
-  .mock-strike {
-    opacity: 1;
-    transform: none;
   }
 }

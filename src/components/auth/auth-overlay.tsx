@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { SignInForm } from "@/features/auth/sign-in-form";
 import { SignUpForm } from "@/features/auth/sign-up-form";
@@ -29,7 +30,9 @@ export function AuthOverlay({
     };
   }, [onClose]);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-[2px]"
       onClick={onClose}
@@ -62,33 +65,6 @@ export function AuthOverlay({
           </button>
         </div>
 
-        <div className="px-6 pt-4">
-          <div className="flex gap-1 rounded-full bg-surface-strong p-1">
-            <button
-              type="button"
-              onClick={() => onSwitch("signUp")}
-              className={`flex-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                mode === "signUp"
-                  ? "bg-surface text-ink shadow-sm border border-line"
-                  : "text-ink-soft hover:text-ink"
-              }`}
-            >
-              Create account
-            </button>
-            <button
-              type="button"
-              onClick={() => onSwitch("signIn")}
-              className={`flex-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                mode === "signIn"
-                  ? "bg-surface text-ink shadow-sm border border-line"
-                  : "text-ink-soft hover:text-ink"
-              }`}
-            >
-              Sign in
-            </button>
-          </div>
-        </div>
-
         <div className="p-6">
           {mode === "signUp" ? (
             <SignUpForm onSwitchToSignIn={() => onSwitch("signIn")} />
@@ -97,6 +73,7 @@ export function AuthOverlay({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -8,7 +8,7 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
-import { CalendarDays, Clock, ListChecks, Plus, Tag, X } from "lucide-react";
+import { CalendarDays, Clock, ListChecks, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   CategoryIconComponent,
@@ -18,7 +18,8 @@ import { ConfirmDialog } from "@/components/app/confirm-dialog";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { authLinks } from "@/lib/constants";
 import { formatDueShort } from "@/lib/date";
-import type { Category, Label, LabelTone, Priority } from "@/features/todos/types";
+import type { Category, Label, Priority } from "@/features/todos/types";
+import { LABEL_COLORS, labelDotClasses } from "@/features/todos/label-colors";
 
 const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = [
   { value: "none", label: "None", dot: "bg-ink/15" },
@@ -28,7 +29,7 @@ const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = 
   { value: "urgent", label: "Urgent", dot: "bg-ink" },
 ];
 
-const labelTones: LabelTone[] = ["pen", "marker", "gray"];
+const labelTones = LABEL_COLORS;
 
 const chipBase =
   "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors";
@@ -37,12 +38,6 @@ const chipIdle =
 const chipActive = "border border-ink bg-ink text-paper";
 const iconChip =
   "grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none";
-
-const labelActiveClasses: Record<LabelTone, string> = {
-  pen: chipActive,
-  marker: chipActive,
-  gray: chipActive,
-};
 
 function SectionLabel({ children }: { children: string }) {
   return (
@@ -418,11 +413,12 @@ export function AddTask({ date }: { date?: string | null }) {
                   type="button"
                   aria-pressed={active}
                   onClick={() => toggleLabel(label.id)}
-                  className={`${chipBase} ${
-                    active ? labelActiveClasses[label.tone] : chipIdle
-                  }`}
+                  className={`${chipBase} ${active ? chipActive : chipIdle}`}
                 >
-                  <Tag aria-hidden="true" className="h-3 w-3" />
+                  <span
+                    aria-hidden="true"
+                    className={`h-1.5 w-1.5 rounded-full ${labelDotClasses[label.tone]}`}
+                  />
                   {label.name}
                 </button>
                 <button

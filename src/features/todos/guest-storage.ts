@@ -9,6 +9,7 @@ import type {
   Task,
   TaskStatus,
 } from "./types";
+import { LABEL_COLORS, legacyLabelToneMap } from "./label-colors";
 
 export const GUEST_TASKS_KEY = "todo-app:guest-tasks";
 
@@ -223,15 +224,21 @@ export function saveGuestCategories(
   }
 }
 
-const validLabelTones: LabelTone[] = ["pen", "marker", "gray"];
+const validLabelTones = LABEL_COLORS;
 
 function sanitizeLabel(value: unknown): Label | null {
   if (typeof value !== "object" || value === null) return null;
   const record = value as Record<string, unknown>;
   if (!isString(record.id) || !isString(record.name)) return null;
-  const tone = validLabelTones.includes(record.tone as LabelTone)
-    ? (record.tone as LabelTone)
-    : "gray";
+  let tone: LabelTone = "gray";
+  if (
+    typeof record.tone === "string" &&
+    validLabelTones.includes(record.tone as LabelTone)
+  ) {
+    tone = record.tone as LabelTone;
+  } else if (typeof record.tone === "string" && record.tone in legacyLabelToneMap) {
+    tone = legacyLabelToneMap[record.tone];
+  }
   return { id: record.id, name: record.name.trim(), tone };
 }
 

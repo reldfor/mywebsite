@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   GUEST_CATEGORIES_KEY,
+  GUEST_LABELS_KEY,
   GUEST_TASKS_KEY,
   getGuestTasksServerSnapshot,
   loadGuestCategories,
+  loadGuestLabels,
   loadGuestTasks,
   saveGuestCategories,
   saveGuestTasks,
@@ -211,5 +213,35 @@ describe("saveGuestCategories", () => {
     };
     expect(() => saveGuestCategories([], throwing)).not.toThrow();
     expect(() => saveGuestCategories([], null)).not.toThrow();
+  });
+});
+
+describe("loadGuestLabels", () => {
+  it("keeps valid color tones as stored", () => {
+    const labels = [
+      { id: "a", name: "Work", tone: "red" },
+      { id: "b", name: "Home", tone: "blue" },
+    ];
+    expect(loadGuestLabels(createMockStorage(labels, GUEST_LABELS_KEY))).toEqual(
+      labels,
+    );
+  });
+
+  it("migrates legacy pen and marker tones to colors", () => {
+    const labels = [
+      { id: "a", name: "Work", tone: "pen" },
+      { id: "b", name: "Home", tone: "marker" },
+    ];
+    expect(loadGuestLabels(createMockStorage(labels, GUEST_LABELS_KEY))).toEqual([
+      { id: "a", name: "Work", tone: "blue" },
+      { id: "b", name: "Home", tone: "yellow" },
+    ]);
+  });
+
+  it("defaults unknown tones to gray", () => {
+    const labels = [{ id: "a", name: "Weird", tone: "chartreuse" }];
+    expect(loadGuestLabels(createMockStorage(labels, GUEST_LABELS_KEY))).toEqual([
+      { id: "a", name: "Weird", tone: "gray" },
+    ]);
   });
 });

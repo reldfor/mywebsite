@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { ProductMock } from "@/components/landing/product-mock";
 import { Button } from "@/components/ui/button";
 import { authLinks, container } from "@/lib/constants";
 
@@ -7,10 +6,8 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pb-14 pt-10 sm:pt-14 lg:pb-20 lg:pt-20">
       <div aria-hidden="true" className="ruled pointer-events-none absolute inset-0" />
-      <div
-        className={`${container} relative grid items-center gap-10 lg:grid-cols-12 lg:gap-10`}
-      >
-        <div className="lg:col-span-6">
+      <div className={`${container} relative`}>
+        <div>
           <p
             className="animate-tick-in inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] text-ink-soft shadow-[var(--shadow-interactive)] dark:shadow-none"
             style={{ animationDelay: "50ms" }}
@@ -50,10 +47,6 @@ export function Hero() {
           >
             Guest tasks carry over when you sign up — nothing is lost.
           </p>
-        </div>
-
-        <div className="lg:col-span-6 lg:pl-4">
-          <ProductMock />
         </div>
       </div>
     </section>

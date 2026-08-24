@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@clerk/react";
 import { Logo } from "@/components/landing/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { authLinks, container, navLinks } from "@/lib/constants";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     if (!open) return;
@@ -49,10 +51,16 @@ export function Header() {
         <div className="flex items-center gap-1.5">
           <ThemeToggle />
           <div className="hidden items-center gap-1.5 md:flex">
-            <Button href={authLinks.signIn} variant="secondary">
-              Sign in
-            </Button>
-            <Button href={authLinks.signUp}>Get started</Button>
+            {isSignedIn ? (
+              <Button href={authLinks.guestWorkspace}>Open Tick</Button>
+            ) : (
+              <>
+                <Button href={authLinks.signIn} variant="secondary">
+                  Sign in
+                </Button>
+                <Button href={authLinks.signUp}>Get started</Button>
+              </>
+            )}
           </div>
           <button
             type="button"
@@ -87,17 +95,29 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-3 flex flex-col gap-2 border-t border-line pt-4">
-              <Button
-                href={authLinks.signIn}
-                variant="secondary"
-                className="w-full"
-                size="lg"
-              >
-                Sign in
-              </Button>
-              <Button href={authLinks.signUp} className="w-full" size="lg">
-                Get started
-              </Button>
+              {isSignedIn ? (
+                <Button
+                  href={authLinks.guestWorkspace}
+                  className="w-full"
+                  size="lg"
+                >
+                  Open Tick
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    href={authLinks.signIn}
+                    variant="secondary"
+                    className="w-full"
+                    size="lg"
+                  >
+                    Sign in
+                  </Button>
+                  <Button href={authLinks.signUp} className="w-full" size="lg">
+                    Get started
+                  </Button>
+                </>
+              )}
             </div>
           </nav>
         </div>

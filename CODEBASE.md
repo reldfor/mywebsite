@@ -44,7 +44,7 @@ Read this file first. It maps the entire project so you do not need to glob/grep
 
 ### Components (src/components)
 - `ui/button.tsx` — Button (variants: primary/secondary/ghost/destructive, sizes).
-- `landing/` — header, hero, value-strip, features, how-it-works, guest-account (pricing), final-cta, footer, product-mock (UI mockup), reveal (scroll animation), section-heading, logo.
+- `landing/` — header, hero, value-strip, features, how-it-works, guest-account (pricing), final-cta, footer, reveal (scroll animation), section-heading, logo.
 - `app/` — top-bar, sidebar, task-list, task-row, task-detail-panel (side panel editor), add-task (expanded composer / quick capture), filters (FilterControl/SortControl), view-switch, calendar-view, timeline-view, settings-view, mobile-nav, mobile-add-button, menus (TaskActionsMenu/RowMenu/UserMenu), popover, toast, task-colors (category color/icon maps).
 - `auth/` — auth-shell, auth-field, auth-actions (SubmitButton, GoogleButton — real Clerk Google OAuth via popup flow, OrDivider).
 - `theme-toggle.tsx`.
