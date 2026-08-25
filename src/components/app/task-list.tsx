@@ -118,13 +118,13 @@ export function TaskList({ view }: { view: View }) {
 
   return (
     <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex items-end justify-between gap-4 border-b border-lp-rule pb-4">
         <div className="min-w-0">
-          <h1 className="text-[22px] font-semibold tracking-[-0.02em]">
+          <h1 className="text-[20px] font-medium tracking-[-0.015em] text-lp-ink">
             {searching ? "Search" : viewMeta[view].title}
           </h1>
           {view === "today" && !searching ? null : (
-            <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-ink-soft">
+            <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-lp-ink-3">
               {meta}
             </p>
           )}
@@ -137,16 +137,16 @@ export function TaskList({ view }: { view: View }) {
 
       {isEmpty && view === "today" && !searching && !filtersActive ? (
         <div className="mt-16 flex flex-col items-center text-center">
-          <h2 className="text-[14px] font-semibold tracking-[-0.01em]">
+          <h2 className="text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
             0 tasks remaining.
           </h2>
-          <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
+          <p className="mt-1 text-[13px] leading-relaxed text-lp-ink-2">
             You&apos;re all caught up.
           </p>
         </div>
       ) : isEmpty ? (
         <div className="mt-16 flex flex-col items-center text-center">
-          <span className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-faint">
+          <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
             <Search
               aria-hidden="true"
               className={`h-4 w-4 ${searching ? "" : "hidden"}`}
@@ -156,10 +156,10 @@ export function TaskList({ view }: { view: View }) {
               className={`h-4 w-4 ${searching ? "hidden" : ""}`}
             />
           </span>
-          <h2 className="mt-3 text-[14px] font-semibold tracking-[-0.01em]">
+          <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
             {searching ? "No matches" : filtersActive ? "Nothing matches" : empty.title}
           </h2>
-          <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-ink-soft">
+          <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
             {searching
               ? `Nothing matches “${searchQuery.trim()}”. Try different words.`
               : filtersActive
@@ -170,7 +170,7 @@ export function TaskList({ view }: { view: View }) {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="mt-5 inline-flex h-9 items-center rounded-full bg-ink px-4 text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
+              className="mt-5 inline-flex h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
             >
               Clear search
             </button>
@@ -180,7 +180,7 @@ export function TaskList({ view }: { view: View }) {
               onClick={() =>
                 setFilters({ statuses: [], priorities: [], due: "all", labelIds: [] })
               }
-              className="mt-5 text-[13px] font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink/40"
+              className="mt-5 text-[13px] font-medium text-lp-ink underline decoration-lp-rule underline-offset-4 hover:decoration-lp-ink/40"
             >
               Clear all filters
             </button>
@@ -197,12 +197,13 @@ export function TaskList({ view }: { view: View }) {
               <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-6" : ""}>
                 {group.label ? (
                   <p
-                    className="px-2 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint"
+                    className={`flex items-center gap-2 px-2 font-mono text-[9px] font-medium uppercase tracking-[0.08em] ${group.label === "Overdue" ? "text-lp-accent" : "text-lp-ink-3"}`}
                   >
                     {group.label}
+                    <span className="h-px flex-1 bg-lp-rule" />
                   </p>
                 ) : null}
-                <ul className={`divide-y divide-line/60 ${group.label ? "mt-1" : ""}`}>
+                <ul className={`${group.label ? "mt-1" : ""}`}>
                   {group.tasks.map((task) => (
                     <TaskRow key={task.id} task={task} />
                   ))}

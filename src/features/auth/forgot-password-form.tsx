@@ -218,9 +218,9 @@ export function ForgotPasswordForm() {
   if (stage === "code") {
     return (
       <form onSubmit={verifyCode} noValidate>
-        <p className="text-sm leading-relaxed text-ink-soft">
+        <p className="text-[13px] leading-relaxed text-lp-ink-2">
           We sent a password reset code to{" "}
-          <span className="font-semibold text-ink">{email.trim()}</span>. Enter it
+          <span className="font-semibold text-lp-ink">{email.trim()}</span>. Enter it
           below to choose a new password.
         </p>
 
@@ -243,7 +243,7 @@ export function ForgotPasswordForm() {
         </div>
 
         {clerkError ? (
-          <p aria-live="polite" className="mt-4 text-sm text-ink">
+          <p aria-live="polite" className="mt-4 text-sm text-lp-accent">
             {clerkError}
           </p>
         ) : null}
@@ -256,7 +256,7 @@ export function ForgotPasswordForm() {
 
         <div className="mt-4 text-center">
           {resent ? (
-            <p aria-live="polite" className="text-sm text-ink-soft">
+            <p aria-live="polite" className="text-sm text-lp-ink-2">
               A new code is on its way.
             </p>
           ) : (
@@ -264,7 +264,7 @@ export function ForgotPasswordForm() {
               type="button"
               onClick={resendCode}
               disabled={resending}
-              className="rounded-md text-sm font-medium text-ink transition-colors hover:underline disabled:opacity-60"
+              className="rounded-md text-sm font-medium text-lp-ink transition-colors hover:underline disabled:opacity-60"
             >
               {resending ? "Sending…" : "Didn't receive it? Send a new code"}
             </button>
@@ -277,7 +277,7 @@ export function ForgotPasswordForm() {
   if (stage === "new-password") {
     return (
       <form onSubmit={submitNewPassword} noValidate>
-        <p className="text-sm leading-relaxed text-ink-soft">
+        <p className="text-[13px] leading-relaxed text-lp-ink-2">
           Almost there — choose a new password for your account.
         </p>
 
@@ -319,7 +319,7 @@ export function ForgotPasswordForm() {
         </div>
 
         {clerkError ? (
-          <p aria-live="polite" className="mt-4 text-sm text-ink">
+          <p aria-live="polite" className="mt-4 text-sm text-lp-accent">
             {clerkError}
           </p>
         ) : null}
@@ -335,7 +335,7 @@ export function ForgotPasswordForm() {
 
   return (
     <form onSubmit={sendResetCode} noValidate>
-      <p className="text-sm leading-relaxed text-ink-soft">
+      <p className="text-[13px] leading-relaxed text-lp-ink-2">
         Enter the email address on your account and we&apos;ll send you a code
         to reset your password.
       </p>
@@ -360,7 +360,7 @@ export function ForgotPasswordForm() {
       </div>
 
       {clerkError ? (
-        <p aria-live="polite" className="mt-4 text-sm text-ink">
+        <p aria-live="polite" className="mt-4 text-sm text-lp-accent">
           {clerkError}
         </p>
       ) : null}
@@ -371,10 +371,10 @@ export function ForgotPasswordForm() {
         </SubmitButton>
       </div>
 
-      <p className="mt-6 text-center text-sm text-ink-soft">
+      <p className="mt-6 text-center text-sm text-lp-ink-2">
         <Link
           href={authLinks.signIn}
-          className="font-semibold text-ink transition-colors hover:underline"
+          className="font-semibold text-lp-ink transition-colors hover:underline"
         >
           Back to sign in
         </Link>

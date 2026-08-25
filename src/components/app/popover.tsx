@@ -6,6 +6,7 @@ type PopoverProps = {
   trigger: (props: { open: boolean; toggle: () => void }) => ReactNode;
   children: (close: () => void) => ReactNode;
   align?: "left" | "right";
+  side?: "top" | "bottom";
   label?: string;
   role?: "dialog" | "menu";
   className?: string;
@@ -15,6 +16,7 @@ export function Popover({
   trigger,
   children,
   align = "right",
+  side = "bottom",
   label,
   role = "dialog",
   className = "",
@@ -57,9 +59,9 @@ export function Popover({
         <div
           role={role}
           aria-label={label}
-          className={`absolute top-full z-40 mt-2 origin-top rounded-xl border border-line bg-surface shadow-[var(--shadow-pop)] animate-pop-in ${
-            align === "right" ? "right-0" : "left-0"
-          } ${className}`}
+          className={`absolute z-40 rounded-xl border border-lp-rule bg-lp-paper-2 shadow-[var(--lp-shadow-card)] animate-pop-in ${
+            side === "top" ? "bottom-full mb-2 origin-bottom" : "top-full mt-2 origin-top"
+          } ${align === "right" ? "right-0" : "left-0"} ${className}`}
         >
           {children(() => setOpen(false))}
         </div>

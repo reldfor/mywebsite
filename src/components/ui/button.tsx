@@ -10,11 +10,11 @@ type ButtonProps = {
 };
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary: "bg-ink text-paper hover:bg-ink/90",
+  primary: "bg-lp-ink text-lp-paper hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]",
   secondary:
-    "bg-surface text-ink border border-line shadow-[var(--shadow-interactive)] hover:border-ink/20 hover:bg-paper dark:shadow-none",
-  marker: "bg-ink text-paper hover:bg-ink/90",
-  "on-ink": "bg-paper text-ink hover:bg-white",
+    "bg-lp-paper-2 text-lp-ink border border-lp-rule shadow-[var(--lp-shadow-interactive)] hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:bg-lp-paper",
+  marker: "bg-lp-ink text-lp-paper hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]",
+  "on-ink": "bg-lp-paper text-lp-ink hover:bg-white",
 };
 
 const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {

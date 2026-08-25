@@ -1,25 +1,39 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/react";
 import { Logo } from "@/components/landing/logo";
 import { authLinks, container, navLinks } from "@/lib/constants";
 
 export function Header() {
   const { isSignedIn } = useAuth();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="tl-nav sticky top-0 z-50 border-b border-lp-rule">
+    <header className="tl-nav sticky top-0 z-50">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-lp-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-lp-paper"
       >
         Skip to content
       </a>
-      <div className={`${container} flex items-center justify-between gap-4 py-[13px]`}>
+      <div
+        className={`${container} relative flex items-center justify-between gap-4 transition-all duration-300 ease-out ${scrolled ? "py-[8px] !max-w-[980px]" : "py-[13px]"}`}
+      >
         <Logo />
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+        <nav
+          aria-label="Primary"
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 md:flex"
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}

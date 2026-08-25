@@ -7,11 +7,11 @@ import type { Priority, Task } from "@/features/todos/types";
 import { chipBase, chipGhost, chipSet } from "./shared";
 
 const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = [
-  { value: "none", label: "None", dot: "bg-ink/15" },
-  { value: "low", label: "Low", dot: "bg-ink/25" },
-  { value: "medium", label: "Medium", dot: "bg-ink/45" },
-  { value: "high", label: "High", dot: "bg-ink/70" },
-  { value: "urgent", label: "Urgent", dot: "bg-ink" },
+  { value: "none", label: "None", dot: "bg-lp-ink-4" },
+  { value: "low", label: "Low", dot: "bg-lp-ink-4" },
+  { value: "medium", label: "Medium", dot: "bg-[var(--lp-priority-med)]" },
+  { value: "high", label: "High", dot: "bg-lp-accent" },
+  { value: "urgent", label: "Urgent", dot: "bg-lp-accent" },
 ];
 
 export function PriorityField({ task }: { task: Task }) {
@@ -57,8 +57,8 @@ export function PriorityField({ task }: { task: Task }) {
               }}
               className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
                 task.priority === option.value
-                  ? "text-ink"
-                  : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+                  ? "text-lp-ink"
+                  : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               }`}
             >
               <span
@@ -69,7 +69,7 @@ export function PriorityField({ task }: { task: Task }) {
               {task.priority === option.value ? (
                 <Check
                   aria-hidden="true"
-                  className="ml-auto h-3.5 w-3.5"
+                  className="ml-auto h-3.5 w-3.5 text-lp-accent"
                   strokeWidth={2.5}
                 />
               ) : null}

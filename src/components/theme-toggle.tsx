@@ -12,7 +12,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggleTheme}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       title={dark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none ${className}`}
+      className={`grid h-9 w-9 place-items-center rounded-full border border-lp-rule bg-lp-paper-2 text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper ${className}`}
     >
       {dark ? (
         <Sun aria-hidden="true" className="h-4 w-4 animate-pop-in" />

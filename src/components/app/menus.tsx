@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/react";
 import {
   Archive,
+  ChevronDown,
   Copy,
   LogOut,
   MoreHorizontal,
@@ -41,8 +42,8 @@ function MenuItem({ icon: Icon, label, danger, onClick, onClose }: MenuItemProps
       }}
       className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
         danger
-          ? "text-ink hover:bg-ink/[0.06]"
-          : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+          ? "text-lp-accent hover:bg-lp-accent-soft"
+          : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
       }`}
     >
       <Icon aria-hidden="true" className="h-4 w-4" />
@@ -109,7 +110,7 @@ export function RowMenu({ task }: { task: Task }) {
             event.stopPropagation();
             toggle();
           }}
-          className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink focus-visible:bg-ink/[0.04] md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+          className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:bg-[var(--lp-hover-wash)] md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
         >
           <MoreHorizontal aria-hidden="true" className="h-4 w-4" />
         </button>
@@ -137,7 +138,7 @@ export function UserMenu() {
       <button
         type="button"
         aria-label="Account menu"
-        className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper"
+        className="grid h-8 w-8 place-items-center rounded-full bg-lp-ink text-lp-paper"
       >
         <span aria-hidden="true" className="text-[13px] font-semibold">
           G
@@ -175,7 +176,7 @@ export function UserMenu() {
             aria-expanded={open}
             aria-label="Account menu"
             onClick={toggle}
-            className="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
+            className="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-lp-ink text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
           >
             {user.hasImage && user.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -195,7 +196,7 @@ export function UserMenu() {
         {() => (
           <div className="p-3">
             <div className="flex flex-col items-center pt-1">
-              <div className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-ink text-sm font-semibold text-paper">
+              <div className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-lp-ink text-sm font-semibold text-lp-paper">
                 {user.hasImage && user.imageUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -207,14 +208,14 @@ export function UserMenu() {
                   <span aria-hidden="true">{initials}</span>
                 )}
               </div>
-              <p className="mt-2 max-w-full truncate text-[13px] font-semibold text-ink">
+              <p className="mt-2 max-w-full truncate text-[13px] font-semibold text-lp-ink">
                 {displayName}
               </p>
             </div>
-            <div className="mt-3 flex flex-col gap-2 border-t border-line pt-3">
+            <div className="mt-3 flex flex-col gap-2 border-t border-lp-rule pt-3">
               <Link
                 href="/app/settings"
-                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-soft transition-colors hover:bg-ink/[0.04] hover:text-ink"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-lp-ink-2 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               >
                 <Settings aria-hidden="true" className="h-4 w-4" />
                 Settings
@@ -224,7 +225,7 @@ export function UserMenu() {
                 role="menuitem"
                 onClick={handleSignOut}
                 disabled={signingOut}
-                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-ink/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-lp-ink transition-colors hover:bg-[var(--lp-hover-wash)] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <LogOut aria-hidden="true" className="h-4 w-4" />
                 {signingOut ? "Signing out…" : "Sign out"}
@@ -249,7 +250,7 @@ export function UserMenu() {
             aria-expanded={open}
             aria-label="Account menu"
             onClick={toggle}
-            className="grid h-8 w-8 place-items-center rounded-full bg-ink text-paper transition-colors hover:bg-ink/90"
+            className="grid h-8 w-8 place-items-center rounded-full bg-lp-ink text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
           >
             <span aria-hidden="true" className="text-xs font-semibold">
               G
@@ -265,10 +266,10 @@ export function UserMenu() {
           return (
           <div className="p-3">
             <div className="flex flex-col items-center pt-1">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-paper">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-lp-ink text-sm font-semibold text-lp-paper">
                 <span aria-hidden="true">G</span>
               </div>
-              <p className="mt-2 text-[13px] font-semibold text-ink">Guest</p>
+              <p className="mt-2 text-[13px] font-semibold text-lp-ink">Guest</p>
               <div
                 role="progressbar"
                 aria-valuemin={0}
@@ -277,15 +278,15 @@ export function UserMenu() {
                 aria-label={`${used} of ${taskLimit} guest tasks used`}
                 className="mt-2.5 w-full"
               >
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-line">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-lp-paper-4">
                   <div
                     className={`h-full rounded-full transition-[width] duration-300 ${
-                      nearLimit ? "bg-warning" : "bg-ink"
+                      nearLimit ? "bg-lp-accent" : "bg-lp-ink"
                     }`}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                <p className="mt-1.5 font-mono text-[10px] tabular-nums tracking-wide text-ink-faint">
+                <p className="mt-1.5 font-mono text-[10px] tabular-nums tracking-wide text-lp-ink-3">
                   {used}/{taskLimit} tasks
                 </p>
               </div>
@@ -295,7 +296,7 @@ export function UserMenu() {
                   close();
                   openAuth("signIn");
                 }}
-                className="mt-3 inline-flex h-8 w-full items-center justify-center rounded-full bg-ink text-[13px] font-medium text-paper transition-colors hover:bg-ink/90"
+                className="mt-3 inline-flex h-8 w-full items-center justify-center rounded-full bg-lp-ink text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
               >
                 Sign in
               </button>
@@ -310,6 +311,193 @@ export function UserMenu() {
           onClose={() => setAuthOpen(false)}
           onSwitch={setAuthMode}
         />
+      ) : null}
+    </>
+  );
+}
+
+export function SidebarAccountMenu() {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const clerk = useClerk();
+  const router = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthOverlayMode>("signIn");
+
+  function openAuth(mode: AuthOverlayMode) {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  }
+
+  if (!isLoaded) {
+    return (
+      <div className="flex h-9 items-center gap-2.5 rounded-lg px-2.5 opacity-60">
+        <span className="grid h-7 w-7 place-items-center rounded-full bg-lp-ink text-[11px] font-semibold text-lp-paper">
+          —
+        </span>
+        <span className="text-[13px] font-medium text-lp-ink-2">Loading…</span>
+      </div>
+    );
+  }
+
+  if (isSignedIn && user) {
+    const displayName =
+      user.primaryEmailAddress?.emailAddress?.split("@")[0] ?? "Your account";
+    const email = user.primaryEmailAddress?.emailAddress ?? "";
+    const initials = displayName
+      .split(/\s+/)
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+
+    async function handleSignOut() {
+      if (signingOut) return;
+      setSigningOut(true);
+      await clerk.signOut();
+      router.push("/");
+    }
+
+    return (
+      <>
+        <Popover
+          align="left"
+          side="top"
+          label="Account"
+          className="w-64"
+          trigger={({ open, toggle }) => (
+            <button
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={open}
+              aria-label="Account menu"
+              onClick={toggle}
+              className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-[var(--lp-hover-wash)]"
+            >
+              <span className="grid h-7 w-7 shrink-0 place-items-center overflow-hidden rounded-full bg-lp-ink text-[11px] font-semibold text-lp-paper">
+                {user.hasImage && user.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={user.imageUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <span aria-hidden="true">{initials}</span>
+                )}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[13px] font-medium leading-none text-lp-ink">
+                  {displayName}
+                </span>
+                {email ? (
+                  <span className="block truncate text-[11px] leading-none text-lp-ink-3">
+                    {email}
+                  </span>
+                ) : null}
+              </span>
+              <ChevronDown
+                aria-hidden="true"
+                className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "rotate-180" : ""}`}
+              />
+            </button>
+          )}
+        >
+          {() => (
+            <div className="p-3">
+              <div className="flex flex-col items-center pt-1">
+                <div className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-lp-ink text-sm font-semibold text-lp-paper">
+                  {user.hasImage && user.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={user.imageUrl} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <span aria-hidden="true">{initials}</span>
+                  )}
+                </div>
+                <p className="mt-2 max-w-full truncate text-[13px] font-semibold text-lp-ink">
+                  {displayName}
+                </p>
+                {email ? (
+                  <p className="max-w-full truncate text-[11px] text-lp-ink-3">{email}</p>
+                ) : null}
+              </div>
+              <div className="mt-3 flex flex-col gap-2 border-t border-lp-rule pt-3">
+                <Link
+                  href="/app/settings"
+                  className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-lp-ink-2 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+                >
+                  <Settings aria-hidden="true" className="h-4 w-4" />
+                  Settings
+                </Link>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={handleSignOut}
+                  disabled={signingOut}
+                  className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-lp-ink transition-colors hover:bg-[var(--lp-hover-wash)] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <LogOut aria-hidden="true" className="h-4 w-4" />
+                  {signingOut ? "Signing out…" : "Sign out"}
+                </button>
+              </div>
+            </div>
+          )}
+        </Popover>
+        {authOpen ? (
+          <AuthOverlay mode={authMode} onClose={() => setAuthOpen(false)} onSwitch={setAuthMode} />
+        ) : null}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Popover
+        align="left"
+        side="top"
+        label="Account"
+        className="w-64"
+        trigger={({ open, toggle }) => (
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            aria-label="Account menu"
+            onClick={toggle}
+            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-[var(--lp-hover-wash)]"
+          >
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lp-ink text-[11px] font-semibold text-lp-paper">
+              G
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[13px] font-medium leading-none text-lp-ink">Guest</span>
+            </span>
+            <ChevronDown
+              aria-hidden="true"
+              className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          </button>
+        )}
+      >
+        {(close) => (
+          <div className="p-3">
+            <div className="flex flex-col items-center pt-1">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-lp-ink text-sm font-semibold text-lp-paper">
+                <span aria-hidden="true">G</span>
+              </div>
+              <p className="mt-2 text-[13px] font-semibold text-lp-ink">Guest</p>
+              <button
+                type="button"
+                onClick={() => {
+                  close();
+                  openAuth("signIn");
+                }}
+                className="mt-3 inline-flex h-8 w-full items-center justify-center rounded-full bg-lp-ink text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
+              >
+                Sign in
+              </button>
+            </div>
+          </div>
+        )}
+      </Popover>
+      {authOpen ? (
+        <AuthOverlay mode={authMode} onClose={() => setAuthOpen(false)} onSwitch={setAuthMode} />
       ) : null}
     </>
   );

@@ -8,11 +8,11 @@ import type { Priority, SortKey } from "@/features/todos/types";
 import { activeFilterCount } from "@/features/todos/selectors";
 
 const priorityDots: Record<Priority, string> = {
-  none: "bg-ink/15",
-  low: "bg-ink/25",
-  medium: "bg-ink/45",
-  high: "bg-ink/70",
-  urgent: "bg-ink",
+  none: "bg-lp-ink-4",
+  low: "bg-lp-ink-4",
+  medium: "bg-[var(--lp-priority-med)]",
+  high: "bg-lp-accent",
+  urgent: "bg-lp-accent",
 };
 
 const dueOptions = [
@@ -24,7 +24,7 @@ const dueOptions = [
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="px-1 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+    <p className="px-1 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-lp-ink-3">
       {children}
     </p>
   );
@@ -46,8 +46,8 @@ function Chip({
       onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
         active
-          ? "border-ink bg-ink text-paper"
-          : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
+          ? "border-lp-ink bg-lp-ink text-lp-paper"
+          : "border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
       }`}
     >
       {children}
@@ -97,16 +97,16 @@ export function FilterControl() {
           aria-haspopup="dialog"
           aria-expanded={open}
           onClick={toggle}
-          className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-colors ${
+          className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium tracking-[-0.01em] transition-colors ${
             activeCount > 0
-              ? "border-ink bg-ink text-paper"
-              : "border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none"
+              ? "border-lp-ink bg-lp-ink text-lp-paper"
+              : "border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
           }`}
         >
           <Filter aria-hidden="true" className="h-3.5 w-3.5" />
           Filter
           {activeCount > 0 ? (
-            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-paper px-1 font-mono text-[10px] font-medium tabular-nums text-ink">
+            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-lp-paper px-1 font-mono text-[10px] font-medium tabular-nums text-lp-ink">
               {activeCount}
             </span>
           ) : null}
@@ -203,7 +203,7 @@ export function FilterControl() {
               onClick={() =>
                 setFilters({ statuses: [], priorities: [], due: "all", labelIds: [] })
               }
-              className="self-start text-xs font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink/40"
+              className="self-start text-xs font-medium text-lp-ink underline decoration-lp-rule underline-offset-4 hover:decoration-lp-ink/40"
             >
               Clear all filters
             </button>
@@ -237,7 +237,7 @@ export function SortControl() {
           aria-haspopup="menu"
           aria-expanded={open}
           onClick={toggle}
-          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-[13px] font-medium text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none"
+          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
         >
           <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
           Sort
@@ -257,13 +257,13 @@ export function SortControl() {
               }}
               className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
                 sort === option.value
-                  ? "bg-ink text-paper"
-                  : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+                  ? "bg-lp-paper-3 text-lp-ink"
+                  : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               }`}
             >
               {option.label}
               {sort === option.value ? (
-                <Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
+                <Check aria-hidden="true" className="h-3.5 w-3.5 text-lp-accent" strokeWidth={2.5} />
               ) : null}
             </button>
           ))}

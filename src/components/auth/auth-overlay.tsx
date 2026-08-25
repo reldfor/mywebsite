@@ -37,7 +37,7 @@ export function AuthOverlay({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-lp-ink/20 p-4 backdrop-blur-[2px]"
       onClick={onClose}
     >
       <div
@@ -45,14 +45,14 @@ export function AuthOverlay({
         aria-modal="true"
         aria-label={mode === "signUp" ? "Create your account" : "Sign in"}
         onClick={(event) => event.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-[420px] overflow-auto rounded-xl border border-line bg-surface shadow-[var(--shadow-pop)] animate-pop-in"
+        className="max-h-[90vh] w-full max-w-[420px] overflow-auto rounded-xl border border-lp-rule bg-lp-paper-2 shadow-[var(--lp-shadow-card)] animate-pop-in"
       >
-        <div className="sticky top-0 flex items-start justify-between gap-4 border-b border-line bg-surface px-6 pt-6 pb-4">
+        <div className="sticky top-0 flex items-start justify-between gap-4 border-b border-lp-rule bg-lp-paper-2 px-6 pt-6 pb-4">
           <div>
-            <h2 className="text-[18px] font-semibold tracking-[-0.02em] text-ink">
+            <h2 className="text-[18px] font-medium tracking-[-0.02em] text-lp-ink">
               {mode === "signUp" ? "Create your account" : "Welcome back"}
             </h2>
-            <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
+            <p className="mt-1 text-[13px] leading-relaxed text-lp-ink-2">
               {mode === "signUp"
                 ? "Free forever. Unlimited tasks on every device."
                 : "Your tasks are waiting — pick up where you left off."}
@@ -62,7 +62,7 @@ export function AuthOverlay({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-paper text-ink-soft transition-colors hover:border-ink/15 hover:text-ink"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-lp-rule bg-lp-paper text-lp-ink-3 transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink"
           >
             <X aria-hidden="true" className="h-4 w-4" />
           </button>

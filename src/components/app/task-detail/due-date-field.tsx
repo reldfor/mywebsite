@@ -60,7 +60,7 @@ export function DueDateField({ task }: { task: Task }) {
             value={dueAt ? dueAt.slice(0, 10) : ""}
             onChange={(event) => setDate(event.target.value || null)}
             aria-label="Due date"
-            className="h-8 w-full rounded-md border border-line bg-paper px-2 font-mono text-xs tabular-nums text-ink outline-none focus:border-ink/20"
+            className="h-8 w-full rounded-md border border-lp-rule bg-lp-paper px-2 font-mono text-xs tabular-nums text-lp-ink outline-none focus:border-lp-accent"
           />
           <div className="flex items-center gap-2">
             <input
@@ -69,14 +69,14 @@ export function DueDateField({ task }: { task: Task }) {
               onChange={(event) => setTime(event.target.value)}
               disabled={!dueAt}
               aria-label="Due time"
-              className="h-8 min-w-0 flex-1 rounded-md border border-line bg-paper px-2 font-mono text-xs tabular-nums text-ink outline-none focus:border-ink/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-8 min-w-0 flex-1 rounded-md border border-lp-rule bg-lp-paper px-2 font-mono text-xs tabular-nums text-lp-ink outline-none focus:border-lp-accent disabled:cursor-not-allowed disabled:opacity-50"
             />
             {dueAt ? (
               <button
                 type="button"
                 onClick={clear}
                 aria-label="Clear due date"
-                className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               >
                 <X aria-hidden="true" className="h-3.5 w-3.5" />
               </button>

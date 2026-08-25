@@ -35,7 +35,12 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Tasks"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-[8px] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-lp-rule pb-[env(safe-area-inset-bottom)] md:hidden"
+      style={{
+        background: "var(--lp-nav-bg)",
+        backdropFilter: "saturate(140%) blur(10px)",
+        WebkitBackdropFilter: "saturate(140%) blur(10px)",
+      }}
     >
       <div className="grid grid-cols-4">
         {tabs.map((tab) => {
@@ -50,7 +55,7 @@ export function MobileNav() {
               onClick={navigate}
               aria-current={active ? "page" : undefined}
               className={`relative flex h-[56px] flex-col items-center justify-center gap-1 transition-colors ${
-                active ? "text-ink" : "text-ink-faint hover:text-ink"
+                active ? "text-lp-ink font-medium" : "text-lp-ink-3 hover:text-lp-ink"
               }`}
             >
               <span className="relative">
@@ -58,7 +63,7 @@ export function MobileNav() {
                 {count > 0 ? (
                   <span
                     aria-hidden="true"
-                    className="absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-ink px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none text-paper"
+                    className="absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-lp-ink px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none text-lp-paper"
                   >
                     {count}
                   </span>

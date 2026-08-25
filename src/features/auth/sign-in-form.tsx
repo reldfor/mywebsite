@@ -200,9 +200,9 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
   if (stage === "verify") {
     return (
       <form onSubmit={handleVerify} noValidate>
-        <p className="text-sm leading-relaxed text-ink-soft">
+        <p className="text-[13px] leading-relaxed text-lp-ink-2">
           We sent a verification code to{" "}
-          <span className="font-semibold text-ink">{email.trim()}</span>. Enter it
+          <span className="font-semibold text-lp-ink">{email.trim()}</span>. Enter it
           below to finish signing in.
         </p>
 
@@ -225,7 +225,7 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
         </div>
 
         {clerkError ? (
-          <p aria-live="polite" className="mt-4 text-sm text-ink">
+          <p aria-live="polite" className="mt-4 text-sm text-lp-accent">
             {clerkError}
           </p>
         ) : null}
@@ -238,7 +238,7 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
 
         <div className="mt-4 text-center">
           {resent ? (
-            <p aria-live="polite" className="text-sm text-ink-soft">
+            <p aria-live="polite" className="text-sm text-lp-ink-2">
               A new code is on its way.
             </p>
           ) : (
@@ -246,7 +246,7 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
               type="button"
               onClick={resendCode}
               disabled={resending}
-              className="rounded-md text-sm font-medium text-ink transition-colors hover:underline disabled:opacity-60"
+              className="rounded-md text-sm font-medium text-lp-ink transition-colors hover:underline disabled:opacity-60"
             >
               {resending ? "Sending…" : "Didn't receive it? Send a new code"}
             </button>
@@ -296,14 +296,14 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
       <div className="mt-3 flex justify-end">
         <Link
           href="/forgot-password"
-          className="rounded-md text-sm font-medium text-ink transition-colors hover:underline"
+          className="rounded-md text-sm font-medium text-lp-ink transition-colors hover:underline"
         >
           Forgot password?
         </Link>
       </div>
 
       {clerkError ? (
-        <p aria-live="polite" className="mt-4 text-sm text-ink">
+        <p aria-live="polite" className="mt-4 text-sm text-lp-accent">
           {clerkError}
         </p>
       ) : null}
@@ -322,20 +322,20 @@ export function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void
         <GoogleButton />
       </div>
 
-      <p className="mt-6 text-center text-sm text-ink-soft">
+      <p className="mt-6 text-center text-sm text-lp-ink-2">
         Don&apos;t have an account?{" "}
         {onSwitchToSignUp ? (
           <button
             type="button"
             onClick={onSwitchToSignUp}
-            className="font-semibold text-ink transition-colors hover:underline"
+            className="font-semibold text-lp-ink transition-colors hover:underline"
           >
             Sign up
           </button>
         ) : (
           <Link
             href={authLinks.signUp}
-            className="font-semibold text-ink transition-colors hover:underline"
+            className="font-semibold text-lp-ink transition-colors hover:underline"
           >
             Sign up
           </Link>

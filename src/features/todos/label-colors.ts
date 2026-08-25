@@ -16,33 +16,33 @@ export const LABEL_COLORS: LabelTone[] = [
 ];
 
 export const labelDotClasses: Record<LabelTone, string> = {
-  gray: "bg-gray-400 dark:bg-gray-500",
-  red: "bg-red-500",
-  orange: "bg-orange-500",
-  yellow: "bg-yellow-400",
-  green: "bg-green-500",
+  gray: "bg-lp-ink-4",
+  red: "bg-lp-accent",
+  orange: "bg-[var(--lp-priority-med)]",
+  yellow: "bg-yellow-500",
+  green: "bg-[var(--lp-label-errand)]",
   teal: "bg-teal-500",
   cyan: "bg-cyan-500",
-  blue: "bg-blue-500",
+  blue: "bg-[var(--lp-label-personal)]",
   indigo: "bg-indigo-500",
-  purple: "bg-purple-500",
+  purple: "bg-[var(--lp-label-side)]",
   pink: "bg-pink-500",
   brown: "bg-amber-700",
 };
 
 export const labelTextClasses: Record<LabelTone, string> = {
-  gray: "text-gray-400 dark:text-gray-500",
-  red: "text-red-500",
-  orange: "text-orange-500",
-  yellow: "text-yellow-500 dark:text-yellow-400",
-  green: "text-green-500",
+  gray: "text-lp-ink-4",
+  red: "text-lp-accent",
+  orange: "text-[var(--lp-priority-med)]",
+  yellow: "text-yellow-500",
+  green: "text-[var(--lp-label-errand)]",
   teal: "text-teal-500",
   cyan: "text-cyan-500",
-  blue: "text-blue-500",
+  blue: "text-[var(--lp-label-personal)]",
   indigo: "text-indigo-500",
-  purple: "text-purple-500",
+  purple: "text-[var(--lp-label-side)]",
   pink: "text-pink-500",
-  brown: "text-amber-700 dark:text-amber-600",
+  brown: "text-amber-700",
 };
 
 export const legacyLabelToneMap: Record<string, LabelTone> = {

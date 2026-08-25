@@ -22,11 +22,11 @@ import type { Category, Label, Priority } from "@/features/todos/types";
 import { LABEL_COLORS, labelDotClasses } from "@/features/todos/label-colors";
 
 const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = [
-  { value: "none", label: "None", dot: "bg-ink/15" },
-  { value: "low", label: "Low", dot: "bg-ink/25" },
-  { value: "medium", label: "Medium", dot: "bg-ink/45" },
-  { value: "high", label: "High", dot: "bg-ink/70" },
-  { value: "urgent", label: "Urgent", dot: "bg-ink" },
+  { value: "none", label: "None", dot: "bg-lp-ink-4" },
+  { value: "low", label: "Low", dot: "bg-lp-ink-4" },
+  { value: "medium", label: "Medium", dot: "bg-[var(--lp-priority-med)]" },
+  { value: "high", label: "High", dot: "bg-lp-accent" },
+  { value: "urgent", label: "Urgent", dot: "bg-lp-accent" },
 ];
 
 const labelTones = LABEL_COLORS;
@@ -34,14 +34,14 @@ const labelTones = LABEL_COLORS;
 const chipBase =
   "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors";
 const chipIdle =
-  "border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] hover:border-ink/15 hover:text-ink dark:shadow-none";
-const chipActive = "border border-ink bg-ink text-paper";
+  "border border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper";
+const chipActive = "border border-lp-ink bg-lp-ink text-lp-paper";
 const iconChip =
-  "grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-[var(--shadow-interactive)] transition-colors hover:border-ink/15 hover:text-ink dark:shadow-none";
+  "grid h-7 w-7 shrink-0 place-items-center rounded-full border border-lp-rule bg-[var(--lp-glass)] text-lp-ink-3 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper";
 
 function SectionLabel({ children }: { children: string }) {
   return (
-    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+    <p className="font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-lp-ink-3">
       {children}
     </p>
   );
@@ -131,8 +131,8 @@ export function AddTask({ date }: { date?: string | null }) {
 
   if (tasks.length >= taskLimit) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-xl border border-line bg-surface px-5 py-6 text-center shadow-[var(--shadow-card)] dark:shadow-none">
-        <p className="text-[13px] font-medium text-ink">
+      <div className="flex flex-col items-center gap-3 rounded-xl border border-lp-rule bg-lp-paper-2 px-5 py-6 text-center shadow-[var(--lp-shadow-card)]">
+        <p className="text-[13px] font-medium text-lp-ink">
           You&apos;ve reached the {taskLimit}-task guest limit.
         </p>
         <Button href={authLinks.signUp}>Create an account</Button>
@@ -226,7 +226,7 @@ export function AddTask({ date }: { date?: string | null }) {
           setDueDate(date ?? "");
           setExpanded(true);
         }}
-        className="inline-flex items-center justify-center gap-1 rounded-lg border border-ink bg-ink px-3 py-1.5 text-[12px] font-medium text-paper transition-colors hover:bg-ink/90"
+        className="inline-flex items-center justify-center gap-1 rounded-full border border-lp-ink bg-lp-ink px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
       >
         <Plus aria-hidden="true" className="h-3 w-3" strokeWidth={2.5} />
         Create a task
@@ -238,14 +238,12 @@ export function AddTask({ date }: { date?: string | null }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow-card)] animate-slide-down sm:p-5"
+      className="rounded-xl border border-lp-rule bg-lp-paper-2 p-4 shadow-[var(--lp-shadow-card)] animate-slide-down sm:p-5"
     >
       <div className="flex items-center gap-2.5">
-        <Plus
-          aria-hidden="true"
-          className="h-4 w-4 shrink-0 text-ink-faint"
-          strokeWidth={2.5}
-        />
+        <span aria-hidden="true" className="text-[17px] font-medium leading-none text-lp-accent">
+          +
+        </span>
         <input
           ref={(node) => {
             titleRef.current = node;
@@ -257,13 +255,13 @@ export function AddTask({ date }: { date?: string | null }) {
           placeholder="What needs to be done?"
           aria-label="Task title"
           maxLength={200}
-          className="h-9 min-w-0 flex-1 bg-transparent text-[15px] font-semibold tracking-[-0.01em] text-ink outline-none placeholder:text-ink-faint"
+          className="h-9 min-w-0 flex-1 bg-transparent text-[15px] font-medium tracking-[-0.01em] text-lp-ink outline-none placeholder:text-lp-ink-4"
         />
         <button
           type="button"
           onClick={collapse}
           aria-label="Close task composer"
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
         >
           <X aria-hidden="true" className="h-4 w-4" />
         </button>
@@ -352,7 +350,7 @@ export function AddTask({ date }: { date?: string | null }) {
                   type="button"
                   onClick={() => setCategoryToDelete(category)}
                   aria-label={`Delete category ${category.name}`}
-                  className="grid h-5 w-5 shrink-0 place-items-center rounded-full text-ink-faint opacity-0 transition-all hover:bg-ink/[0.06] hover:text-ink focus-visible:opacity-100 group-hover:opacity-100"
+                  className="grid h-5 w-5 shrink-0 place-items-center rounded-full text-lp-ink-3 opacity-0 transition-all hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:opacity-100 group-hover:opacity-100"
                 >
                   <X aria-hidden="true" className="h-3 w-3" />
                 </button>
@@ -369,7 +367,7 @@ export function AddTask({ date }: { date?: string | null }) {
               placeholder="Category name, Enter to save"
               aria-label="New category name"
               autoFocus
-              className="h-7 w-36 rounded-full border border-ink bg-ink px-2.5 text-xs text-paper outline-none placeholder:text-paper/60"
+              className="h-7 w-36 rounded-full border border-lp-ink bg-lp-ink px-2.5 text-xs text-lp-paper outline-none placeholder:text-lp-paper/60"
             />
           ) : (
             <button
@@ -434,7 +432,7 @@ export function AddTask({ date }: { date?: string | null }) {
                   type="button"
                   onClick={() => setLabelToDelete(label)}
                   aria-label={`Delete label ${label.name}`}
-                  className="grid h-5 w-5 shrink-0 place-items-center rounded-full text-ink-faint opacity-0 transition-all hover:bg-ink/[0.06] hover:text-ink focus-visible:opacity-100 group-hover:opacity-100"
+                  className="grid h-5 w-5 shrink-0 place-items-center rounded-full text-lp-ink-3 opacity-0 transition-all hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:opacity-100 group-hover:opacity-100"
                 >
                   <X aria-hidden="true" className="h-3 w-3" />
                 </button>
@@ -451,7 +449,7 @@ export function AddTask({ date }: { date?: string | null }) {
               placeholder="Label name, Enter to save"
               aria-label="New label name"
               autoFocus
-              className="h-7 w-36 rounded-full border border-ink bg-ink px-2.5 text-xs text-paper outline-none placeholder:text-paper/60"
+              className="h-7 w-36 rounded-full border border-lp-ink bg-lp-ink px-2.5 text-xs text-lp-paper outline-none placeholder:text-lp-paper/60"
             />
           ) : (
             <button
@@ -477,9 +475,9 @@ export function AddTask({ date }: { date?: string | null }) {
             >
               <span
                 aria-hidden="true"
-                className="h-4 w-4 shrink-0 rounded-full border border-line"
+                className="h-4 w-4 shrink-0 rounded-full border border-lp-rule"
               />
-              <span className="min-w-0 flex-1 truncate text-[13px] text-ink">
+              <span className="min-w-0 flex-1 truncate text-[13px] text-lp-ink">
                 {subtask}
               </span>
               <button
@@ -490,7 +488,7 @@ export function AddTask({ date }: { date?: string | null }) {
                   )
                 }
                 aria-label={`Remove subtask ${subtask}`}
-                className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-ink-faint opacity-0 transition-all hover:bg-ink/[0.04] hover:text-ink focus-visible:opacity-100 group-hover:opacity-100"
+                className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-lp-ink-3 opacity-0 transition-all hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:opacity-100 group-hover:opacity-100"
               >
                 <X aria-hidden="true" className="h-3 w-3" />
               </button>
@@ -499,7 +497,7 @@ export function AddTask({ date }: { date?: string | null }) {
           <div className="flex items-center gap-2 py-1">
             <ListChecks
               aria-hidden="true"
-              className="h-3.5 w-3.5 shrink-0 text-ink-faint"
+              className="h-3.5 w-3.5 shrink-0 text-lp-ink-3"
             />
             <input
               type="text"
@@ -509,7 +507,7 @@ export function AddTask({ date }: { date?: string | null }) {
               placeholder="Add a subtask"
               aria-label="Add a subtask"
               maxLength={500}
-              className="h-8 min-w-0 flex-1 bg-transparent px-0.5 text-[13px] text-ink outline-none placeholder:text-ink-faint"
+              className="h-8 min-w-0 flex-1 bg-transparent px-0.5 text-[13px] text-lp-ink outline-none placeholder:text-lp-ink-4"
             />
           </div>
         </div>
@@ -524,7 +522,7 @@ export function AddTask({ date }: { date?: string | null }) {
           onChange={(event) => setDescription(event.target.value)}
           placeholder="Add a note…"
           aria-label="Task description"
-          className="mt-2 w-full resize-none rounded-lg border border-line bg-paper px-3 py-2.5 text-[13px] leading-relaxed text-ink outline-none placeholder:text-ink-faint focus:border-ink/20"
+          className="mt-2 w-full resize-none rounded-lg border border-lp-rule bg-lp-paper px-3 py-2.5 text-[13px] leading-relaxed text-lp-ink outline-none placeholder:text-lp-ink-4 focus:border-lp-accent"
         />
       </div>
 
@@ -532,14 +530,14 @@ export function AddTask({ date }: { date?: string | null }) {
         <button
           type="button"
           onClick={collapse}
-          className="h-9 shrink-0 rounded-full px-3 text-[13px] font-medium text-ink-soft transition-colors hover:bg-ink/[0.04] hover:text-ink"
+          className="h-9 shrink-0 rounded-full px-3 text-[13px] font-medium text-lp-ink-2 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={!title.trim()}
-          className="h-9 min-w-0 flex-1 rounded-full bg-ink text-[13px] font-medium text-paper transition-colors hover:bg-ink/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="h-9 min-w-0 flex-1 rounded-full bg-lp-ink text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))] disabled:cursor-not-allowed disabled:opacity-40"
         >
           Add Task
         </button>

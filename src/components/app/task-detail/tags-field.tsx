@@ -124,7 +124,7 @@ export function TagsField({ task }: { task: Task }) {
       >
         {(close) => (
           <div className="w-64 p-2">
-            <p className="px-2 pb-1 pt-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+            <p className="px-2 pb-1 pt-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-lp-ink-3">
               Category
             </p>
             {categories.map((category) => {
@@ -145,13 +145,13 @@ export function TagsField({ task }: { task: Task }) {
                     }
                     className={`flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium transition-colors ${
                       active
-                        ? "text-ink"
-                        : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+                        ? "text-lp-ink"
+                        : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
                     }`}
                   >
                     <CategoryIconComponent
                       icon={category.icon}
-                      className="h-3.5 w-3.5 shrink-0 text-ink-faint"
+                      className="h-3.5 w-3.5 shrink-0 text-lp-ink-3"
                     />
                     <span className="min-w-0 flex-1 truncate text-left">
                       {category.name}
@@ -159,7 +159,7 @@ export function TagsField({ task }: { task: Task }) {
                     {active ? (
                       <Check
                         aria-hidden="true"
-                        className="h-3.5 w-3.5 shrink-0"
+                        className="h-3.5 w-3.5 shrink-0 text-lp-accent"
                         strokeWidth={2.5}
                       />
                     ) : null}
@@ -171,7 +171,7 @@ export function TagsField({ task }: { task: Task }) {
                       setCategoryToDelete(category);
                     }}
                     aria-label={`Delete category ${category.name}`}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-faint opacity-0 transition-all hover:bg-ink/[0.06] hover:text-ink focus-visible:opacity-100 group-hover:opacity-100"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-lp-ink-3 opacity-0 transition-all hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:opacity-100 group-hover:opacity-100"
                   >
                     <X aria-hidden="true" className="h-3 w-3" />
                   </button>
@@ -189,21 +189,21 @@ export function TagsField({ task }: { task: Task }) {
                   placeholder="New category, Enter to save"
                   aria-label="New category name"
                   autoFocus
-                  className="h-8 w-full rounded-md border border-ink bg-paper px-2.5 text-[13px] text-ink outline-none placeholder:text-ink-faint"
+                  className="h-8 w-full rounded-md border border-lp-accent bg-lp-paper px-2.5 text-[13px] text-lp-ink outline-none placeholder:text-lp-ink-4"
                 />
               </div>
             ) : (
               <button
                 type="button"
                 onClick={() => setNewCategory(" ")}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               >
                 <Plus aria-hidden="true" className="h-3.5 w-3.5" />
                 New category
               </button>
             )}
-            <div aria-hidden="true" className="mx-2 my-1.5 h-px bg-line" />
-            <p className="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+            <div aria-hidden="true" className="mx-2 my-1.5 h-px bg-lp-rule" />
+            <p className="px-2 pb-1 pt-0.5 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-lp-ink-3">
               Labels
             </p>
             {labels.map((label) => {
@@ -224,8 +224,8 @@ export function TagsField({ task }: { task: Task }) {
                     }
                     className={`flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium transition-colors ${
                       active
-                        ? "text-ink"
-                        : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+                        ? "text-lp-ink"
+                        : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
                     }`}
                   >
                     <span
@@ -238,7 +238,7 @@ export function TagsField({ task }: { task: Task }) {
                     {active ? (
                       <Check
                         aria-hidden="true"
-                        className="h-3.5 w-3.5 shrink-0"
+                        className="h-3.5 w-3.5 shrink-0 text-lp-accent"
                         strokeWidth={2.5}
                       />
                     ) : null}
@@ -250,7 +250,7 @@ export function TagsField({ task }: { task: Task }) {
                       setLabelToDelete(label);
                     }}
                     aria-label={`Delete label ${label.name}`}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-faint opacity-0 transition-all hover:bg-ink/[0.06] hover:text-ink focus-visible:opacity-100 group-hover:opacity-100"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-lp-ink-3 opacity-0 transition-all hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink focus-visible:opacity-100 group-hover:opacity-100"
                   >
                     <X aria-hidden="true" className="h-3 w-3" />
                   </button>
@@ -268,14 +268,14 @@ export function TagsField({ task }: { task: Task }) {
                   placeholder="New label, Enter to save"
                   aria-label="New label name"
                   autoFocus
-                  className="h-8 w-full rounded-md border border-ink bg-paper px-2.5 text-[13px] text-ink outline-none placeholder:text-ink-faint"
+                  className="h-8 w-full rounded-md border border-lp-accent bg-lp-paper px-2.5 text-[13px] text-lp-ink outline-none placeholder:text-lp-ink-4"
                 />
               </div>
             ) : (
               <button
                 type="button"
                 onClick={() => setNewLabel(" ")}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium text-ink-faint transition-colors hover:bg-ink/[0.04] hover:text-ink"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
               >
                 <Plus aria-hidden="true" className="h-3.5 w-3.5" />
                 New label

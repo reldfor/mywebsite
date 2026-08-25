@@ -19,7 +19,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <TasksProvider>
-        <div className="flex h-dvh overflow-hidden bg-paper">
+        <div className="flex h-dvh overflow-hidden bg-lp-paper">
           <Sidebar open={sidebarOpen} onCollapse={toggleSidebar} />
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
             <TopBar sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
