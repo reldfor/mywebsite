@@ -51,7 +51,7 @@ export function Faq() {
     <section id="faq" className="scroll-mt-16 border-t border-lp-rule py-20 md:py-24">
       <div className={container}>
         <div className="mx-auto max-w-[720px]">
-          <p className="mb-3.5 font-mono text-xs text-lp-accent">04 / FAQ</p>
+          <p className="mb-3.5 font-mono text-[11px] font-medium tracking-[0.08em] text-lp-accent">04 / FAQ</p>
           <h2 className="text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
             Questions we get a lot.
           </h2>

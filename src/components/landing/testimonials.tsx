@@ -28,12 +28,12 @@ export function Testimonials() {
   return (
     <section className="border-t border-lp-rule py-20 md:py-24">
       <div className={container}>
-        <p className="mb-3.5 font-mono text-xs text-lp-accent">02 / What people say</p>
+        <p className="mb-3.5 font-mono text-[11px] font-medium tracking-[0.08em] text-lp-accent">02 / What people say</p>
         <div className="grid gap-5 md:grid-cols-3">
           {QUOTES.map((item) => (
             <figure
               key={item.handle}
-              className="flex h-full flex-col rounded-md border border-lp-rule bg-lp-paper-2 p-6"
+              className="flex h-full flex-col rounded-xl border border-lp-rule bg-lp-paper-2 p-6"
             >
               <blockquote className="border-l-2 border-lp-accent pl-4 text-[15px] leading-relaxed text-lp-ink-2">
                 {item.quote}

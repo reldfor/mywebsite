@@ -14,15 +14,6 @@ export function FinalCta() {
             Open the app <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <p className="mt-6 flex flex-wrap items-center justify-center gap-2 font-mono text-xs text-lp-ink-3">
-          Free
-          <span className="text-lp-ink-4">·</span>
-          No account needed
-          <span className="text-lp-ink-4">·</span>
-          10 tasks
-          <span className="text-lp-ink-4">·</span>
-          Pro is free at launch
-        </p>
       </div>
     </section>
   );

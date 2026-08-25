@@ -116,7 +116,7 @@ export function Features() {
     <section id="features" className="scroll-mt-16 border-t border-lp-rule">
       <div className={container}>
         <div className="pt-12 md:pt-16 pb-12 md:pb-16">
-          <p className="mb-3.5 font-mono text-xs text-lp-accent">01 / Features</p>
+          <p className="mb-3.5 font-mono text-[11px] font-medium tracking-[0.08em] text-lp-accent">01 / Features</p>
           <h2 className="max-w-[720px] text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
             Everything you need.
           </h2>
@@ -171,7 +171,7 @@ export function Features() {
               {SHORTCUTS.map((shortcut) => (
                 <div
                   key={shortcut.keys}
-                  className="flex items-center justify-between rounded-md border border-lp-rule bg-lp-paper px-3 py-2.5"
+                  className="flex items-center justify-between rounded-lg border border-lp-rule bg-lp-paper px-3 py-2"
                 >
                   <kbd>{shortcut.keys}</kbd>
                   <span className="text-[13px] text-lp-ink-2">{shortcut.action}</span>

@@ -48,7 +48,7 @@ export function Pricing() {
     setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
-  const cardBase = "flex flex-col overflow-hidden rounded-lg bg-lp-paper-2";
+  const cardBase = "flex flex-col overflow-hidden rounded-xl bg-lp-paper-2";
   const guestCard = `${cardBase} border border-lp-rule`;
   const proCard = `${cardBase} border border-lp-accent`;
 
@@ -71,11 +71,11 @@ export function Pricing() {
         className="pointer-events-none absolute inset-0 transition-opacity duration-300 ease-out"
         style={{
           opacity: isInside ? 1 : 0,
-          background: `radial-gradient(355px circle at var(--mouse-x) var(--mouse-y), rgba(194,65,12,0.14), rgba(194,65,12,0.06) 32%, transparent 68%)`,
+          background: `radial-gradient(355px circle at var(--mouse-x) var(--mouse-y), color-mix(in srgb, var(--lp-accent) 14%, transparent), color-mix(in srgb, var(--lp-accent) 6%, transparent) 32%, transparent 68%)`,
         }}
       />
       <div className={`${container} relative z-10`}>
-        <p className="mb-3.5 font-mono text-xs text-lp-accent">03 / Pricing</p>
+        <p className="mb-3.5 font-mono text-[11px] font-medium tracking-[0.08em] text-lp-accent">03 / Pricing</p>
         <h2 className="max-w-[720px] text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
           Simple. Honest. Free to start.
         </h2>
@@ -104,8 +104,8 @@ export function Pricing() {
           </div>
 
           <div className={proCard}>
-            <div className="relative rounded-t-lg border-b border-lp-rule bg-lp-accent-soft px-6 pt-5 pb-5">
-              <span className="absolute top-4 right-4 rounded-[3px] bg-lp-accent px-[6px] py-[2px] font-mono text-[9px] tracking-[0.06em] uppercase text-lp-paper">
+            <div className="relative rounded-t-xl border-b border-lp-rule bg-lp-accent-soft px-6 pt-5 pb-5">
+              <span className="absolute top-4 right-4 rounded-full bg-lp-accent px-[6px] py-[2px] font-mono text-[9px] tracking-[0.06em] uppercase text-lp-paper">
                 Early access
               </span>
               <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-lp-accent-2">
@@ -126,10 +126,6 @@ export function Pricing() {
             </ul>
           </div>
         </div>
-
-        <p className="mt-6 text-center font-mono text-xs text-lp-ink-3">
-          Pro is free while we&apos;re in early access — early users keep it free.
-        </p>
 
         <div className="mt-10 text-center">
           <Link href={authLinks.guestWorkspace} className="btn-primary btn-lg">

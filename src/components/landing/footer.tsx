@@ -44,7 +44,7 @@ export function Footer() {
           </div>
           {columns.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
-              <p className="font-mono text-[10px] font-medium tracking-[0.06em] uppercase text-lp-ink-3">
+              <p className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase text-lp-ink-3">
                 {column.heading}
               </p>
               <ul className="mt-3 flex flex-col gap-2">
@@ -63,18 +63,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-lp-rule pt-6 font-mono text-[11px] text-lp-ink-3">
-          <span>© 2025 Tick · Made with care · Your data stays yours</span>
-          <span className="inline-flex items-center gap-1.5">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true" className="stroke-lp-accent">
-              <path
-                d="M4 12.5 L9.5 17.5 L20 6.5"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            end of page
-          </span>
+          <span>© 2025 Tick · Made with care</span>
         </div>
       </div>
     </footer>

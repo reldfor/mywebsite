@@ -332,9 +332,6 @@ export function AppMockup() {
           </div>
         </div>
       </div>
-      <p className="mt-3.5 text-center font-mono text-[11px] leading-relaxed text-lp-ink-3">
-        ↑ click any checkbox — it&apos;s a live demo, not a screenshot
-      </p>
     </div>
   );
 }

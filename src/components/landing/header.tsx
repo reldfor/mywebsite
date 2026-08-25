@@ -12,7 +12,7 @@ export function Header() {
     <header className="tl-nav sticky top-0 z-50 border-b border-lp-rule">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[4px] focus:bg-lp-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-lp-paper"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-lp-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-lp-paper"
       >
         Skip to content
       </a>
@@ -24,7 +24,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-lp-ink-2 transition-colors duration-150 hover:text-lp-ink"
+              className="text-[13px] font-medium text-lp-ink-2 transition-colors duration-150 hover:text-lp-ink"
             >
               {link.label}
             </Link>
