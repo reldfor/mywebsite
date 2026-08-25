@@ -394,7 +394,7 @@ export function SidebarAccountMenu() {
               </span>
               <ChevronDown
                 aria-hidden="true"
-                className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "rotate-180" : ""}`}
+                className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "" : "rotate-180"}`}
               />
             </button>
           )}
@@ -470,7 +470,7 @@ export function SidebarAccountMenu() {
             </span>
             <ChevronDown
               aria-hidden="true"
-              className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "rotate-180" : ""}`}
+              className={`h-3.5 w-3.5 shrink-0 text-lp-ink-3 transition-transform ${open ? "" : "rotate-180"}`}
             />
           </button>
         )}

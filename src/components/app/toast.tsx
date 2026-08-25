@@ -13,7 +13,7 @@ export function Toast() {
       aria-live="polite"
       className="fixed inset-x-0 bottom-20 z-50 flex justify-center px-4 md:bottom-6"
     >
-      <div className="flex items-center gap-3 rounded-full border border-lp-rule bg-lp-ink px-4 py-2.5 shadow-[var(--shadow-fab)]">
+      <div className="flex items-center gap-3 rounded-full border border-lp-rule bg-lp-ink px-4 py-2.5 shadow-[var(--lp-shadow-card)]">
         <p className="text-[13px] font-medium tracking-[-0.01em] text-lp-paper">{toast.message}</p>
         {toast.undo ? (
           <button

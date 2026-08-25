@@ -226,7 +226,7 @@ export function AddTask({ date }: { date?: string | null }) {
           setDueDate(date ?? "");
           setExpanded(true);
         }}
-        className="inline-flex items-center justify-center gap-1 rounded-full border border-lp-ink bg-lp-ink px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
+        className="inline-flex h-9 items-center justify-center gap-1 rounded-full border border-lp-ink bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
       >
         <Plus aria-hidden="true" className="h-3 w-3" strokeWidth={2.5} />
         Create a task

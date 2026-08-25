@@ -163,7 +163,7 @@ export function TaskDetailPanel() {
           >
             <span
               aria-hidden="true"
-              className={`grid h-5 w-5 place-items-center rounded-full border transition-colors duration-150 ${
+              className={`grid h-[18px] w-[18px] place-items-center rounded-full border transition-colors duration-150 ${
                 completed
                   ? "border-lp-ink bg-lp-ink"
                   : "border-lp-rule bg-[var(--lp-glass)] hover:border-lp-accent"
@@ -193,7 +193,7 @@ export function TaskDetailPanel() {
               updateTask(current.id, { title: event.target.value })
             }
             aria-label="Task title"
-            className={`min-w-0 flex-1 rounded-md bg-transparent text-[18px] font-medium tracking-[-0.02em] outline-none placeholder:text-lp-ink-4 ${
+            className={`min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-[15px] font-medium tracking-[-0.01em] outline-none placeholder:text-lp-ink-4 focus:border-lp-rule focus:bg-lp-paper ${
               completed ? "text-lp-ink-3 line-through decoration-lp-accent" : "text-lp-ink"
             }`}
           />
@@ -208,7 +208,7 @@ export function TaskDetailPanel() {
           }
           placeholder="Add a note…"
           aria-label="Task description"
-          className="mt-3 w-full resize-none rounded-md bg-transparent px-0.5 py-1 text-[13px] leading-[1.6] text-lp-ink outline-none placeholder:text-lp-ink-4"
+          className="mt-3 w-full resize-none rounded-lg border border-lp-rule bg-lp-paper px-3 py-2.5 text-[13px] leading-relaxed text-lp-ink outline-none placeholder:text-lp-ink-4 focus:border-lp-accent"
         />
 
         <div className="mt-4 flex flex-wrap items-center gap-1.5">

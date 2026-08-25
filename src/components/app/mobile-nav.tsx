@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarClock, CheckCheck, Inbox, Sun } from "lucide-react";
+import { CalendarClock, CheckCheck, Inbox, Sun, Tag } from "lucide-react";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { countDueToday, countOpenTasks } from "@/features/todos/selectors";
 import { useMemo } from "react";
@@ -12,6 +12,7 @@ const tabs = [
   { href: "/app/today", label: "Today", icon: Sun },
   { href: "/app/upcoming", label: "Upcoming", icon: CalendarClock },
   { href: "/app/completed", label: "Completed", icon: CheckCheck },
+  { href: "/app/labels", label: "Labels", icon: Tag },
 ];
 
 export function MobileNav() {
@@ -42,7 +43,7 @@ export function MobileNav() {
         WebkitBackdropFilter: "saturate(140%) blur(10px)",
       }}
     >
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-5">
         {tabs.map((tab) => {
           const active =
             tab.exact === true ? pathname === tab.href : pathname.startsWith(tab.href);
@@ -59,7 +60,7 @@ export function MobileNav() {
               }`}
             >
               <span className="relative">
-                <tab.icon aria-hidden="true" className={`h-[18px] w-[18px] ${active ? "stroke-[2.2]" : ""}`} />
+                <tab.icon aria-hidden="true" className={`h-4 w-4 ${active ? "stroke-[2.2]" : ""}`} />
                 {count > 0 ? (
                   <span
                     aria-hidden="true"
@@ -69,7 +70,7 @@ export function MobileNav() {
                   </span>
                 ) : null}
               </span>
-              <span className={`text-[10px] ${active ? "font-semibold" : "font-medium"}`}>{tab.label}</span>
+              <span className={`text-[10px] font-medium ${active ? "text-lp-ink" : ""}`}>{tab.label}</span>
             </Link>
           );
         })}

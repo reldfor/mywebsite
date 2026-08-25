@@ -19,7 +19,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={loading}
-      className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-lp-ink text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))] disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-full bg-lp-ink text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))] disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
         <>
@@ -140,7 +140,7 @@ export function GoogleButton() {
         type="button"
         onClick={handleClick}
         disabled={loading}
-        className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-lp-rule bg-lp-paper-2 text-[13px] font-medium tracking-[-0.01em] text-lp-ink shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:bg-lp-paper disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-full border border-lp-rule bg-lp-paper-2 text-[13px] font-medium tracking-[-0.01em] text-lp-ink shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:bg-lp-paper disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? (
           <>

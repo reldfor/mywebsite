@@ -299,7 +299,15 @@ export function LabelsView() {
                 </li>
               ))}
             </ul>
-          ) : null}
+          ) : (
+            <div className="mt-16 flex flex-col items-center text-center">
+              <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
+                <Tag aria-hidden="true" className="h-4 w-4" />
+              </span>
+              <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">No labels yet</h2>
+              <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">Create your first label to organize tasks.</p>
+            </div>
+          )}
         </>
       ) : null}
 

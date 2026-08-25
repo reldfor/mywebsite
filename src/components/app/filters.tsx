@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpDown, Check, Filter } from "lucide-react";
+import { ArrowUpDown, Check, ChevronDown, Filter } from "lucide-react";
 import type { ReactNode } from "react";
 import { Popover } from "@/components/app/popover";
 import { useTasks } from "@/features/todos/tasks-provider";
@@ -58,6 +58,7 @@ function Chip({
 export function FilterControl() {
   const { filters, setFilters, labels } = useTasks();
   const activeCount = activeFilterCount(filters);
+  const filterLabel = activeCount === 0 ? "All" : `${activeCount}`;
 
   function toggleStatus(status: "open" | "completed" | "archived") {
     setFilters({
@@ -97,19 +98,15 @@ export function FilterControl() {
           aria-haspopup="dialog"
           aria-expanded={open}
           onClick={toggle}
-          className={`inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium tracking-[-0.01em] transition-colors ${
-            activeCount > 0
-              ? "border-lp-ink bg-lp-ink text-lp-paper"
-              : "border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
-          }`}
+          aria-label={`Filter tasks, ${filterLabel}`}
+          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
         >
           <Filter aria-hidden="true" className="h-3.5 w-3.5" />
-          Filter
-          {activeCount > 0 ? (
-            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-lp-paper px-1 font-mono text-[10px] font-medium tabular-nums text-lp-ink">
-              {activeCount}
-            </span>
-          ) : null}
+          Filter: {filterLabel}
+          <ChevronDown
+            aria-hidden="true"
+            className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
+          />
         </button>
       )}
     >
@@ -185,15 +182,19 @@ export function FilterControl() {
           <div>
             <SectionLabel>Labels</SectionLabel>
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {labels.map((label) => (
-                <Chip
-                  key={label.id}
-                  active={filters.labelIds.includes(label.id)}
-                  onClick={() => toggleLabel(label.id)}
-                >
-                  {label.name}
-                </Chip>
-              ))}
+              {labels.map((label) => {
+                const toneDot = label.tone === "gray" ? "bg-lp-ink-4" : label.tone === "red" ? "bg-lp-accent" : label.tone === "orange" || label.tone === "yellow" ? "bg-[var(--lp-priority-med)]" : label.tone === "green" || label.tone === "teal" ? "bg-[var(--lp-label-errand)]" : label.tone === "blue" || label.tone === "cyan" || label.tone === "indigo" ? "bg-[var(--lp-label-personal)]" : label.tone === "purple" || label.tone === "pink" ? "bg-[var(--lp-label-side)]" : "bg-lp-ink-4";
+                return (
+                  <Chip
+                    key={label.id}
+                    active={filters.labelIds.includes(label.id)}
+                    onClick={() => toggleLabel(label.id)}
+                  >
+                    <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${toneDot}`} />
+                    {label.name}
+                  </Chip>
+                );
+              })}
             </div>
           </div>
 
@@ -224,6 +225,7 @@ const sortOptions: Array<{ value: SortKey; label: string }> = [
 
 export function SortControl() {
   const { sort, setSort } = useTasks();
+  const sortLabel = sortOptions.find((o) => o.value === sort)?.label ?? "Manual order";
 
   return (
     <Popover
@@ -237,10 +239,15 @@ export function SortControl() {
           aria-haspopup="menu"
           aria-expanded={open}
           onClick={toggle}
+          aria-label={`Sort tasks, ${sortLabel}`}
           className="inline-flex h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
         >
           <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
-          Sort
+          Sort: {sortLabel}
+          <ChevronDown
+            aria-hidden="true"
+            className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
+          />
         </button>
       )}
     >

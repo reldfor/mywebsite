@@ -197,7 +197,7 @@ export function TaskList({ view }: { view: View }) {
               <div key={group.label ?? `group-${index}`} className={index > 0 ? "mt-6" : ""}>
                 {group.label ? (
                   <p
-                    className={`flex items-center gap-2 px-2 font-mono text-[9px] font-medium uppercase tracking-[0.08em] ${group.label === "Overdue" ? "text-lp-accent" : "text-lp-ink-3"}`}
+                    className={`flex items-center gap-2 px-2 font-mono text-[9px] font-medium uppercase tracking-[0.06em] ${group.label === "Overdue" ? "text-lp-accent" : "text-lp-ink-3"}`}
                   >
                     {group.label}
                     <span className="h-px flex-1 bg-lp-rule" />

@@ -24,7 +24,7 @@ const primaryNav = [
   { href: "/app/today", label: "Today", icon: Sun },
   { href: "/app/upcoming", label: "Upcoming", icon: CalendarClock },
   { href: "/app/completed", label: "Completed", icon: CheckCheck },
-  { href: "/app/labels", label: "Label", icon: Tag },
+  { href: "/app/labels", label: "Labels", icon: Tag },
 ];
 
 type SidebarProps = {
@@ -64,7 +64,7 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
             type="button"
             onClick={onCollapse}
             aria-label="Hide sidebar"
-            className="grid h-9 w-9 place-items-center rounded-lg text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+            className="grid h-9 w-9 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
           >
             <PanelLeftClose aria-hidden="true" className="h-4 w-4" />
           </button>
@@ -87,7 +87,7 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
             }}
             placeholder="Search"
             aria-label="Search tasks"
-            className="min-w-0 flex-1 bg-transparent text-[13px] text-lp-ink caret-lp-ink outline-none placeholder:text-lp-ink-3 focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+            className="min-w-0 flex-1 bg-transparent text-[13px] text-lp-ink caret-lp-ink outline-none placeholder:text-lp-ink-3"
           />
           {searchQuery ? (
             <button
