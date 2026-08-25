@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             <div className="flex min-h-0 flex-1 items-stretch">
               <main
                 id="main"
-                className="min-w-0 flex-1 overflow-y-auto pb-24 md:pb-6"
+                className="min-w-0 flex-1 overflow-y-auto pb-[calc(88px+env(safe-area-inset-bottom))] md:pb-6"
               >
                 {children}
               </main>

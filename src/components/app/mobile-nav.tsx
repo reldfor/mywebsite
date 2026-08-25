@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarClock, CheckCheck, Inbox, Sun, Tag } from "lucide-react";
+import { motion } from "motion/react";
+import { CalendarClock, CheckCheck, Inbox, Settings, Sun, Tag } from "lucide-react";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { countDueToday, countOpenTasks } from "@/features/todos/selectors";
 import { useMemo } from "react";
@@ -13,6 +14,7 @@ const tabs = [
   { href: "/app/upcoming", label: "Upcoming", icon: CalendarClock },
   { href: "/app/completed", label: "Completed", icon: CheckCheck },
   { href: "/app/labels", label: "Labels", icon: Tag },
+  { href: "/app/settings", label: "Settings", icon: Settings },
 ];
 
 export function MobileNav() {
@@ -36,44 +38,72 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Tasks"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-lp-rule pb-[env(safe-area-inset-bottom)] md:hidden"
-      style={{
-        background: "var(--lp-nav-bg)",
-        backdropFilter: "saturate(140%) blur(10px)",
-        WebkitBackdropFilter: "saturate(140%) blur(10px)",
-      }}
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden"
     >
-      <div className="grid grid-cols-5">
-        {tabs.map((tab) => {
-          const active =
-            tab.exact === true ? pathname === tab.href : pathname.startsWith(tab.href);
-          const count =
-            tab.label === "Inbox" ? counts.inbox : tab.label === "Today" ? counts.today : 0;
-          return (
-            <Link
-              key={tab.href}
-              href={tab.href}
-              onClick={navigate}
-              aria-current={active ? "page" : undefined}
-              className={`relative flex h-[56px] flex-col items-center justify-center gap-1 transition-colors ${
-                active ? "text-lp-ink font-medium" : "text-lp-ink-3 hover:text-lp-ink"
-              }`}
-            >
-              <span className="relative">
-                <tab.icon aria-hidden="true" className={`h-4 w-4 ${active ? "stroke-[2.2]" : ""}`} />
-                {count > 0 ? (
-                  <span
-                    aria-hidden="true"
-                    className="absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-lp-ink px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none text-lp-paper"
-                  >
-                    {count}
-                  </span>
+      <div
+        className="pointer-events-auto flex w-full max-w-[440px] rounded-full border shadow-[var(--shadow-fab)]"
+        style={{
+          background: "var(--lp-pill-bg)",
+          borderColor: "var(--lp-pill-border)",
+          backdropFilter: "saturate(180%) blur(20px)",
+          WebkitBackdropFilter: "saturate(180%) blur(20px)",
+          boxShadow: "var(--lp-pill-shadow)",
+        }}
+      >
+        <div className="relative grid w-full grid-cols-6 gap-1 p-1.5">
+          {tabs.map((tab) => {
+            const active =
+              tab.exact === true ? pathname === tab.href : pathname.startsWith(tab.href);
+            const count =
+              tab.label === "Inbox" ? counts.inbox : tab.label === "Today" ? counts.today : 0;
+            return (
+              <Link
+                key={tab.href}
+                href={tab.href}
+                onClick={navigate}
+                aria-current={active ? "page" : undefined}
+                className={`relative flex h-[48px] flex-col items-center justify-center gap-[2px] rounded-full transition-colors duration-200 ${
+                  active ? "text-lp-paper" : "text-lp-ink-3 hover:text-lp-ink"
+                }`}
+              >
+                {active ? (
+                  <motion.div
+                    layoutId="mobile-nav-pill"
+                    className="absolute inset-0 rounded-full bg-lp-ink shadow-sm"
+                    transition={{
+                      type: "spring",
+                      stiffness: 280,
+                      damping: 32,
+                      mass: 0.9,
+                    }}
+                    initial={false}
+                  />
                 ) : null}
-              </span>
-              <span className={`text-[10px] font-medium ${active ? "text-lp-ink" : ""}`}>{tab.label}</span>
-            </Link>
-          );
-        })}
+                <span className="relative z-10 flex flex-col items-center justify-center gap-[2px]">
+                  <span className="relative">
+                    <tab.icon
+                      aria-hidden="true"
+                      className={`h-[18px] w-[18px] transition-colors duration-200 ${active ? "stroke-[2.2]" : "stroke-[1.9]"}`}
+                    />
+                    {count > 0 ? (
+                      <span
+                        aria-hidden="true"
+                        className={`absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none ${
+                          active ? "bg-lp-paper text-lp-ink" : "bg-lp-ink text-lp-paper"
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="text-[9.5px] font-medium leading-none tracking-wide">
+                    {tab.label}
+                  </span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );
