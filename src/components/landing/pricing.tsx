@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import { authLinks, container } from "@/lib/constants";
 
 const GUEST_FEATURES = [
@@ -37,16 +40,48 @@ function Check() {
 }
 
 export function Pricing() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [isInside, setIsInside] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  const cardBase = "flex flex-col overflow-hidden rounded-lg bg-lp-paper-2";
+  const guestCard = `${cardBase} border border-lp-rule`;
+  const proCard = `${cardBase} border border-lp-accent`;
+
   return (
-    <section id="pricing" className="scroll-mt-16 border-t border-lp-rule py-20 md:py-24">
-      <div className={container}>
+    <section
+      id="pricing"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsInside(true)}
+      onMouseLeave={() => setIsInside(false)}
+      style={
+        {
+          "--mouse-x": `${pos.x}px`,
+          "--mouse-y": `${pos.y}px`,
+        } as React.CSSProperties
+      }
+      className="relative scroll-mt-16 overflow-hidden border-t border-lp-rule py-20 md:py-24"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300 ease-out"
+        style={{
+          opacity: isInside ? 1 : 0,
+          background: `radial-gradient(355px circle at var(--mouse-x) var(--mouse-y), rgba(194,65,12,0.14), rgba(194,65,12,0.06) 32%, transparent 68%)`,
+        }}
+      />
+      <div className={`${container} relative z-10`}>
         <p className="mb-3.5 font-mono text-xs text-lp-accent">03 / Pricing</p>
         <h2 className="max-w-[720px] text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
           Simple. Honest. Free to start.
         </h2>
 
         <div className="mx-auto mt-12 grid max-w-[760px] items-start gap-6 md:grid-cols-2">
-          <div className="flex flex-col overflow-hidden rounded-lg border border-lp-rule bg-lp-paper-2">
+          <div className={guestCard}>
             <div className="border-b border-lp-rule px-6 pt-5 pb-5">
               <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-lp-ink-3">
                 Guest
@@ -68,7 +103,7 @@ export function Pricing() {
             </ul>
           </div>
 
-          <div className="flex flex-col overflow-hidden rounded-lg border border-lp-accent bg-lp-paper-2">
+          <div className={proCard}>
             <div className="relative rounded-t-lg border-b border-lp-rule bg-lp-accent-soft px-6 pt-5 pb-5">
               <span className="absolute top-4 right-4 rounded-[3px] bg-lp-accent px-[6px] py-[2px] font-mono text-[9px] tracking-[0.06em] uppercase text-lp-paper">
                 Early access

@@ -1155,43 +1155,44 @@ body::-webkit-scrollbar {
   border: 1px solid var(--lp-rule);
 }
 
-.tick-landing .tl-faq details {
-  border-bottom: 1px solid var(--lp-rule);
-  accent-color: var(--lp-accent);
-}
-
-.tick-landing .tl-faq summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px 0;
+.tick-landing .tl-faq .tl-faq-trigger {
   cursor: pointer;
-  list-style: none;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--lp-ink);
-}
-
-.tick-landing .tl-faq summary::-webkit-details-marker {
-  display: none;
-}
-
-.tick-landing .tl-faq summary::marker {
-  content: "";
 }
 
 .tick-landing .tl-faq .tl-chevron {
   color: var(--lp-ink-3);
   flex-shrink: 0;
   transition:
-    transform 0.15s ease,
-    color 0.15s ease;
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
-.tick-landing .tl-faq details[open] .tl-chevron {
+.tick-landing .tl-faq .tl-faq-item[data-open="true"] .tl-chevron {
   transform: rotate(180deg);
   color: var(--lp-accent);
+}
+
+.tick-landing .tl-faq .tl-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease-in-out;
+}
+
+.tick-landing .tl-faq .tl-answer > div {
+  overflow: hidden;
+}
+
+.tick-landing .tl-faq .tl-faq-item[data-open="true"] .tl-answer {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tick-landing .tl-faq .tl-answer {
+    transition: none;
+  }
+  .tick-landing .tl-faq .tl-chevron {
+    transition: none;
+  }
 }
 
 @media (max-width: 767px) {

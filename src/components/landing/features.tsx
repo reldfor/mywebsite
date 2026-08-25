@@ -115,18 +115,14 @@ export function Features() {
   return (
     <section id="features" className="scroll-mt-16 border-t border-lp-rule">
       <div className={container}>
-        <div className="pt-20 md:pt-24">
+        <div className="pt-12 md:pt-16 pb-12 md:pb-16">
           <p className="mb-3.5 font-mono text-xs text-lp-accent">01 / Features</p>
           <h2 className="max-w-[720px] text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
-            Everything you need. Nothing you don&apos;t.
+            Everything you need.
           </h2>
-          <p className="mt-4 max-w-[620px] text-[17px] leading-[1.55] text-lp-ink-2">
-            Tick is one list with five ways of looking at it — built to get you in,
-            oriented, and back to work in seconds.
-          </p>
         </div>
 
-        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+        <div className="grid items-center gap-8 border-t border-lp-rule py-12 md:grid-cols-2 md:gap-12 md:py-16">
           <FeatureText title="Five views.">
             Today, Upcoming, Inbox, Completed, and Settings. Every place a task can
             live and nothing else — no boards, no dashboards, nothing to configure
@@ -169,7 +165,7 @@ export function Features() {
           </div>
         </div>
 
-        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+        <div className="grid items-center gap-8 border-t border-lp-rule py-12 md:grid-cols-2 md:gap-12 md:py-16">
           <div className="tl-panel order-last p-4 md:order-first">
             <div className="grid gap-2 sm:grid-cols-2">
               {SHORTCUTS.map((shortcut) => (
@@ -190,7 +186,7 @@ export function Features() {
           </FeatureText>
         </div>
 
-        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+        <div className="grid items-center gap-8 border-t border-lp-rule py-12 md:grid-cols-2 md:gap-12 md:py-16">
           <FeatureText title="Labels &amp; priorities.">
             Color-code tasks across four labels and three priority levels. The things
             that matter stay loud; everything else waits its turn.

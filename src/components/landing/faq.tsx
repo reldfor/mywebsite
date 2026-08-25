@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { container } from "@/lib/constants";
 
 const FAQS = [
@@ -33,6 +36,17 @@ const FAQS = [
 ];
 
 export function Faq() {
+  const [openSet, setOpenSet] = useState<Set<number>>(new Set());
+
+  function toggle(index: number) {
+    setOpenSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  }
+
   return (
     <section id="faq" className="scroll-mt-16 border-t border-lp-rule py-20 md:py-24">
       <div className={container}>
@@ -43,30 +57,46 @@ export function Faq() {
           </h2>
 
           <div className="tl-faq mt-10 border-t border-lp-rule">
-            {FAQS.map((item) => (
-              <details key={item.question}>
-                <summary>
-                  {item.question}
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="16"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                    className="tl-chevron"
+            {FAQS.map((item, index) => {
+              const isOpen = openSet.has(index);
+              return (
+                <div
+                  key={item.question}
+                  className="tl-faq-item border-b border-lp-rule"
+                  data-open={isOpen}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => toggle(index)}
+                    className="tl-faq-trigger flex w-full items-center justify-between gap-4 py-[18px] text-left text-[16px] font-medium text-lp-ink"
                   >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </summary>
-                <p className="pr-8 pb-5 text-[15px] leading-relaxed text-lp-ink-2">
-                  {item.answer}
-                </p>
-              </details>
-            ))}
+                    {item.question}
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className="tl-chevron shrink-0"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  <div className="tl-answer">
+                    <div>
+                      <p className="pr-8 pb-5 text-[15px] leading-relaxed text-lp-ink-2">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
