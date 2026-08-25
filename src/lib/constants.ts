@@ -1,11 +1,11 @@
-export const container = "mx-auto w-full max-w-[1120px] px-5 sm:px-8 lg:px-10";
+export const container = "mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10";
 
 export const appName = "Tick";
 
 export const navLinks = [
   { href: "#features", label: "Features" },
-  { href: "#how", label: "How it works" },
-  { href: "#compare", label: "Guest vs account" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
 ] as const;
 
 export const authLinks = {

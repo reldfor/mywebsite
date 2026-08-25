@@ -1,26 +1,32 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
-import { ValueStrip } from "@/components/landing/value-strip";
 import { Features } from "@/components/landing/features";
-import { HowItWorks } from "@/components/landing/how-it-works";
-import { GuestAccount } from "@/components/landing/guest-account";
+import { Testimonials } from "@/components/landing/testimonials";
+import { Pricing } from "@/components/landing/pricing";
+import { Faq } from "@/components/landing/faq";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Footer } from "@/components/landing/footer";
-import { ThemeProvider } from "@/features/theme/theme-provider";
+
+export const metadata: Metadata = {
+  title: "Tick — a todo list you'll actually finish",
+  description:
+    "A quiet, keyboard-first todo app. Five views, no login required, ten tasks free forever. Pro is free at launch.",
+};
 
 export default function Home() {
   return (
-    <ThemeProvider>
+    <div className="tick-landing min-h-screen bg-lp-paper text-lp-ink">
       <Header />
       <main id="main">
         <Hero />
-        <ValueStrip />
         <Features />
-        <HowItWorks />
-        <GuestAccount />
+        <Testimonials />
+        <Pricing />
+        <Faq />
         <FinalCta />
       </main>
       <Footer />
-    </ThemeProvider>
+    </div>
   );
 }

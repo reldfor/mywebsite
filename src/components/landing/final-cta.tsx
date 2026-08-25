@@ -1,39 +1,28 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Reveal } from "@/components/landing/reveal";
+import Link from "next/link";
 import { authLinks, container } from "@/lib/constants";
 
 export function FinalCta() {
   return (
-    <section id="start" className="relative overflow-hidden scroll-mt-20 py-16 lg:py-24">
-      <div aria-hidden="true" className="ruled pointer-events-none absolute inset-0" />
-      <div className={`${container} relative text-center`}>
-        <Reveal>
-          <h2 className="mx-auto max-w-[560px] text-[28px] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-[36px] lg:text-[40px]">
-            Ready to get organized?
-          </h2>
-          <p className="mx-auto mt-3 max-w-[480px] text-[15px] leading-[1.6] text-ink-soft">
-            Your first task takes ten seconds. The next nine are free too — and
-            they&apos;ll still be there on any device when you sign in.
-          </p>
-          <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
-            <Button href={authLinks.guestWorkspace} size="lg" className="w-full sm:w-auto">
-              Start for free
-            </Button>
-            <Button
-              href={authLinks.signUp}
-              size="lg"
-              variant="secondary"
-              className="w-full sm:w-auto"
-            >
-              Create an account
-              <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <p className="mt-5 font-mono text-xs tabular-nums text-ink-faint">
-            Guest: up to 10 tasks · Account: unlimited
-          </p>
-        </Reveal>
+    <section className="border-t border-lp-rule py-20 md:py-[120px]">
+      <div className={`${container} text-center`}>
+        <h2 className="text-[clamp(36px,4.5vw,52px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
+          Start checking things off.
+        </h2>
+        <p className="mt-5 text-[17px] text-lp-ink-2">No account. No onboarding. Just open it.</p>
+        <div className="mt-10">
+          <Link href={authLinks.guestWorkspace} className="btn-primary btn-xl">
+            Open the app <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <p className="mt-6 flex flex-wrap items-center justify-center gap-2 font-mono text-xs text-lp-ink-3">
+          Free
+          <span className="text-lp-ink-4">·</span>
+          No account needed
+          <span className="text-lp-ink-4">·</span>
+          10 tasks
+          <span className="text-lp-ink-4">·</span>
+          Pro is free at launch
+        </p>
       </div>
     </section>
   );

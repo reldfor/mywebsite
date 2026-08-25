@@ -1,52 +1,58 @@
 import Link from "next/link";
 import { Logo } from "@/components/landing/logo";
-import { authLinks, container, navLinks } from "@/lib/constants";
+import { authLinks, container } from "@/lib/constants";
 
 const columns = [
   {
     heading: "Product",
-    links: navLinks.map((link) => ({ label: link.label, href: link.href })),
+    links: [
+      { label: "Open the app", href: authLinks.guestWorkspace },
+      { label: "Features", href: "#features" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "FAQ", href: "#faq" },
+    ],
   },
   {
     heading: "Account",
     links: [
       { label: "Sign in", href: authLinks.signIn },
-      { label: "Create an account", href: authLinks.signUp },
+      { label: "Create account", href: authLinks.signUp },
+      { label: "Migrate from guest", href: "#faq" },
     ],
   },
   {
-    heading: "Company",
+    heading: "Code",
     links: [
-      { label: "Privacy", href: authLinks.privacy },
-      { label: "Terms", href: authLinks.terms },
-      { label: "Contact", href: authLinks.contact },
+      { label: "GitHub", href: "#" },
+      { label: "Roadmap", href: "#" },
+      { label: "Issues", href: "#" },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-paper">
-      <div className={`${container} py-10 lg:py-12`}>
-        <div className="grid gap-8 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+    <footer className="border-t border-lp-rule pt-[72px] pb-12">
+      <div className={container}>
+        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Logo />
-            <p className="mt-3 max-w-[280px] text-[13px] leading-[1.5] text-ink-soft">
-              The task workspace that gets out of your way. Free for guests,
-              unlimited with an account.
+            <p className="mt-4 max-w-[320px] text-sm leading-[1.55] text-lp-ink-2">
+              A quiet place for your todos. Built by people who kept bouncing off the
+              bigger apps.
             </p>
           </div>
           {columns.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+              <p className="font-mono text-[10px] font-medium tracking-[0.06em] uppercase text-lp-ink-3">
                 {column.heading}
               </p>
               <ul className="mt-3 flex flex-col gap-2">
                 {column.links.map((link) => (
-                  <li key={link.href + link.label}>
+                  <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-[13px] text-ink-soft transition-colors hover:text-ink"
+                      className="text-[13px] text-lp-ink-2 transition-colors duration-150 hover:text-lp-accent"
                     >
                       {link.label}
                     </Link>
@@ -56,8 +62,19 @@ export function Footer() {
             </nav>
           ))}
         </div>
-        <div className="mt-10 flex flex-col gap-2 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-xs tabular-nums text-ink-faint">© 2026 Tick. All rights reserved.</p>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-lp-rule pt-6 font-mono text-[11px] text-lp-ink-3">
+          <span>© 2025 Tick · Made with care · Your data stays yours</span>
+          <span className="inline-flex items-center gap-1.5">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true" className="stroke-lp-accent">
+              <path
+                d="M4 12.5 L9.5 17.5 L20 6.5"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            end of page
+          </span>
         </div>
       </div>
     </footer>

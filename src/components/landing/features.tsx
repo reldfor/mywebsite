@@ -1,87 +1,216 @@
-import {
-  Archive,
-  CalendarClock,
-  Flag,
-  GripVertical,
-  ListChecks,
-  Search,
-  Tag,
-  Zap,
-} from "lucide-react";
-import { Reveal } from "@/components/landing/reveal";
-import { SectionHeading } from "@/components/landing/section-heading";
+import type { ReactNode } from "react";
 import { container } from "@/lib/constants";
 
-const features = [
-  {
-    icon: Zap,
-    title: "Capture instantly",
-    detail: "Type, press Enter, done. A new task takes one line and two seconds.",
-  },
-  {
-    icon: Flag,
-    title: "Priorities that mean something",
-    detail: "None, low, medium, high, urgent. See what matters first, not what's oldest.",
-  },
-  {
-    icon: CalendarClock,
-    title: "Due dates when you need them",
-    detail: "Set a date or leave it open. Today and Upcoming collect what's next.",
-  },
-  {
-    icon: Tag,
-    title: "Labels for every context",
-    detail: "Color-code projects, people, and places — then filter by them in one click.",
-  },
-  {
-    icon: ListChecks,
-    title: "Subtasks keep things honest",
-    detail: "Break a big task into steps and watch a progress bar fill in.",
-  },
-  {
-    icon: Search,
-    title: "Find anything, instantly",
-    detail: "Search every task by title, label, or note, with filters that stick.",
-  },
-  {
-    icon: GripVertical,
-    title: "Drag to organize",
-    detail: "Reorder tasks by hand, move them between views, or do it all from the keyboard.",
-  },
-  {
-    icon: Archive,
-    title: "Done isn't deleted",
-    detail: "Completed and archived tasks stay within reach until you decide otherwise.",
-  },
+const SHORTCUTS = [
+  { keys: "⌘K", action: "Quick find" },
+  { keys: "N", action: "New task" },
+  { keys: "⌘↵", action: "Save from composer" },
+  { keys: "E", action: "Edit selected" },
+  { keys: "D", action: "Set due date" },
+  { keys: "L", action: "Add label" },
+  { keys: "1–5", action: "Switch views" },
+  { keys: "?", action: "All shortcuts" },
 ];
+
+const VIEWS = [
+  { id: "today", label: "Today", count: 6, active: true },
+  { id: "upcoming", label: "Upcoming", count: 12 },
+  { id: "inbox", label: "Inbox", count: 3 },
+  { id: "completed", label: "Completed", count: 28 },
+  { id: "settings", label: "Settings" },
+];
+
+function ViewIcon({ id }: { id: string }) {
+  const common = {
+    viewBox: "0 0 24 24",
+    width: 12,
+    height: 12,
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  switch (id) {
+    case "today":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
+        </svg>
+      );
+    case "upcoming":
+      return (
+        <svg {...common}>
+          <path d="m6 17 5-5-5-5" />
+          <path d="m13 17 5-5-5-5" />
+        </svg>
+      );
+    case "inbox":
+      return (
+        <svg {...common}>
+          <path d="M22 12h-6l-2 3h-4l-2-3H2" />
+          <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+        </svg>
+      );
+    case "completed":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="m8 12 3 3 5-6" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common}>
+          <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+        </svg>
+      );
+  }
+}
+
+function FeatureText({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-[22px] font-medium tracking-[-0.02em] text-lp-ink">{title}</h3>
+      <p className="mt-3 max-w-[420px] text-[15px] leading-relaxed text-lp-ink-2">{children}</p>
+    </div>
+  );
+}
+
+function StaticTask({
+  title,
+  priority,
+  time,
+  labels,
+}: {
+  title: string;
+  priority?: "high" | "med" | "low";
+  time?: string;
+  labels?: string[];
+}) {
+  return (
+    <div className="task-row">
+      <span className="checkbox" aria-hidden="true" />
+      <div className="task-content">
+        <div className="task-title">{title}</div>
+        {(priority || time || labels) && (
+          <div className="task-meta">
+            {priority && <span className={`priority-dot ${priority}`} />}
+            {time && <span className="task-time">{time}</span>}
+            {labels?.map((label) => (
+              <span key={label} className={`task-label ${label}`}>
+                {label}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 py-16 lg:py-24">
+    <section id="features" className="scroll-mt-16 border-t border-lp-rule">
       <div className={container}>
-        <Reveal>
-          <SectionHeading
-            eyebrow="Capabilities"
-            title="Everything a task list should be. Nothing it shouldn't."
-            description="Every feature in Tick exists to move a task from 'somewhere in your head' to 'done'. Nothing here is decoration."
-          />
-        </Reveal>
-        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <Reveal key={feature.title} delay={(index % 4) * 50} className="h-full">
-              <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] dark:shadow-none">
-                <span className="grid h-8 w-8 place-items-center rounded-lg border border-line bg-paper text-ink-faint">
-                  <feature.icon aria-hidden="true" className="h-4 w-4" />
-                </span>
-                <h3 className="mt-4 text-[14px] font-semibold leading-tight tracking-[-0.01em]">
-                  {feature.title}
-                </h3>
-                <p className="mt-1.5 text-[13px] leading-[1.5] text-ink-soft">
-                  {feature.detail}
-                </p>
-              </article>
-            </Reveal>
-          ))}
+        <div className="pt-20 md:pt-24">
+          <p className="mb-3.5 font-mono text-xs text-lp-accent">01 / Features</p>
+          <h2 className="max-w-[720px] text-[clamp(30px,4vw,46px)] leading-[1.05] font-medium tracking-[-0.03em] text-lp-ink">
+            Everything you need. Nothing you don&apos;t.
+          </h2>
+          <p className="mt-4 max-w-[620px] text-[17px] leading-[1.55] text-lp-ink-2">
+            Tick is one list with five ways of looking at it — built to get you in,
+            oriented, and back to work in seconds.
+          </p>
+        </div>
+
+        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+          <FeatureText title="Five views.">
+            Today, Upcoming, Inbox, Completed, and Settings. Every place a task can
+            live and nothing else — no boards, no dashboards, nothing to configure
+            before you start.
+          </FeatureText>
+          <div className="tl-panel mx-auto w-full max-w-[250px]">
+            <aside className="app-sidebar standalone">
+              <div className="sidebar-brand">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                  <path
+                    d="M7 12 L10 15 L17 8"
+                    className="stroke-lp-accent"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Tick
+              </div>
+              <div className="sidebar-section mt-3">
+                <h5>Views</h5>
+                {VIEWS.map((view) => (
+                  <div key={view.id} className={`sidebar-item${view.active ? " active" : ""}`}>
+                    <ViewIcon id={view.id} />
+                    {view.label}
+                    {"count" in view && typeof view.count === "number" && (
+                      <span className="count">{view.count}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="sidebar-footer">
+                <div>7 / 10 tasks</div>
+                <div className="meter">
+                  <span />
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+          <div className="tl-panel order-last p-4 md:order-first">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {SHORTCUTS.map((shortcut) => (
+                <div
+                  key={shortcut.keys}
+                  className="flex items-center justify-between rounded-md border border-lp-rule bg-lp-paper px-3 py-2.5"
+                >
+                  <kbd>{shortcut.keys}</kbd>
+                  <span className="text-[13px] text-lp-ink-2">{shortcut.action}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <FeatureText title="Keyboard-first.">
+            Every action has a shortcut, and every shortcut is one or two keys.
+            Capture, schedule, label, and jump between views without your hands
+            leaving the home row.
+          </FeatureText>
+        </div>
+
+        <div className="grid items-center gap-10 border-t border-lp-rule py-16 md:grid-cols-2 md:gap-[72px] md:py-24">
+          <FeatureText title="Labels &amp; priorities.">
+            Color-code tasks across four labels and three priority levels. The things
+            that matter stay loud; everything else waits its turn.
+          </FeatureText>
+          <div className="tl-panel py-2">
+            <StaticTask
+              title="Draft Q3 OKRs"
+              priority="high"
+              time="14:00"
+              labels={["work"]}
+            />
+            <StaticTask
+              title="Reply to Maya about Q4 budget"
+              priority="med"
+              labels={["personal"]}
+            />
+            <StaticTask title="Book flights home" priority="low" labels={["personal"]} />
+            <StaticTask title="Pick up dry cleaning" labels={["errand"]} />
+            <StaticTask title="Renew tick.dev domain" priority="high" labels={["side"]} />
+          </div>
         </div>
       </div>
     </section>
