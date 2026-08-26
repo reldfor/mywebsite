@@ -218,19 +218,30 @@ export function AddTask({ date }: { date?: string | null }) {
   }
 
   if (!expanded) {
+    function openComposer() {
+      setDueDate(date ?? "");
+      setExpanded(true);
+    }
     return (
-      <button
-        type="button"
-        ref={addTaskInputRef as React.RefObject<HTMLButtonElement>}
-        onClick={() => {
-          setDueDate(date ?? "");
-          setExpanded(true);
-        }}
-        className="inline-flex h-9 items-center justify-center gap-1 rounded-full border border-lp-ink bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
-      >
-        <Plus aria-hidden="true" className="h-3 w-3" strokeWidth={2.5} />
-        Create a task
-      </button>
+      <>
+        <button
+          type="button"
+          ref={addTaskInputRef as React.RefObject<HTMLButtonElement>}
+          onClick={openComposer}
+          className="hidden h-9 items-center justify-center gap-1 rounded-full border border-lp-ink bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))] md:inline-flex"
+        >
+          <Plus aria-hidden="true" className="h-3 w-3" strokeWidth={2.5} />
+          Create a task
+        </button>
+        <button
+          type="button"
+          onClick={openComposer}
+          aria-label="Create a task"
+          className="fixed bottom-[calc(72px+12px+env(safe-area-inset-bottom))] right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-[var(--lp-fab-accent)] text-white shadow-[var(--shadow-fab)] ring-1 ring-white/10 transition-colors hover:bg-[var(--lp-fab-accent-hover)] active:scale-[0.98] md:hidden"
+        >
+          <Plus aria-hidden="true" className="h-6 w-6" strokeWidth={2.4} />
+        </button>
+      </>
     );
   }
 

@@ -5,12 +5,11 @@ import { useMemo } from "react";
 import { ArrowLeft, Tag } from "lucide-react";
 import { AddTask } from "@/components/app/add-task";
 import { TaskRow } from "@/components/app/task-row";
+import { LabelsEmptyIllustration } from "@/components/app/empty-states/labels-illustration";
+import { SearchEmptyIllustration } from "@/components/app/empty-states/search-illustration";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { labelTextClasses } from "@/features/todos/label-colors";
-import {
-  getTasksByLabel,
-  matchesSearch,
-} from "@/features/todos/selectors";
+import { getTasksByLabel, matchesSearch } from "@/features/todos/selectors";
 
 export function LabelTasks({ labelId }: { labelId: string }) {
   const { tasks, labels, searchQuery, setSearchQuery } = useTasks();
@@ -24,7 +23,7 @@ export function LabelTasks({ labelId }: { labelId: string }) {
 
   if (!label) {
     return (
-      <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
         <Link
           href="/app/labels"
           className="inline-flex items-center gap-1.5 text-[13px] font-medium text-lp-ink-2 hover:text-lp-ink"
@@ -32,11 +31,9 @@ export function LabelTasks({ labelId }: { labelId: string }) {
           <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
           All labels
         </Link>
-        <div className="mt-16 flex flex-col items-center text-center">
-          <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
-            <Tag aria-hidden="true" className="h-4 w-4" />
-          </span>
-          <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">Label not found</h2>
+        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+          <LabelsEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">Label not found</h2>
           <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
             This label doesn&apos;t exist. It may have been deleted.
           </p>
@@ -55,7 +52,7 @@ export function LabelTasks({ labelId }: { labelId: string }) {
   const isEmpty = total === 0;
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
+    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
       <Link
         href="/app/labels"
         className="inline-flex items-center gap-1.5 text-[13px] font-medium text-lp-ink-2 hover:text-lp-ink"
@@ -74,11 +71,13 @@ export function LabelTasks({ labelId }: { labelId: string }) {
       </div>
 
       {isEmpty ? (
-        <div className="mt-16 flex flex-col items-center text-center">
-          <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
-            <Tag aria-hidden="true" className="h-4 w-4" />
-          </span>
-          <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
+        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+          {searching ? (
+            <SearchEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : (
+            <LabelsEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          )}
+          <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
             {searching ? "No matches" : "No tasks with this label"}
           </h2>
           <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
@@ -109,6 +108,7 @@ export function LabelTasks({ labelId }: { labelId: string }) {
           </ul>
           <div className="mt-6">
             <AddTask />
+            <div aria-hidden="true" className="h-20 md:hidden" />
           </div>
         </>
       )}

@@ -41,7 +41,7 @@ export function MobileNav() {
       className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden"
     >
       <div
-        className="pointer-events-auto flex w-full max-w-[440px] rounded-full border shadow-[var(--shadow-fab)]"
+        className="pointer-events-auto flex w-full max-w-[380px] rounded-full border shadow-[var(--shadow-fab)]"
         style={{
           background: "var(--lp-pill-bg)",
           borderColor: "var(--lp-pill-border)",
@@ -50,7 +50,7 @@ export function MobileNav() {
           boxShadow: "var(--lp-pill-shadow)",
         }}
       >
-        <div className="relative grid w-full grid-cols-6 gap-1 p-1.5">
+        <div className="relative grid w-full grid-cols-6 gap-0.5 p-1">
           {tabs.map((tab) => {
             const active =
               tab.exact === true ? pathname === tab.href : pathname.startsWith(tab.href);
@@ -62,7 +62,7 @@ export function MobileNav() {
                 href={tab.href}
                 onClick={navigate}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex h-[48px] flex-col items-center justify-center gap-[2px] rounded-full transition-colors duration-200 ${
+                className={`relative flex h-[44px] flex-col items-center justify-center gap-[3px] rounded-full transition-colors duration-200 ${
                   active ? "text-lp-paper" : "text-lp-ink-3 hover:text-lp-ink"
                 }`}
               >
@@ -79,16 +79,16 @@ export function MobileNav() {
                     initial={false}
                   />
                 ) : null}
-                <span className="relative z-10 flex flex-col items-center justify-center gap-[2px]">
+                <span className="relative z-10 flex flex-col items-center justify-center gap-[3px]">
                   <span className="relative">
                     <tab.icon
                       aria-hidden="true"
-                      className={`h-[18px] w-[18px] transition-colors duration-200 ${active ? "stroke-[2.2]" : "stroke-[1.9]"}`}
+                      className={`h-[17px] w-[17px] transition-colors duration-200 ${active ? "stroke-[2.2]" : "stroke-[1.9]"}`}
                     />
                     {count > 0 ? (
                       <span
                         aria-hidden="true"
-                        className={`absolute -right-1.5 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full px-0.5 font-mono text-[8px] font-medium tabular-nums leading-none ${
+                        className={`absolute -right-1 -top-1.5 grid h-3 min-w-3 place-items-center rounded-full px-0.5 font-mono text-[7px] font-bold tabular-nums leading-none ring-1 ring-[var(--lp-pill-bg)] ${
                           active ? "bg-lp-paper text-lp-ink" : "bg-lp-ink text-lp-paper"
                         }`}
                       >

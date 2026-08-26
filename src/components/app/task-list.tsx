@@ -1,16 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import {
-  CalendarClock,
-  CheckCheck,
-  Inbox,
-  Search,
-  Sun,
-} from "lucide-react";
 import { AddTask } from "@/components/app/add-task";
 import { TaskRow } from "@/components/app/task-row";
 import { FilterControl, SortControl } from "@/components/app/filters";
+import { CompletedEmptyIllustration } from "@/components/app/empty-states/completed-illustration";
+import { FilterEmptyIllustration } from "@/components/app/empty-states/filter-illustration";
+import { InboxEmptyIllustration } from "@/components/app/empty-states/inbox-illustration";
+import { SearchEmptyIllustration } from "@/components/app/empty-states/search-illustration";
+import { TodayEmptyIllustration } from "@/components/app/empty-states/today-illustration";
+import { UpcomingEmptyIllustration } from "@/components/app/empty-states/upcoming-illustration";
 import { useTasks } from "@/features/todos/tasks-provider";
 import {
   activeFilterCount,
@@ -37,22 +36,18 @@ const viewMeta: Record<View, { title: string; meta: string }> = {
 
 const emptyCopy = {
   inbox: {
-    icon: Inbox,
     title: "No tasks yet",
     detail: "Create your first task.",
   },
   today: {
-    icon: Sun,
     title: "Nothing due today",
     detail: "Tasks due today or overdue will show up here.",
   },
   upcoming: {
-    icon: CalendarClock,
     title: "Nothing upcoming",
     detail: "Tasks with a future due date will show up here.",
   },
   completed: {
-    icon: CheckCheck,
     title: "Nothing completed yet",
     detail: "Tasks you finish will show up here.",
   },
@@ -117,27 +112,28 @@ export function TaskList({ view }: { view: View }) {
   const empty = emptyCopy[view];
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
-      <div className="flex items-end justify-between gap-4 border-b border-lp-rule pb-4">
+    <div className="mx-auto w-full max-w-[640px] px-4 py-3 sm:px-6 sm:py-8">
+      <div className="flex flex-row items-center justify-between gap-4 border-b border-lp-rule pb-3 sm:pb-4">
         <div className="min-w-0">
-          <h1 className="text-[20px] font-medium tracking-[-0.015em] text-lp-ink">
+          <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
             {searching ? "Search" : viewMeta[view].title}
           </h1>
           {view === "today" && !searching ? null : (
-            <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-lp-ink-3">
+            <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
               {meta}
             </p>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-1.5">
           {view !== "today" ? <SortControl /> : null}
           <FilterControl />
         </div>
       </div>
 
       {isEmpty && view === "today" && !searching && !filtersActive ? (
-        <div className="mt-16 flex flex-col items-center text-center">
-          <h2 className="text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
+        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+          <TodayEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
             0 tasks remaining.
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-lp-ink-2">
@@ -145,21 +141,24 @@ export function TaskList({ view }: { view: View }) {
           </p>
         </div>
       ) : isEmpty ? (
-        <div className="mt-16 flex flex-col items-center text-center">
-          <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
-            <Search
-              aria-hidden="true"
-              className={`h-4 w-4 ${searching ? "" : "hidden"}`}
-            />
-            <empty.icon
-              aria-hidden="true"
-              className={`h-4 w-4 ${searching ? "hidden" : ""}`}
-            />
-          </span>
-          <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
+        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+          {searching ? (
+            <SearchEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : filtersActive ? (
+            <FilterEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : view === "completed" ? (
+            <CompletedEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : view === "inbox" ? (
+            <InboxEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : view === "upcoming" ? (
+            <UpcomingEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          ) : (
+            <TodayEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+          )}
+          <h2 className="mt-4 text-[15px] font-medium tracking-[-0.01em] text-lp-ink">
             {searching ? "No matches" : filtersActive ? "Nothing matches" : empty.title}
           </h2>
-          <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
+          <p className="mt-1.5 max-w-[28ch] text-[13px] leading-6 text-lp-ink-2">
             {searching
               ? `Nothing matches “${searchQuery.trim()}”. Try different words.`
               : filtersActive
@@ -170,7 +169,7 @@ export function TaskList({ view }: { view: View }) {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="mt-5 inline-flex h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
+              className="mt-6 inline-flex h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper transition-colors hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
             >
               Clear search
             </button>
@@ -180,12 +179,12 @@ export function TaskList({ view }: { view: View }) {
               onClick={() =>
                 setFilters({ statuses: [], priorities: [], due: "all", labelIds: [] })
               }
-              className="mt-5 text-[13px] font-medium text-lp-ink underline decoration-lp-rule underline-offset-4 hover:decoration-lp-ink/40"
+              className="mt-6 text-[13px] font-medium text-lp-ink underline decoration-lp-rule underline-offset-4 hover:decoration-lp-ink/40"
             >
               Clear all filters
             </button>
           ) : (
-            <div className="mt-5 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <AddTask />
             </div>
           )}
@@ -213,6 +212,7 @@ export function TaskList({ view }: { view: View }) {
           </div>
           <div className="mt-6">
             <AddTask />
+            <div aria-hidden="true" className="h-20 md:hidden" />
           </div>
         </>
       )}

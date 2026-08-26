@@ -22,9 +22,11 @@ const priorityDot: Record<Priority, string> = {
 function TaskCheckbox({
   task,
   onToggle,
+  compact,
 }: {
   task: Task;
   onToggle: () => void;
+  compact?: boolean;
 }) {
   const completed = task.status === "completed";
   return (
@@ -36,7 +38,7 @@ function TaskCheckbox({
       }}
       aria-label={completed ? `Reopen ${task.title}` : `Complete ${task.title}`}
       aria-pressed={completed}
-      className="grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full border bg-[var(--lp-glass)] p-0 transition-all duration-150 hover:border-lp-accent mt-[2px]"
+      className={`grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full border bg-[var(--lp-glass)] p-0 transition-all duration-150 hover:border-lp-accent ${compact ? "" : "mt-[2px]"}`}
       style={
         completed
           ? { background: "var(--lp-ink)", borderColor: "var(--lp-ink)" }
@@ -105,6 +107,7 @@ export function TaskRow({ task }: { task: Task }) {
   const hasSubtasks = sortedSubtasks.length > 0;
   const showPriority = !completed && task.priority !== "none";
   const hasMeta = showPriority || !!category || !!dueLabel || taskLabels.length > 0 || hasSubtasks;
+  const isCompact = !hasMeta;
 
   function openMenuAt(x: number, y: number) {
     setMenuPos({ x, y });
@@ -165,13 +168,13 @@ export function TaskRow({ task }: { task: Task }) {
         tabIndex={0}
         role="button"
         aria-label={`Open details for ${task.title}`}
-        className={`-mx-2 flex cursor-pointer items-start gap-[10px] rounded-lg px-2 py-[7px] transition-colors focus-visible:outline-none ${
+        className={`-mx-2 flex cursor-pointer gap-[10px] rounded-lg px-2 py-[7px] transition-colors focus-visible:outline-none ${isCompact ? "items-center" : "items-start"} ${
           selected
             ? "bg-lp-accent-soft shadow-[inset_2px_0_0_var(--lp-accent)]"
             : "hover:bg-[var(--lp-glass)]"
         } ${completed ? "opacity-70" : ""}`}
       >
-        <TaskCheckbox task={task} onToggle={handleToggle} />
+        <TaskCheckbox task={task} onToggle={handleToggle} compact={isCompact} />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <p className="relative inline-block max-w-full truncate align-middle text-[13px] leading-[1.4]">
@@ -326,7 +329,7 @@ export function TaskRow({ task }: { task: Task }) {
 
         <span
           aria-hidden="true"
-          className="hidden h-[18px] w-2 shrink-0 cursor-grab select-none text-center text-[12px] leading-none text-lp-ink-4 opacity-0 transition-opacity duration-150 group-hover:opacity-100 sm:block mt-[2px]"
+          className={`hidden h-[18px] w-2 shrink-0 cursor-grab select-none text-center text-[12px] leading-none text-lp-ink-4 opacity-0 transition-opacity duration-150 group-hover:opacity-100 sm:block ${isCompact ? "" : "mt-[2px]"}`}
         >
           ⠿
         </span>

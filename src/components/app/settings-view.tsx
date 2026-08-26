@@ -45,7 +45,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
+    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
       <div className="border-b border-lp-rule pb-4">
         <h1 className="text-[20px] font-medium tracking-[-0.015em] text-lp-ink">Settings</h1>
         <p className="mt-1 font-mono text-[11px] tabular-nums text-lp-ink-3">

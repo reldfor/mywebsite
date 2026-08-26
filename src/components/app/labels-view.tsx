@@ -10,6 +10,7 @@ import {
   Tag,
   Trash2,
 } from "lucide-react";
+import { LabelsEmptyIllustration } from "@/components/app/empty-states/labels-illustration";
 import { useTasks } from "@/features/todos/tasks-provider";
 import {
   LABEL_COLORS,
@@ -188,7 +189,7 @@ export function LabelsView() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
+    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
       <div className="flex h-9 items-center justify-between border-b border-lp-rule">
         <button
           type="button"
@@ -300,11 +301,9 @@ export function LabelsView() {
               ))}
             </ul>
           ) : (
-            <div className="mt-16 flex flex-col items-center text-center">
-              <span className="grid h-10 w-10 place-items-center rounded-xl border border-lp-rule bg-lp-paper-2 text-lp-ink-3 shadow-[var(--lp-shadow-card)]">
-                <Tag aria-hidden="true" className="h-4 w-4" />
-              </span>
-              <h2 className="mt-3 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">No labels yet</h2>
+            <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+              <LabelsEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+              <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">No labels yet</h2>
               <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">Create your first label to organize tasks.</p>
             </div>
           )}

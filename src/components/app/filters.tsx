@@ -93,21 +93,41 @@ export function FilterControl() {
       className="w-64 p-4"
       align="right"
       trigger={({ open, toggle }) => (
-        <button
-          type="button"
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          onClick={toggle}
-          aria-label={`Filter tasks, ${filterLabel}`}
-          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
-        >
-          <Filter aria-hidden="true" className="h-3.5 w-3.5" />
-          Filter: {filterLabel}
-          <ChevronDown
-            aria-hidden="true"
-            className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
-          />
-        </button>
+        <>
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            onClick={toggle}
+            aria-label={`Filter tasks, ${filterLabel}`}
+            className="hidden h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper sm:inline-flex"
+          >
+            <Filter aria-hidden="true" className="h-3.5 w-3.5" />
+            Filter: {filterLabel}
+            <ChevronDown
+              aria-hidden="true"
+              className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          </button>
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            onClick={toggle}
+            aria-label={`Filter tasks, ${filterLabel}`}
+            className="relative grid h-11 w-11 place-items-center rounded-full border border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper sm:hidden sm:h-8 sm:w-8"
+          >
+            <Filter aria-hidden="true" className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+            {activeCount > 0 ? (
+              <span
+                aria-hidden="true"
+                className="absolute -right-1 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-lp-ink px-0.5 font-mono text-[8px] font-medium leading-none text-lp-paper sm:-right-0.5 sm:-top-0.5"
+              >
+                {activeCount}
+              </span>
+            ) : null}
+          </button>
+        </>
       )}
     >
       {() => (
@@ -234,21 +254,39 @@ export function SortControl() {
       className="w-52 p-1.5"
       align="right"
       trigger={({ open, toggle }) => (
-        <button
-          type="button"
-          aria-haspopup="menu"
-          aria-expanded={open}
-          onClick={toggle}
-          aria-label={`Sort tasks, ${sortLabel}`}
-          className="inline-flex h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper"
-        >
-          <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
-          Sort: {sortLabel}
-          <ChevronDown
-            aria-hidden="true"
-            className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
-          />
-        </button>
+        <>
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            onClick={toggle}
+            aria-label={`Sort tasks, ${sortLabel}`}
+            className="hidden h-8 items-center gap-1.5 rounded-full border border-lp-rule bg-[var(--lp-glass)] px-3 text-[13px] font-medium tracking-[-0.01em] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper sm:inline-flex"
+          >
+            <ArrowUpDown aria-hidden="true" className="h-3.5 w-3.5" />
+            Sort: {sortLabel}
+            <ChevronDown
+              aria-hidden="true"
+              className={`h-3 w-3 shrink-0 text-lp-ink-4 transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          </button>
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            onClick={toggle}
+            aria-label={`Sort tasks, ${sortLabel}`}
+            className="relative grid h-11 w-11 place-items-center rounded-full border border-lp-rule bg-[var(--lp-glass)] text-lp-ink-2 shadow-[var(--lp-shadow-interactive)] transition-colors hover:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] hover:text-lp-ink hover:bg-lp-paper sm:hidden sm:h-8 sm:w-8"
+          >
+            <ArrowUpDown aria-hidden="true" className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+            {sort !== "manual" ? (
+              <span
+                aria-hidden="true"
+                className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-lp-accent ring-2 ring-lp-paper-2 sm:-right-0.5 sm:-top-0.5"
+              />
+            ) : null}
+          </button>
+        </>
       )}
     >
       {(close) => (
