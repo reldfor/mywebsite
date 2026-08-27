@@ -23,28 +23,42 @@ export function LabelTasks({ labelId }: { labelId: string }) {
 
   if (!label) {
     return (
-      <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
-        <Link
-          href="/app/labels"
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-lp-ink-2 hover:text-lp-ink"
-        >
-          <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
-          All labels
-        </Link>
-        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
-          <LabelsEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
-          <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">Label not found</h2>
-          <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
-            This label doesn&apos;t exist. It may have been deleted.
-          </p>
-          <Link
-            href="/app/labels"
-            className="mt-5 inline-flex h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
-          >
-            Back to labels
-          </Link>
+      <>
+        <div className="mt-0 w-full px-6 py-3 sm:mt-[45px] sm:px-6 sm:py-4">
+          <div className="flex flex-row items-center justify-between gap-4">
+            <div className="min-w-0">
+              <Link
+                href="/app/labels"
+                className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium tabular-nums text-lp-ink-2 hover:text-lp-ink"
+              >
+                <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
+                All labels
+              </Link>
+              <h1 className="mt-1 text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
+                Label not found
+              </h1>
+              <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+                This label doesn&apos;t exist
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+        <div className="mx-auto w-full max-w-[640px] px-6 pt-4 sm:px-6 sm:pt-6">
+          <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+            <LabelsEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
+            <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">Label not found</h2>
+            <p className="mt-1 max-w-xs text-[13px] leading-relaxed text-lp-ink-2">
+              This label doesn&apos;t exist. It may have been deleted.
+            </p>
+            <Link
+              href="/app/labels"
+              className="mt-5 inline-flex h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-medium tracking-[-0.01em] text-lp-paper hover:bg-[color-mix(in_srgb,var(--lp-ink)_90%,var(--lp-paper))]"
+            >
+              Back to labels
+            </Link>
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -52,23 +66,28 @@ export function LabelTasks({ labelId }: { labelId: string }) {
   const isEmpty = total === 0;
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
-      <Link
-        href="/app/labels"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-lp-ink-2 hover:text-lp-ink"
-      >
-        <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
-        All labels
-      </Link>
-
-      <div className="mt-4 flex items-end justify-between gap-4 border-b border-lp-rule pb-4">
-        <div className="min-w-0">
-          <h1 className="flex items-center gap-2 text-[20px] font-medium tracking-[-0.015em] text-lp-ink">
-            <Tag aria-hidden="true" className={`h-5 w-5 shrink-0 ${labelTextClasses[label.tone]}`} />
-            <span className="truncate">{label.name}</span>
-          </h1>
+    <>
+      <div className="mt-0 w-full px-6 py-3 sm:mt-[45px] sm:px-6 sm:py-4">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="min-w-0">
+            <Link
+              href="/app/labels"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium tabular-nums text-lp-ink-2 hover:text-lp-ink"
+            >
+              <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
+              All labels
+            </Link>
+            <h1 className="mt-1 flex items-center gap-2 text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
+              <Tag aria-hidden="true" className={`h-5 w-5 shrink-0 ${labelTextClasses[label.tone]}`} />
+              <span className="truncate">{label.name}</span>
+            </h1>
+            <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+              {total} {total === 1 ? "task" : "tasks"}
+            </p>
+          </div>
         </div>
       </div>
+      <div className="mx-auto w-full max-w-[640px] px-6 pt-4 sm:px-6 sm:pt-6">
 
       {isEmpty ? (
         <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
@@ -111,7 +130,8 @@ export function LabelTasks({ labelId }: { labelId: string }) {
             <div aria-hidden="true" className="h-20 md:hidden" />
           </div>
         </>
-      )}
-    </div>
+       )}
+      </div>
+    </>
   );
 }

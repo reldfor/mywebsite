@@ -45,13 +45,20 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
-      <div className="border-b border-lp-rule pb-4">
-        <h1 className="text-[20px] font-medium tracking-[-0.015em] text-lp-ink">Settings</h1>
-        <p className="mt-1 font-mono text-[11px] tabular-nums text-lp-ink-3">
-          Preview · connects when accounts arrive
-        </p>
+    <>
+      <div className="mt-0 w-full px-6 py-3 sm:mt-[45px] sm:px-6 sm:py-4">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
+              Settings
+            </h1>
+            <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+              Preview · connects when accounts arrive
+            </p>
+          </div>
+        </div>
       </div>
+      <div className="mx-auto w-full max-w-[640px] px-6 pt-4 sm:px-6 sm:pt-6">
 
       <div className="mt-8 flex flex-col gap-6">
         <section>
@@ -156,6 +163,7 @@ export default function SettingsPage() {
           onSwitch={setAuthMode}
         />
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }

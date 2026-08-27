@@ -189,31 +189,43 @@ export function LabelsView() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 pt-4 pb-6 sm:px-6 sm:py-8">
-      <div className="flex h-9 items-center justify-between border-b border-lp-rule">
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label={open ? "Collapse labels" : "Expand labels"}
-          className="flex items-center gap-1.5"
-        >
-          {open ? (
-            <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-lp-ink-3" />
-          ) : (
-            <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 text-lp-ink-3" />
-          )}
-          <h1 className="text-[13px] font-medium tracking-[-0.01em] text-lp-ink">Labels</h1>
-        </button>
-        <button
-          type="button"
-          onClick={() => setAdding((v) => !v)}
-          aria-label="Add label"
-          className="grid h-7 w-7 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
-        >
-          <Plus aria-hidden="true" className="h-3.5 w-3.5" />
-        </button>
+    <>
+      <div className="mt-0 w-full px-6 py-3 sm:mt-[45px] sm:px-6 sm:py-4">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="min-w-0">
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={open ? "Collapse labels" : "Expand labels"}
+              className="flex items-center gap-1.5"
+            >
+              {open ? (
+                <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-lp-ink-3" />
+              ) : (
+                <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 text-lp-ink-3" />
+              )}
+              <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
+                Labels
+              </h1>
+            </button>
+            <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+              {labels.length} {labels.length === 1 ? "label" : "labels"}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-1.5">
+            <button
+              type="button"
+              onClick={() => setAdding((v) => !v)}
+              aria-label="Add label"
+              className="grid h-7 w-7 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+            >
+              <Plus aria-hidden="true" className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
       </div>
+      <div className="mx-auto w-full max-w-[640px] px-6 pt-4 sm:px-6 sm:pt-6">
 
       {open ? (
         <>
@@ -336,6 +348,7 @@ export function LabelsView() {
           onCancel={() => setLabelToDelete(null)}
         />
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }

@@ -237,7 +237,7 @@ export function AddTask({ date }: { date?: string | null }) {
           type="button"
           onClick={openComposer}
           aria-label="Create a task"
-          className="fixed bottom-[calc(72px+12px+env(safe-area-inset-bottom))] right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-[var(--lp-fab-accent)] text-white shadow-[var(--shadow-fab)] ring-1 ring-white/10 transition-colors hover:bg-[var(--lp-fab-accent-hover)] active:scale-[0.98] md:hidden"
+          className="fixed bottom-[calc(16px+env(safe-area-inset-bottom))] right-[calc(16px+env(safe-area-inset-right))] z-30 grid h-14 w-14 place-items-center rounded-full bg-[var(--lp-fab-accent)] text-white shadow-[var(--shadow-fab)] ring-1 ring-white/10 transition-colors hover:bg-[var(--lp-fab-accent-hover)] active:scale-[0.98] md:hidden"
         >
           <Plus aria-hidden="true" className="h-6 w-6" strokeWidth={2.4} />
         </button>

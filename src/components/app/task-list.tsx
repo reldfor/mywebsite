@@ -123,7 +123,7 @@ export function TaskList({ view }: { view: View }) {
 
   return (
     <>
-      <div className="mt-[45px] w-full px-4 py-3 sm:px-6 sm:py-4">
+      <div className="mt-0 w-full px-6 py-3 sm:mt-[45px] sm:px-6 sm:py-4">
         <div className="flex flex-row items-center justify-between gap-4">
           <div className="min-w-0">
             <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
@@ -152,7 +152,7 @@ export function TaskList({ view }: { view: View }) {
           </div>
         </div>
       </div>
-      <div className="mx-auto w-full max-w-[640px] px-4 sm:px-6 pt-4 sm:pt-6">
+      <div className="mx-auto w-full max-w-[640px] px-6 pt-4 sm:px-6 sm:pt-6">
 
       {isEmpty && view === "today" && !searching && !filtersActive ? (
         <div className="flex min-h-[55vh] flex-col items-center justify-center py-12 text-center">

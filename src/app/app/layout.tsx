@@ -1,16 +1,24 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { MobileNav } from "@/components/app/mobile-nav";
+import { useEffect, useState, type ReactNode } from "react";
 import { Sidebar } from "@/components/app/sidebar";
 import { TaskDetailPanel } from "@/components/app/task-detail/task-detail-panel";
 import { Toast } from "@/components/app/toast";
 import { TopBar } from "@/components/app/top-bar";
 import { TasksProvider } from "@/features/todos/tasks-provider";
 import { ThemeProvider } from "@/features/theme/theme-provider";
+import { useIsDesktop } from "@/hooks/use-is-desktop";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
+  const isDesktop = useIsDesktop();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    if (!isDesktop) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSidebarOpen(false);
+    }
+  }, [isDesktop]);
 
   function toggleSidebar() {
     setSidebarOpen((open) => !open);
@@ -21,19 +29,23 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <TasksProvider>
         <div className="app-inter flex h-dvh overflow-hidden bg-lp-paper">
           <Sidebar open={sidebarOpen} onCollapse={toggleSidebar} />
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          {sidebarOpen ? (
+            <button
+              type="button"
+              aria-label="Close sidebar"
+              onClick={toggleSidebar}
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px] md:hidden"
+            />
+          ) : null}
+          <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
             <TopBar sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
             <div className="flex min-h-0 flex-1 items-stretch">
-              <main
-                id="main"
-                className="min-w-0 flex-1 overflow-y-auto pb-[calc(88px+env(safe-area-inset-bottom))] md:pb-6"
-              >
+              <main id="main" className="min-w-0 flex-1 overflow-y-auto pb-6">
                 {children}
               </main>
               <TaskDetailPanel />
             </div>
           </div>
-          <MobileNav />
           <Toast />
         </div>
       </TasksProvider>

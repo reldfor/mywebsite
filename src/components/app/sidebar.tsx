@@ -6,6 +6,7 @@ import {
   CalendarClock,
   CheckCheck,
   Inbox,
+  Menu,
   PanelLeftClose,
   Search,
   Settings,
@@ -17,6 +18,7 @@ import { useUser } from "@clerk/react";
 import { SidebarAccountMenu } from "@/components/app/menus";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { countDueToday, countOpenTasks } from "@/features/todos/selectors";
+import { useIsDesktop } from "@/hooks/use-is-desktop";
 import { useMemo } from "react";
 
 const primaryNav = [
@@ -36,6 +38,7 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
   const pathname = usePathname();
   const { tasks, taskLimit, searchQuery, setSelectedTaskId, setSearchQuery, setSearchOpen } = useTasks();
   const { isLoaded, isSignedIn } = useUser();
+  const isDesktop = useIsDesktop();
 
   const counts = useMemo(
     () => ({
@@ -49,12 +52,13 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
     setSelectedTaskId(null);
     setSearchQuery("");
     setSearchOpen(false);
+    if (!isDesktop) onCollapse?.();
   }
 
   return (
     <aside
       inert={!open}
-      className={`sidebar-shell hidden w-[220px] shrink-0 flex-col border-r border-lp-rule bg-[var(--lp-glass-soft)] px-4 py-4 md:flex lg:w-[240px] ${
+      className={`sidebar-shell flex w-[280px] max-w-[85vw] shrink-0 flex-col border-r border-lp-rule bg-lp-paper md:bg-[var(--lp-glass-soft)] px-4 py-4 md:w-[220px] lg:w-[240px] ${
         open ? "is-open" : ""
       }`}
     >
@@ -64,7 +68,15 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
             type="button"
             onClick={onCollapse}
             aria-label="Hide sidebar"
-            className="grid h-9 w-9 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+            className="grid h-9 w-9 place-items-center text-lp-ink-3 transition-colors hover:text-lp-ink md:hidden"
+          >
+            <Menu aria-hidden="true" className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={onCollapse}
+            aria-label="Hide sidebar"
+            className="hidden h-9 w-9 place-items-center rounded-full text-lp-ink-3 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink md:grid"
           >
             <PanelLeftClose aria-hidden="true" className="h-4 w-4" />
           </button>
@@ -74,8 +86,8 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
         <label htmlFor="sidebar-search" className="sr-only">
           Search tasks
         </label>
-        <div className="flex h-8 items-center gap-2 rounded-lg border border-lp-rule bg-lp-paper-2 px-2.5 transition-colors focus-within:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] focus-within:bg-lp-paper">
-          <Search aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-lp-ink-3" />
+        <div className="flex h-11 items-center gap-3 rounded-xl border border-lp-rule bg-lp-paper-2 px-3.5 transition-colors focus-within:border-[color-mix(in_srgb,var(--lp-ink)_20%,transparent)] focus-within:bg-lp-paper md:h-8 md:gap-2 md:rounded-lg md:px-2.5">
+          <Search aria-hidden="true" className="h-[18px] w-[18px] shrink-0 text-lp-ink-3 md:h-3.5 md:w-3.5" />
           <input
             id="sidebar-search"
             type="search"
@@ -87,7 +99,7 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
             }}
             placeholder="Search"
             aria-label="Search tasks"
-            className="min-w-0 flex-1 bg-transparent text-[13px] text-lp-ink caret-lp-ink outline-none placeholder:text-lp-ink-3"
+            className="min-w-0 flex-1 bg-transparent text-[14px] text-lp-ink caret-lp-ink outline-none placeholder:text-lp-ink-3 md:text-[13px]"
           />
           {searchQuery ? (
             <button
@@ -104,7 +116,7 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
           ) : null}
         </div>
       </div>
-      <nav aria-label="Tasks" className="flex flex-col gap-0.5">
+      <nav aria-label="Tasks" className="flex flex-col gap-2 md:gap-0.5">
         {primaryNav.map((item) => {
           const active =
             item.exact === true ? pathname === item.href : pathname.startsWith(item.href);
@@ -114,15 +126,15 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
               href={item.href}
               onClick={navigate}
               aria-current={active ? "page" : undefined}
-              className={`flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium transition-colors ${
+              className={`flex h-11 items-center gap-3 rounded-xl px-3.5 text-[14px] font-medium transition-colors md:h-8 md:gap-2.5 md:rounded-lg md:px-2.5 md:text-[13px] ${
                 active
                   ? "bg-lp-paper-3 text-lp-ink"
-                  : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+                  : "bg-lp-paper-2 text-lp-ink-2 hover:bg-lp-paper-3 hover:text-lp-ink md:bg-transparent md:hover:bg-[var(--lp-hover-wash)]"
               }`}
             >
               <item.icon
                 aria-hidden="true"
-                className={`h-4 w-4 shrink-0 ${active ? "text-lp-ink-2" : "text-lp-ink-3"}`}
+                className={`h-[18px] w-[18px] shrink-0 md:h-4 md:w-4 ${active ? "text-lp-ink-2" : "text-lp-ink-3"}`}
               />
               <span className="flex-1 truncate">{item.label}</span>
               {item.label === "Inbox" && counts.inbox > 0 ? (
@@ -154,15 +166,15 @@ export function Sidebar({ open = true, onCollapse }: SidebarProps) {
             href="/app/settings"
             onClick={navigate}
             aria-current={pathname.startsWith("/app/settings") ? "page" : undefined}
-            className={`flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium transition-colors ${
+            className={`flex h-11 items-center gap-3 rounded-xl px-3.5 text-[14px] font-medium transition-colors md:h-8 md:gap-2.5 md:rounded-lg md:px-2.5 md:text-[13px] ${
               pathname.startsWith("/app/settings")
                 ? "bg-lp-paper-3 text-lp-ink"
-                : "text-lp-ink-2 hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+                : "bg-lp-paper-2 text-lp-ink-2 hover:bg-lp-paper-3 hover:text-lp-ink md:bg-transparent md:hover:bg-[var(--lp-hover-wash)]"
             }`}
           >
             <Settings
               aria-hidden="true"
-              className={`h-4 w-4 shrink-0 ${
+              className={`h-[18px] w-[18px] shrink-0 md:h-4 md:w-4 ${
                 pathname.startsWith("/app/settings")
                   ? "text-lp-ink-2"
                   : "text-lp-ink-3"
