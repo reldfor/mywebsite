@@ -53,12 +53,22 @@ const emptyCopy = {
   },
 } as const;
 
+function formatTodaySubtitle(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export function TaskList({ view }: { view: View }) {
   const { tasks, searchQuery, filters, sort, setSearchQuery, setFilters } =
     useTasks();
 
   const searching = searchQuery.trim().length > 0;
   const filtersActive = activeFilterCount(filters) > 0;
+  const todaySubtitle = view === "today" ? formatTodaySubtitle(new Date()) : "";
 
   const groups = useMemo<Group[]>(() => {
     if (searching) {
@@ -112,26 +122,40 @@ export function TaskList({ view }: { view: View }) {
   const empty = emptyCopy[view];
 
   return (
-    <div className="mx-auto w-full max-w-[640px] px-4 py-3 sm:px-6 sm:py-8">
-      <div className="flex flex-row items-center justify-between gap-4 border-b border-lp-rule pb-3 sm:pb-4">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
-            {searching ? "Search" : viewMeta[view].title}
-          </h1>
-          {view === "today" && !searching ? null : (
-            <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
-              {meta}
-            </p>
-          )}
-        </div>
-        <div className="flex shrink-0 items-center gap-2 sm:gap-1.5">
-          {view !== "today" ? <SortControl /> : null}
-          <FilterControl />
+    <>
+      <div className="mt-[45px] w-full px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-semibold leading-tight tracking-tight text-lp-ink sm:text-[28px] sm:font-medium sm:tracking-[-0.015em]">
+              {searching ? "Search" : viewMeta[view].title}
+            </h1>
+            {searching ? (
+              <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+                {meta}
+              </p>
+            ) : view === "today" ? (
+              <p
+                suppressHydrationWarning
+                className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]"
+              >
+                {todaySubtitle}
+              </p>
+            ) : (
+              <p className="mt-1.5 truncate font-mono text-sm font-medium leading-5 tracking-wide tabular-nums text-lp-ink-2 sm:mt-1 sm:text-[11px]">
+                {meta}
+              </p>
+            )}
+          </div>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-1.5">
+            {view !== "today" ? <SortControl /> : null}
+            <FilterControl />
+          </div>
         </div>
       </div>
+      <div className="mx-auto w-full max-w-[640px] px-4 sm:px-6 pt-4 sm:pt-6">
 
       {isEmpty && view === "today" && !searching && !filtersActive ? (
-        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+        <div className="flex min-h-[55vh] flex-col items-center justify-center py-12 text-center">
           <TodayEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
           <h2 className="mt-4 text-[14px] font-medium tracking-[-0.01em] text-lp-ink">
             0 tasks remaining.
@@ -141,7 +165,7 @@ export function TaskList({ view }: { view: View }) {
           </p>
         </div>
       ) : isEmpty ? (
-        <div className="mt-10 flex flex-col items-center text-center sm:mt-14">
+        <div className="flex min-h-[55vh] flex-col items-center justify-center py-12 text-center">
           {searching ? (
             <SearchEmptyIllustration className="h-[150px] w-[180px] rounded-[20px]" />
           ) : filtersActive ? (
@@ -216,6 +240,7 @@ export function TaskList({ view }: { view: View }) {
           </div>
         </>
       )}
-    </div>
+      </div>
+    </>
   );
 }

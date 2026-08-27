@@ -1,7 +1,6 @@
 "use client";
 
 import { PanelLeftOpen } from "lucide-react";
-import { UserMenu } from "@/components/app/menus";
 
 type TopBarProps = {
   sidebarOpen?: boolean;
@@ -11,7 +10,7 @@ type TopBarProps = {
 export function TopBar({ sidebarOpen = true, onToggleSidebar }: TopBarProps) {
   return (
     <header
-      className="sticky top-0 z-40 flex border-b border-lp-rule/60 md:border-b-0"
+      className={`sticky top-0 z-40 flex border-b border-lp-rule/60 md:border-b-0 ${sidebarOpen ? "md:hidden" : ""}`}
       style={{
         background: "var(--lp-nav-bg)",
         backdropFilter: "saturate(140%) blur(10px)",
@@ -19,7 +18,7 @@ export function TopBar({ sidebarOpen = true, onToggleSidebar }: TopBarProps) {
         paddingTop: "env(safe-area-inset-top)",
       }}
     >
-      <div className="mx-auto flex h-14 w-full max-w-none items-center justify-between gap-3 px-4 sm:px-6 md:h-[56px]">
+      <div className="mx-auto flex h-14 w-full max-w-none items-center gap-3 px-4 sm:px-6 md:h-[56px]">
         <div className="flex items-center gap-2">
           {!sidebarOpen && onToggleSidebar ? (
             <button
@@ -34,10 +33,6 @@ export function TopBar({ sidebarOpen = true, onToggleSidebar }: TopBarProps) {
           <span className="font-mono text-[11px] font-medium tracking-wide text-lp-ink-2 md:hidden">
             Tick
           </span>
-        </div>
-
-        <div className="flex items-center">
-          <UserMenu />
         </div>
       </div>
     </header>
