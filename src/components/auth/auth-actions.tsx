@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth, useSignIn } from "@clerk/react";
+import { useAuth, useSignIn } from "@clerk/nextjs";
 import { clerkErrorToMessage } from "@/features/auth/errors";
 import { authLinks } from "@/lib/constants";
 

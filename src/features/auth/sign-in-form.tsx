@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth, useSignIn } from "@clerk/react";
+import { useAuth, useSignIn } from "@clerk/nextjs";
 import { AuthField } from "@/components/auth/auth-field";
 import {
   GoogleButton,

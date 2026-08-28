@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/react";
+import { useClerk, useUser } from "@clerk/nextjs";
 import {
   Archive,
   ChevronDown,

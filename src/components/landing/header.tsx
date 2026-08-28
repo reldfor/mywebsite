@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/nextjs";
 import { Logo } from "@/components/landing/logo";
 import { authLinks, container, navLinks } from "@/lib/constants";
 

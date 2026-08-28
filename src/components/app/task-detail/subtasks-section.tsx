@@ -6,7 +6,19 @@ import { useTasks } from "@/features/todos/tasks-provider";
 import type { Subtask, Task } from "@/features/todos/types";
 import { SectionLabel } from "./shared";
 
-export function SubtasksSection({ task }: { task: Task }) {
+function nextId(): string {
+  return typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function SubtasksSection({
+  task,
+  onChange,
+}: {
+  task: Task;
+  onChange?: (patch: Partial<Task>) => void;
+}) {
   const { addSubtask, toggleSubtask, deleteSubtask } = useTasks();
   const [newSubtask, setNewSubtask] = useState("");
 
@@ -20,8 +32,38 @@ export function SubtasksSection({ task }: { task: Task }) {
     if (event.key !== "Enter") return;
     const title = newSubtask.trim();
     if (!title) return;
-    addSubtask(task.id, title);
+    if (onChange) {
+      const position =
+        task.subtasks.reduce((max, s) => Math.max(max, s.position), 0) + 1;
+      const next: Task["subtasks"] = [
+        ...task.subtasks,
+        { id: nextId(), title, completed: false, position },
+      ];
+      onChange({ subtasks: next });
+    } else {
+      addSubtask(task.id, title);
+    }
     setNewSubtask("");
+  }
+
+  function handleToggle(subtaskId: string) {
+    if (onChange) {
+      const next = task.subtasks.map((s) =>
+        s.id === subtaskId ? { ...s, completed: !s.completed } : s,
+      );
+      onChange({ subtasks: next });
+      return;
+    }
+    toggleSubtask(task.id, subtaskId);
+  }
+
+  function handleDelete(subtaskId: string) {
+    if (onChange) {
+      const next = task.subtasks.filter((s) => s.id !== subtaskId);
+      onChange({ subtasks: next });
+      return;
+    }
+    deleteSubtask(task.id, subtaskId);
   }
 
   return (
@@ -52,8 +94,8 @@ export function SubtasksSection({ task }: { task: Task }) {
                 <SubtaskRow
                   key={subtask.id}
                   subtask={subtask}
-                  onToggle={() => toggleSubtask(task.id, subtask.id)}
-                  onDelete={() => deleteSubtask(task.id, subtask.id)}
+                  onToggle={() => handleToggle(subtask.id)}
+                  onDelete={() => handleDelete(subtask.id)}
                 />
               ))}
           </ul>

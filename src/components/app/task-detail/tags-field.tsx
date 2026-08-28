@@ -14,7 +14,13 @@ import { LABEL_COLORS, labelDotClasses } from "@/features/todos/label-colors";
 import type { Category, Label, Task } from "@/features/todos/types";
 import { chipBase, chipGhost, chipIdle } from "./shared";
 
-export function TagsField({ task }: { task: Task }) {
+export function TagsField({
+  task,
+  onChange,
+}: {
+  task: Task;
+  onChange?: (patch: Partial<Task>) => void;
+}) {
   const {
     tasks,
     labels,
@@ -27,6 +33,29 @@ export function TagsField({ task }: { task: Task }) {
     addLabel,
     deleteLabel,
   } = useTasks();
+
+  function applyPatch(patch: Partial<Task>) {
+    if (onChange) onChange(patch);
+    else updateTask(task.id, patch);
+  }
+
+  function handleToggleCategory(categoryId: string) {
+    const active = task.categoryId === categoryId;
+    applyPatch({ categoryId: active ? null : categoryId });
+  }
+
+  function handleToggleLabel(labelId: string) {
+    const active = task.labelIds.includes(labelId);
+    if (onChange) {
+      const next = active
+        ? task.labelIds.filter((id) => id !== labelId)
+        : [...task.labelIds, labelId];
+      onChange({ labelIds: next });
+      return;
+    }
+    if (active) unassignLabel(task.id, labelId);
+    else assignLabel(task.id, labelId);
+  }
 
   const [newCategory, setNewCategory] = useState("");
   const [newLabel, setNewLabel] = useState("");
@@ -56,7 +85,7 @@ export function TagsField({ task }: { task: Task }) {
     if (!name) return;
     const color = categoryColors[categories.length % categoryColors.length];
     const id = addCategory(name, "list", color);
-    updateTask(task.id, { categoryId: id });
+    applyPatch({ categoryId: id });
     setNewCategory("");
   }
 
@@ -66,7 +95,11 @@ export function TagsField({ task }: { task: Task }) {
     if (!name) return;
     const tone = LABEL_COLORS[labels.length % LABEL_COLORS.length];
     const id = addLabel(name, tone);
-    assignLabel(task.id, id);
+    if (onChange) {
+      onChange({ labelIds: [...task.labelIds, id] });
+    } else {
+      assignLabel(task.id, id);
+    }
     setNewLabel("");
   }
 
@@ -138,11 +171,7 @@ export function TagsField({ task }: { task: Task }) {
                     type="button"
                     role="menuitemradio"
                     aria-checked={active}
-                    onClick={() =>
-                      updateTask(task.id, {
-                        categoryId: active ? null : category.id,
-                      })
-                    }
+                    onClick={() => handleToggleCategory(category.id)}
                     className={`flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium transition-colors ${
                       active
                         ? "text-lp-ink"
@@ -217,11 +246,7 @@ export function TagsField({ task }: { task: Task }) {
                     type="button"
                     role="menuitemcheckbox"
                     aria-checked={active}
-                    onClick={() =>
-                      active
-                        ? unassignLabel(task.id, label.id)
-                        : assignLabel(task.id, label.id)
-                    }
+                    onClick={() => handleToggleLabel(label.id)}
                     className={`flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] font-medium transition-colors ${
                       active
                         ? "text-lp-ink"

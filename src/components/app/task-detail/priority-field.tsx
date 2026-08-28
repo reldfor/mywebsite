@@ -14,11 +14,22 @@ const priorityOptions: Array<{ value: Priority; label: string; dot: string }> = 
   { value: "urgent", label: "Urgent", dot: "bg-lp-accent" },
 ];
 
-export function PriorityField({ task }: { task: Task }) {
+export function PriorityField({
+  task,
+  onChange,
+}: {
+  task: Task;
+  onChange?: (patch: Partial<Task>) => void;
+}) {
   const { updateTask } = useTasks();
   const current = priorityOptions.find(
     (option) => option.value === task.priority,
   );
+
+  function applyPatch(patch: Partial<Task>) {
+    if (onChange) onChange(patch);
+    else updateTask(task.id, patch);
+  }
 
   return (
     <Popover
@@ -52,7 +63,7 @@ export function PriorityField({ task }: { task: Task }) {
               role="menuitemradio"
               aria-checked={task.priority === option.value}
               onClick={() => {
-                updateTask(task.id, { priority: option.value });
+                applyPatch({ priority: option.value });
                 close();
               }}
               className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${

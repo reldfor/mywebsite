@@ -14,7 +14,7 @@ import {
   Tag,
   X,
 } from "lucide-react";
-import { useUser } from "@clerk/react";
+import { useUser } from "@clerk/nextjs";
 import { SidebarAccountMenu } from "@/components/app/menus";
 import { useTasks } from "@/features/todos/tasks-provider";
 import { countDueToday, countOpenTasks } from "@/features/todos/selectors";

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Check,
   ChevronLeft,
   Info,
   MoreHorizontal,
@@ -18,13 +19,28 @@ import { PriorityField } from "./priority-field";
 import { SubtasksSection } from "./subtasks-section";
 import { TagsField } from "./tags-field";
 
+function buildPatch(original: Task, draft: Task): Partial<Task> {
+  const patch: Partial<Task> = {};
+  if (original.title !== draft.title) patch.title = draft.title;
+  if (original.description !== draft.description) patch.description = draft.description;
+  if (original.priority !== draft.priority) patch.priority = draft.priority;
+  if (original.dueAt !== draft.dueAt) patch.dueAt = draft.dueAt;
+  if (original.startDate !== draft.startDate) patch.startDate = draft.startDate;
+  if (original.endDate !== draft.endDate) patch.endDate = draft.endDate;
+  if (original.categoryId !== draft.categoryId) patch.categoryId = draft.categoryId;
+  if (original.status !== draft.status) patch.status = draft.status;
+  if (original.completedAt !== draft.completedAt) patch.completedAt = draft.completedAt;
+  if (JSON.stringify(original.labelIds) !== JSON.stringify(draft.labelIds)) patch.labelIds = draft.labelIds;
+  if (JSON.stringify(original.subtasks) !== JSON.stringify(draft.subtasks)) patch.subtasks = draft.subtasks;
+  return patch;
+}
+
 export function TaskDetailPanel() {
   const {
     tasks,
     selectedTaskId,
     setSelectedTaskId,
     updateTask,
-    toggleTask,
     deleteTask,
     restoreTask,
   } = useTasks();
@@ -34,35 +50,113 @@ export function TaskDetailPanel() {
   const [ghost, setGhost] = useState<Task | null>(null);
   const [showInfo, setShowInfo] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-
-  const current = task ?? ghost;
+  const [draft, setDraft] = useState<Task | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const originalRef = useRef<Task | null>(null);
+  const pendingDraftRef = useRef<Task | null>(null);
 
   const isOpen = selectedTaskId !== null;
+  const displayTask = draft ?? task ?? ghost;
+  // eslint-disable-next-line react-hooks/refs -- isDirty reads ref during render intentionally
+  const original = originalRef.current;
+  const isDirty = Boolean(
+    draft && original && Object.keys(buildPatch(original, draft)).length > 0,
+  );
+
+  const syncDraft = useCallback(
+    (nextTask: Task | null) => {
+      if (nextTask) {
+        setDraft(nextTask);
+        originalRef.current = nextTask;
+        pendingDraftRef.current = nextTask;
+        setGhost(nextTask);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync ghost for exit animation
-    if (task) setGhost(task);
-  }, [task]);
+    if (task) {
+      const prevId = originalRef.current?.id ?? null;
+      if (prevId && prevId !== task.id && pendingDraftRef.current && originalRef.current) {
+        const prevDraft = pendingDraftRef.current;
+        const prevOriginal = originalRef.current;
+        const patch = buildPatch(prevOriginal, prevDraft);
+        if (Object.keys(patch).length > 0) {
+          updateTask(prevOriginal.id, patch);
+        }
+      }
+      if (originalRef.current?.id !== task.id) {
+        syncDraft(task);
+      } else if (!isDirty) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- sync draft when task updates externally and not editing
+        setDraft(task);
+        originalRef.current = task;
+        pendingDraftRef.current = task;
+        setGhost(task);
+      }
+    }
+  }, [task, syncDraft, isDirty, updateTask]);
+
+  useEffect(() => {
+    pendingDraftRef.current = draft;
+  }, [draft]);
 
   useEffect(() => {
     if (selectedTaskId) panelRef.current?.focus();
   }, [selectedTaskId]);
 
+  const handleSave = useCallback(async () => {
+    if (!draft || !originalRef.current) return false;
+    const patch = buildPatch(originalRef.current, draft);
+    if (Object.keys(patch).length === 0) return false;
+    const id = draft.id;
+    const snapshot = draft;
+    setIsSaving(true);
+    try {
+      await updateTask(id, patch);
+      originalRef.current = snapshot;
+      return true;
+    } finally {
+      setIsSaving(false);
+    }
+  }, [draft, updateTask]);
+
+  const close = useCallback(() => {
+    if (draft && originalRef.current) {
+      const patch = buildPatch(originalRef.current, draft);
+      if (Object.keys(patch).length > 0) {
+        const id = originalRef.current.id;
+        updateTask(id, patch);
+      }
+    }
+    setSelectedTaskId(null);
+  }, [draft, updateTask, setSelectedTaskId]);
+
   useEffect(() => {
     if (!isOpen) return;
     function onKeyDown(event: globalThis.KeyboardEvent) {
-      if (event.key === "Escape") setSelectedTaskId(null);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+      }
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, setSelectedTaskId]);
+  }, [isOpen, close]);
 
-  if (!current) return null;
-
-  function close() {
-    setSelectedTaskId(null);
+  function handleAnimationEnd() {
+    if (!isOpen) {
+      setGhost(null);
+      setDraft(null);
+      originalRef.current = null;
+      pendingDraftRef.current = null;
+    }
   }
 
+  if (!displayTask) return null;
+
+  const current = displayTask;
   const completed = current.status === "completed";
 
   const menuTrigger = ({ open, toggle }: { open: boolean; toggle: () => void }) => (
@@ -78,8 +172,20 @@ export function TaskDetailPanel() {
     </button>
   );
 
-  function handleAnimationEnd() {
-    if (!isOpen) setGhost(null);
+  function updateDraft(patch: Partial<Task>) {
+    setDraft((prev) => (prev ? { ...prev, ...patch } : prev));
+  }
+
+  function toggleDraftComplete() {
+    setDraft((prev) => {
+      if (!prev) return prev;
+      const isComp = prev.status === "completed";
+      return {
+        ...prev,
+        status: isComp ? "todo" : "completed",
+        completedAt: isComp ? null : new Date().toISOString(),
+      };
+    });
   }
 
   return (
@@ -156,7 +262,7 @@ export function TaskDetailPanel() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => toggleTask(current.id)}
+            onClick={toggleDraftComplete}
             aria-label={completed ? "Reopen task" : "Mark task complete"}
             aria-pressed={completed}
             className="grid h-8 w-8 shrink-0 place-items-center rounded-full transition-colors hover:bg-[var(--lp-hover-wash)]"
@@ -189,9 +295,7 @@ export function TaskDetailPanel() {
             type="text"
             value={current.title}
             maxLength={200}
-            onChange={(event) =>
-              updateTask(current.id, { title: event.target.value })
-            }
+            onChange={(event) => updateDraft({ title: event.target.value })}
             aria-label="Task title"
             className={`min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-[15px] font-medium tracking-[-0.01em] outline-none placeholder:text-lp-ink-4 focus:border-lp-rule focus:bg-lp-paper ${
               completed ? "text-lp-ink-3 line-through decoration-lp-accent" : "text-lp-ink"
@@ -203,21 +307,19 @@ export function TaskDetailPanel() {
           value={current.description}
           rows={3}
           maxLength={2000}
-          onChange={(event) =>
-            updateTask(current.id, { description: event.target.value })
-          }
+          onChange={(event) => updateDraft({ description: event.target.value })}
           placeholder="Add a note…"
           aria-label="Task description"
           className="mt-3 w-full resize-none rounded-lg border border-lp-rule bg-lp-paper px-3 py-2.5 text-[13px] leading-relaxed text-lp-ink outline-none placeholder:text-lp-ink-4 focus:border-lp-accent"
         />
 
         <div className="mt-4 flex flex-wrap items-center gap-1.5">
-          <DueDateField task={current} />
-          <PriorityField task={current} />
-          <TagsField task={current} />
+          <DueDateField task={current} onChange={updateDraft} />
+          <PriorityField task={current} onChange={updateDraft} />
+          <TagsField task={current} onChange={updateDraft} />
         </div>
 
-        <SubtasksSection task={current} />
+        <SubtasksSection task={current} onChange={updateDraft} />
 
         {showInfo ? (
           <div className="mt-8 border-t border-lp-rule pt-4">
@@ -235,6 +337,29 @@ export function TaskDetailPanel() {
           </div>
         ) : null}
       </div>
+
+      <div className="flex shrink-0 items-center gap-2 bg-lp-paper px-5 py-3 sm:px-6 lg:hidden">
+        <button
+          type="button"
+          onClick={close}
+          className="h-9 flex-1 rounded-full border border-lp-rule bg-lp-paper px-4 text-[13px] font-medium text-lp-ink-2 transition-colors hover:bg-[var(--lp-hover-wash)] hover:text-lp-ink"
+        >
+          {isDirty || isSaving ? (isSaving ? "Saving…" : "Save & close") : "Close"}
+        </button>
+      </div>
+      {(isDirty || isSaving) && (
+        <div className="hidden shrink-0 items-center gap-2 bg-lp-paper px-5 py-3 sm:px-6 lg:flex">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSaving}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-lp-rule bg-lp-paper px-5 text-[13px] font-medium text-lp-ink transition-colors hover:bg-[var(--lp-hover-wash)] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
+            {isSaving ? "Saving…" : "Save"}
+          </button>
+        </div>
+      )}
 
       {confirmDelete ? (
         <ConfirmDialog

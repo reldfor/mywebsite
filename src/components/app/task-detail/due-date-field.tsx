@@ -7,13 +7,24 @@ import type { Task } from "@/features/todos/types";
 import { formatDueShort, timeOf } from "@/lib/date";
 import { chipBase, chipGhost, chipSet } from "./shared";
 
-export function DueDateField({ task }: { task: Task }) {
+export function DueDateField({
+  task,
+  onChange,
+}: {
+  task: Task;
+  onChange?: (patch: Partial<Task>) => void;
+}) {
   const { updateTask } = useTasks();
   const dueAt = task.dueAt;
 
+  function applyPatch(patch: Partial<Task>) {
+    if (onChange) onChange(patch);
+    else updateTask(task.id, patch);
+  }
+
   function setDate(value: string | null) {
     const time = dueAt ? timeOf(dueAt) : null;
-    updateTask(task.id, {
+    applyPatch({
       dueAt: value ? (time ? `${value}T${time}` : value) : null,
       startDate: value,
       endDate: value,
@@ -23,7 +34,7 @@ export function DueDateField({ task }: { task: Task }) {
   function setTime(time: string) {
     if (!dueAt) return;
     const date = dueAt.slice(0, 10);
-    updateTask(task.id, {
+    applyPatch({
       dueAt: time ? `${date}T${time}` : date,
       startDate: date,
       endDate: date,
@@ -31,7 +42,7 @@ export function DueDateField({ task }: { task: Task }) {
   }
 
   function clear() {
-    updateTask(task.id, { dueAt: null, startDate: null, endDate: null });
+    applyPatch({ dueAt: null, startDate: null, endDate: null });
   }
 
   return (
