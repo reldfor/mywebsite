@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import SettingsPage from "@/components/app/settings-view";
+import SettingsPage from "@/modules/app-chrome/components/settings-view";
 
 export const metadata: Metadata = {
   title: "Settings — Tick",

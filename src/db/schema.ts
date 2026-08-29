@@ -1,5 +1,5 @@
 import { index, integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import type { Priority, Subtask, TaskStatus } from "@/features/todos/types";
+import type { Priority, Subtask, TaskStatus } from "@/modules/tasks/domain/types";
 
 export const tasks = pgTable(
   "tasks",

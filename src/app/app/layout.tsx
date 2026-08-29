@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { Sidebar } from "@/components/app/sidebar";
-import { TaskDetailPanel } from "@/components/app/task-detail/task-detail-panel";
-import { Toast } from "@/components/app/toast";
-import { TopBar } from "@/components/app/top-bar";
-import { TasksProvider } from "@/features/todos/tasks-provider";
-import { ThemeProvider } from "@/features/theme/theme-provider";
-import { useIsDesktop } from "@/hooks/use-is-desktop";
+import { Sidebar } from "@/modules/app-chrome/components/sidebar";
+import { TaskDetailPanel } from "@/modules/app-chrome/components/task-detail/task-detail-panel";
+import { Toast } from "@/modules/app-chrome/components/toast";
+import { TopBar } from "@/modules/app-chrome/components/top-bar";
+import { TasksProvider } from "@/modules/tasks/store/tasks-provider";
+import { ThemeProvider } from "@/modules/theme/theme-provider";
+import { useIsDesktop } from "@/modules/shared/hooks/use-is-desktop";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const isDesktop = useIsDesktop();

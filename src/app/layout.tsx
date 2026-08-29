@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
-import { ClerkProvider } from "@/features/auth/clerk-provider";
+import { ClerkProvider } from "@/modules/auth/clerk-provider";
 import "./globals.css";
 
 const geist = Geist({
