@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TaskList } from "@/components/app/task-list";
+import { TaskList } from "@/modules/app-chrome/components/task-list";
 
 export const metadata: Metadata = {
   title: "Inbox — Tick",

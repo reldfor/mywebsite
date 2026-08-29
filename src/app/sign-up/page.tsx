@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { AuthShell } from "@/components/auth/auth-shell";
-import { SignUpForm } from "@/features/auth/sign-up-form";
+import { AuthShell } from "@/modules/auth/components/auth-shell";
+import { SignUpForm } from "@/modules/auth/sign-up-form";
 
 export const metadata: Metadata = {
   title: "Create an account — Tick",

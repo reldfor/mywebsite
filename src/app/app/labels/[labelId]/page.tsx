@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { LabelTasks } from "@/components/app/label-tasks";
-import { seedLabels } from "@/features/todos/seed";
+import { LabelTasks } from "@/modules/app-chrome/components/label-tasks";
+import { seedLabels } from "@/modules/tasks/domain/seed";
 
 export const metadata: Metadata = {
   title: "Label — Tick",

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/landing/header";
-import { Hero } from "@/components/landing/hero";
-import { Features } from "@/components/landing/features";
-import { Testimonials } from "@/components/landing/testimonials";
-import { Pricing } from "@/components/landing/pricing";
-import { Faq } from "@/components/landing/faq";
-import { FinalCta } from "@/components/landing/final-cta";
-import { Footer } from "@/components/landing/footer";
+import { Header } from "@/modules/landing/header";
+import { Hero } from "@/modules/landing/hero";
+import { Features } from "@/modules/landing/features";
+import { Testimonials } from "@/modules/landing/testimonials";
+import { Pricing } from "@/modules/landing/pricing";
+import { Faq } from "@/modules/landing/faq";
+import { FinalCta } from "@/modules/landing/final-cta";
+import { Footer } from "@/modules/landing/footer";
 
 export const metadata: Metadata = {
   title: "Tick — a todo list you'll actually finish",

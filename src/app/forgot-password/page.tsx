@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { AuthShell } from "@/components/auth/auth-shell";
-import { ForgotPasswordForm } from "@/features/auth/forgot-password-form";
+import { AuthShell } from "@/modules/auth/components/auth-shell";
+import { ForgotPasswordForm } from "@/modules/auth/forgot-password-form";
 
 export const metadata: Metadata = {
   title: "Reset your password — Tick",
