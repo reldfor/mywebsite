@@ -44,3 +44,8 @@ agents.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# restructure docs (temporary, not part of app)
+RESTRUCTURE_AUDIT.md
+RESTRUCTURE_RESULT.md
+PROJECT.md
